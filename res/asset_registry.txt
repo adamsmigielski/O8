@@ -1,0 +1,2 @@
+Bitmap IMG_test_asset_registry res\img\test_asset_regstry.bmp
+Model MDL_test_asset_registry res\img\test_asset_registry.md5
