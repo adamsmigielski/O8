@@ -1,6 +1,6 @@
 ﻿/** License
  * 
- * Copyright (c) 2014 Adam Śmigielski
+ * Copyright (c) 2015 Adam Śmigielski
  * 
  * 
  *  Permission is hereby granted, free of charge, to any person obtaining a 
