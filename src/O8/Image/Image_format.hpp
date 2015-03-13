@@ -26,31 +26,46 @@
 
 /**
 * @author Adam Œmigielski
-* @file Texture_ogl.hpp
+* @file Image_format.hpp
 **/
 
-#ifndef O8_GI_TEXTURE_OGL_HPP
-#define O8_GI_TEXTURE_OGL_HPP
+#ifndef O8_IMAGE_IMAGE_FORMAT_HPP
+#define O8_IMAGE_IMAGE_FORMAT_HPP
 
-#include <O8\GI\Texture.hpp>
+#ifndef O8_IMAGE_COLOR_FORMAT_HPP
+#include "Color_format.hpp"
+#endif /* O8_IMAGE_COLOR_FORMAT_HPP */
 
 namespace O8
 {
-    namespace GI
+    namespace Image
     {
-        class Texture_ogl : public Texture
+
+        class Image_format
         {
         public:
-            Texture_ogl();
-            virtual ~Texture_ogl();
+            Image_format();
+            Image_format(const Image_format & image_format);
+            Image_format(
+                const Color_format & color_format,
+                uint32 line_preface,
+                uint32 line_conclusion);
 
-            uint32 & Id() { return m_id; }
-            const uint32 & Id() const { return m_id; }
+            Color_format & Color();
+            const Color_format & Color() const;
+
+            uint32 & Line_preface();
+            const uint32 & Line_preface() const;
+
+            uint32 & Line_conclusion();
+            const uint32 & Line_conclusion() const;
 
         private:
-            uint32 m_id;
+            Color_format m_color_format;
+            uint32 m_line_conclusion;
+            uint32 m_line_preface;
         };
     }
 }
 
-#endif O8_GI_TEXTURE_OGL_HPP
+#endif O8_IMAGE_IMAGE_FORMAT_HPP

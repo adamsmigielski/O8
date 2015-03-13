@@ -41,10 +41,22 @@ namespace O8
         class Texture : public IntrusiveList::Node < Texture >
         {
         public:
+            /* Enums */
+            enum MODEL
+            {
+                MODEL_2D,
+                MODEL_2D_ARRAY,
+                MODEL_3D,
+                MODEL_CUBE,
+                MODEL_CUBE_ARRAY,
+            };
+
             virtual ~Texture();
 
         protected:
             Texture();
+
+            MODEL m_model;
         };
     }
 }

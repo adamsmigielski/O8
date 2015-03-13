@@ -26,31 +26,8 @@
 
 /**
 * @author Adam Œmigielski
-* @file Texture_ogl.hpp
+* @file PCH.cpp
 **/
 
-#ifndef O8_GI_TEXTURE_OGL_HPP
-#define O8_GI_TEXTURE_OGL_HPP
+#include "PCH.hpp"
 
-#include <O8\GI\Texture.hpp>
-
-namespace O8
-{
-    namespace GI
-    {
-        class Texture_ogl : public Texture
-        {
-        public:
-            Texture_ogl();
-            virtual ~Texture_ogl();
-
-            uint32 & Id() { return m_id; }
-            const uint32 & Id() const { return m_id; }
-
-        private:
-            uint32 m_id;
-        };
-    }
-}
-
-#endif O8_GI_TEXTURE_OGL_HPP

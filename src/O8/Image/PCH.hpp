@@ -26,31 +26,21 @@
 
 /**
 * @author Adam Œmigielski
-* @file Texture_ogl.hpp
+* @file PCH.hpp
 **/
 
-#ifndef O8_GI_TEXTURE_OGL_HPP
-#define O8_GI_TEXTURE_OGL_HPP
+#ifndef O8_IMAGE_PCH_HPP
+#define O8_IMAGE_PCH_HPP
 
-#include <O8\GI\Texture.hpp>
+#include <O8\Platform.hpp>
 
-namespace O8
-{
-    namespace GI
-    {
-        class Texture_ogl : public Texture
-        {
-        public:
-            Texture_ogl();
-            virtual ~Texture_ogl();
+#include <O8\Common\Assert.hpp>
+#include <O8\Common\BreakToDebug.hpp>
+#include <O8\Common\CallConvention.hpp>
+#include <O8\Common\ErrorCodes.hpp>
+#include <O8\Common\Log.hpp>
 
-            uint32 & Id() { return m_id; }
-            const uint32 & Id() const { return m_id; }
+#include <iostream>
+#include <string>
 
-        private:
-            uint32 m_id;
-        };
-    }
-}
-
-#endif O8_GI_TEXTURE_OGL_HPP
+#endif O8_IMAGE_PCH_HPP
