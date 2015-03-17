@@ -37,6 +37,14 @@ namespace O8
 {
     namespace RS
     {
+        Material_descriptor::Material_descriptor()
+        {
+            /* Nothing to be done here */
+        }
 
+        Material_descriptor::~Material_descriptor()
+        {
+            /* Nothing to be done here */
+        }
     }
 }

@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam Œmigielski
+* Copyright (c) 2014 Adam Œmigielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,26 +26,17 @@
 
 /**
 * @author Adam Œmigielski
-* @file Descriptor.hpp
+* @file RS.cpp
 **/
 
-#ifndef O8_ASSET_DESCRIPTOR_HPP
-#define O8_ASSET_DESCRIPTOR_HPP
+#include "PCH.hpp"
+
+#include "RS.hpp"
 
 namespace O8
 {
-    namespace Asset
+    namespace RS
     {
-        class Descriptor
-        {
-        public:
-            Descriptor();
 
-            static const std::string & Get_id(const Descriptor & desc);
-
-            std::string m_ID;
-        };
     }
 }
-
-#endif O8_ASSET_DESCRIPTOR_HPP

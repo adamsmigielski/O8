@@ -26,26 +26,23 @@
 
 /**
 * @author Adam Œmigielski
-* @file Asset.cpp
+* @file Buffer.cpp
 **/
 
 #include "PCH.hpp"
 
-#include "Asset.hpp"
+#include "Buffer.hpp"
 
 namespace O8
 {
-    namespace Asset
+    namespace GI
     {
-        Asset::Asset()
-            : m_Type(Type::Unknown)
+        Buffer::Buffer()
         {
-            /* Nothing to be done here */
         }
 
-        Asset::~Asset()
+        Buffer::~Buffer()
         {
-            /* Nothing to be done here */
         }
     }
 }

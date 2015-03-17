@@ -5,5 +5,14 @@ ADD_LIBRARY(RS STATIC
 			Material.hpp
 			Mesh.cpp
 			Mesh.hpp
+			Model.cpp
+			Model.hpp
 			PCH.cpp
-			PCH.hpp)
+			PCH.hpp
+			RS.cpp
+			RS.hpp)
+
+ADD_DEPENDENCIES(RS
+			     Common
+                 GI
+				 Utility)

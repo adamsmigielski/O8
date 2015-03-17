@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2014 Adam Œmigielski
+* Copyright (c) 2015 Adam Œmigielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,15 +26,26 @@
 
 /**
 * @author Adam Œmigielski
-* @file Link.cpp
+* @file Asset_descriptor.cpp
 **/
 
 #include "PCH.hpp"
 
-#include "Link.hpp"
+#include "Asset_descriptor.hpp"
 
-void Link_asset(
-    O8::Asset::PFN_CREATE_REGISTRY create_registry)
+namespace O8
 {
-    O8::Asset::Create_registry = create_alarm;
+    namespace Asset
+    {
+        Asset_descriptor::Asset_descriptor()
+            : m_Type(Type::Unknown)
+        {
+            /* Nothing to be done here */
+        }
+
+        Asset_descriptor::~Asset_descriptor()
+        {
+            /* Nothing to be done here */
+        }
+    }
 }

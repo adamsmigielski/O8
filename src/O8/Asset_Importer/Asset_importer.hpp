@@ -32,15 +32,13 @@
 #ifndef O8_ASSET_IMPORTER_ASSET_IMPORTER_HPP
 #define O8_ASSET_IMPORTER_ASSET_IMPORTER_HPP
 
+
+#include <O8\Asset\Type.hpp>
 #include <O8\Templates\IntrusiveList.hpp>
+#include <O8\Utility\Binary_data.hpp>
 
 namespace O8
 {
-    namespace Asset
-    {
-        class Asset;
-    }
-
     namespace DL
     {
         class DL;
@@ -55,7 +53,10 @@ namespace O8
             virtual ~Asset_importer();
 
             virtual bool Is_format_supported(const std::string & name) = 0;
-            virtual Asset::Asset * Get_asset(const std::string & file_path) = 0;
+            virtual int32 Get_asset(
+                const std::string & file_path,
+                Utility::Binary_data & out_data,
+                Asset::Type::Types & out_type) = 0;
 
             DL::DL * m_Dl;
         };

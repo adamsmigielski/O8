@@ -33,6 +33,8 @@
 #define O8_RS_MESH_HPP
 
 #include <O8\Templates\IntrusiveList.hpp>
+#include <O8\GI\Buffer.hpp>
+#include <O8\Utility\Name.hpp>
 
 #include "Type.hpp"
 
@@ -40,7 +42,6 @@ namespace O8
 {
     namespace GI
     {
-        class Buffer;
         class Vertex_attributes;
     }
 
@@ -53,9 +54,6 @@ namespace O8
             {
                 Position,
                 Texture_coordinate,
-                Normal,
-                Diffuse_color,
-                Emissive_color,
                 Bone_ids,
                 Bone_weights,
             };
@@ -64,7 +62,7 @@ namespace O8
             virtual ~Vertex_attribute();
 
             Attribute m_Attribute;
-            GI::Buffer * m_Buffer;
+            GI::Buffer::Reference m_Buffer;
             uint64 m_Offset;
             uint64 m_Stride;
             Type m_Type;
@@ -79,11 +77,21 @@ namespace O8
             GI::Vertex_attributes * m_Vertex_attributes;
         };
 
-        class Mesh : public IntrusiveList::Node<Mesh>
+        class Mesh
+            : public IntrusiveList::Node<Mesh>
+            , ReferenceCounted::Resource
         {
         public:
+            /* Types*/
+            typedef IntrusiveList::List<Mesh> List;
+            typedef ReferenceCounted::Reference<Mesh> Reference;
+
+            /* Ctr & Dtr */
             Mesh();
             virtual ~Mesh();
+
+            /* Name */
+            Utility::Name m_Name;
 
             virtual Vertex_definition * Get_vertex_definition();
         };

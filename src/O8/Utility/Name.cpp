@@ -26,39 +26,56 @@
 
 /**
 * @author Adam Œmigielski
-* @file Platform.hpp
+* @file Name.cpp
 **/
 
-#ifndef O8_WIN_32_PLATFORM_HPP
-#define O8_WIN_32_PLATFORM_HPP
+#include "PCH.hpp"
 
-/* DLL */
-#if O8_IS_MINGW
+#include "Name.hpp"
+#include "Hash_string.hpp"
 
-#define DLL_EXPORT __declspec(dllexport)
-
-#define DLL_IMPORT __declspec(dllimport)
-
-#else /* O8_IS_MINGW */
-
-#define DLL_EXPORT __declspec(dllexport)
-
-#define DLL_IMPORT __declspec(dllimport)
-
-#endif /* O8_IS_MINGW */
-
-/* Typedefs */
 namespace O8
 {
-    typedef signed   char      int8;
-    typedef unsigned char      uint8;
-    typedef signed   short     int16;
-    typedef unsigned short     uint16;
-    typedef signed   int       int32;
-    typedef unsigned int       uint32;
-    typedef unsigned int       uint;
-    typedef signed   long long int64;
-    typedef unsigned long long uint64;
-}
+    namespace Utility
+    {
+        Name::Name()
+            : m_hash(0)
+        {
+            /* Nothing to be done here */
+        }
 
-#endif /* O8_WIN_32_PLATFORM_HPP */
+        Name::~Name()
+        {
+            m_hash = 0;
+        }
+
+        void Name::Clear()
+        {
+            m_name.clear();
+            m_hash = 0;
+        }
+
+        void Name::operator()(const std::string & name)
+        {
+            if (true == name.empty())
+            {
+                Clear();
+            }
+            else
+            {
+                m_name = name;
+                m_hash = Hash_string(m_name);
+            }
+        }
+
+        const std::string & Name::operator()(void) const
+        {
+            return m_name;
+        }
+
+        size_t Name::Hash() const
+        {
+            return m_hash;
+        }
+    }
+}

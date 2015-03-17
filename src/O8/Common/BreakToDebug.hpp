@@ -34,7 +34,7 @@
 
 #if O8_IS_MSVC
 
-#define BREAK_TO_DEBUG __asm {int 3}
+#define BREAK_TO_DEBUG __debugbreak()
 
 #else
 

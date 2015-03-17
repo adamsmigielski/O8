@@ -36,6 +36,7 @@
 #include <fstream>
 
 #include <O8\Templates\MemoryAccess.hpp>
+#include <O8\Utility\Hash_string.hpp>
 
 namespace O8
 {
@@ -63,8 +64,13 @@ namespace O8
             uint32 & out_version);
         int32 write_descriptor(
             std::fstream & file,
-            uint64 offset,
-            File_descriptor & out_desc);
+            size_t off_desc,
+            const std::string & id,
+            size_t off_id,
+            Type::Types type,
+            const uint8 * data_ptr,
+            size_t data_size,
+            size_t off_data);
 
         static const uint64 desc_id_offset_size = 8;
         static const uint64 desc_data_offset_size = 8;
@@ -105,14 +111,15 @@ namespace O8
             /* Nothing to be done here */
         }
 
-        Asset * File::Get_asset(const File_descriptor & desc) const
+        Utility::Binary_data File::Get_asset(const File_descriptor & desc) const
         {
             Utility::Binary_data data;
+            Utility::Binary_data result;
             std::fstream file;
 
             if (this != desc.Parent())
             {
-                return nullptr;
+                return result;
             }
 
             file.open(m_file_name.c_str(), std::fstream::in);
@@ -120,7 +127,7 @@ namespace O8
             {
                 ERRLOG("Failed to open file: " << m_file_name);
                 ASSERT(0);
-                return nullptr;
+                return result;
             }
 
             auto ptr = new uint8[desc.m_Size];
@@ -128,7 +135,7 @@ namespace O8
             {
                 ERRLOG("Failed to allocate memory");
                 ASSERT(0);
-                return nullptr;
+                return result;
             }
             data.Reset(ptr, desc.m_Size);
 
@@ -141,29 +148,21 @@ namespace O8
                 ERRLOG("File corrupted");
                 ASSERT(0);
 
-                return nullptr;
+                return result;
             }
 
             file.close();
 
-            Asset * asset = new Asset;
-            if (nullptr == asset)
-            {
-                ERRLOG("Failed to allocate memory");
-                ASSERT(0);
-                return nullptr;
-            }
+            result = std::move(data);
 
-            asset->m_ID = desc.m_ID;
-            asset->m_Type = desc.m_Type;
-            asset->m_Data.Take(data);
-
-            return asset;
+            return result;
         }
 
         const File_descriptor * File::Get_descriptor(const std::string & id) const
         {
-            return Search(Descriptor::Get_id, id);
+            Utility::Name_predicate<File_descriptor> pred(id);
+
+            return Search(pred);
         }
 
         int32 File::Load(const std::string & file_name)
@@ -301,6 +300,7 @@ namespace O8
         {
             uint64 id_offset;
             uint32 type_id;
+            std::string id;
 
             if (Success != MemoryAccess::Read(
                 file,
@@ -352,24 +352,27 @@ namespace O8
                 file,
                 id_offset,
                 swap_endianess,
-                out_desc.m_ID))
+                id))
             {
                 ERRLOG("File corrupted");
                 ASSERT(0);
                 return Failure;
             }
 
+            out_desc.m_Name(id);
+
             return Success;
         }
 
         int32 write_descriptor(
             std::fstream & file,
-            uint64 off_desc,
+            size_t off_desc,
             const std::string & id,
-            uint64 off_id,
+            size_t off_id,
             Type::Types type,
-            const Utility::Binary_data & data,
-            uint64 off_data)
+            const uint8 * data_ptr,
+            size_t data_size,
+            size_t off_data)
         {
             uint32 type_id = Type::Get_id(type);
 
@@ -396,7 +399,7 @@ namespace O8
             if (Success != MemoryAccess::Write(
                 file,
                 off_desc + 2 * sizeof(uint64),
-                data.Size()))
+                data_size))
             {
                 ERRLOG("File corrupted");
                 ASSERT(0);
@@ -426,8 +429,8 @@ namespace O8
             if (Success != MemoryAccess::Write(
                 file,
                 off_data,
-                data.Data(),
-                data.Size()))
+                data_ptr,
+                data_size))
             {
                 ERRLOG("File corrupted");
                 ASSERT(0);
@@ -446,7 +449,8 @@ O8::Asset::File * Create_file()
 
 O8::int32 Store_file(
     const std::string & file_name,
-    const O8::Asset::Asset::List & assets)
+    const O8::Asset::Asset_descriptor::List & assets,
+    O8::Asset::Asset_data_provider * asset_data_provider)
 {
     std::fstream file;
     O8::uint64 mem_req_for_descriptors = 0;
@@ -475,13 +479,22 @@ O8::int32 Store_file(
 
     for (auto it = assets.First(); nullptr != it; it = it->Next())
     {
+        const O8::uint8 * data_ptr = nullptr;
+        size_t data_size = 0;
+
+        asset_data_provider->Provide_data(
+            *it,
+            data_ptr,
+            data_size);
+
         if (O8::Success != O8::Asset::write_descriptor(
             file,
             off_desc,
             it->m_ID,
             off_id,
             it->m_Type,
-            it->m_Data,
+            data_ptr,
+            data_size,
             off_data))
         {
             ERRLOG("Failed to store archive in file.");
@@ -491,7 +504,7 @@ O8::int32 Store_file(
 
         off_desc += O8::Asset::desc_size;
         off_id += it->m_ID.length() + sizeof(O8::uint32);
-        off_data += it->m_Data.Size();
+        off_data += data_size;
     }
 
     file.close();

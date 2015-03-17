@@ -32,22 +32,23 @@
 #ifndef O8_ASSET_LOADER_HPP
 #define O8_ASSET_LOADER_HPP
 
+#include "File.hpp"
 #include "Registry.hpp"
 
 namespace O8
 {
     namespace Asset
     {
-        /* Cross DLL entry points */
-        typedef void (O8_API * PFN_LINK_ASSET)(
-            O8::Asset::PFN_CREATE_REGISTRY create_registry);
-
         /* DL entry points */
+        extern PFN_CREATE_FILE Create_file;
         extern PFN_CREATE_REGISTRY Create_registry;
+        extern PFN_STORE_FILE Store_file;
 
         /* Static routines */
-        int Load_asset(const char * library_path);
-        void Unload_asset();
+        int Load_asset_archive(const char * library_path);
+        int Load_asset_registry(const char * library_path);
+        void Unload_asset_archive();
+        void Unload_asset_registry();
     }
 }
 

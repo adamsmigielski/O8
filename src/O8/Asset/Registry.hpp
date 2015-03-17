@@ -32,22 +32,22 @@
 #ifndef O8_ASSET_REGISTRY_HPP
 #define O8_ASSET_REGISTRY_HPP
 
-#include "Descriptor.hpp"
 #include "Type.hpp"
 
 #include <O8\Templates\IntrusiveList.hpp>
+#include <O8\Utility\Name.hpp>
 
 namespace O8
 {
     namespace Asset
     {
-        class Registry_descriptor : public Descriptor
-                                  , public IntrusiveList::Node<Registry_descriptor>
+        class Registry_descriptor : public IntrusiveList::Node<Registry_descriptor>
         {
         public:
             Registry_descriptor();
             virtual ~Registry_descriptor();
 
+            Utility::Name m_Name;
             std::string m_Path;
             Type::Types m_Type;
         };

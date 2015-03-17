@@ -41,13 +41,45 @@ namespace O8
     namespace Asset
     {
         /* Library in use */
-        static DL::DL * g_asset_library = nullptr;
+        static DL::DL * g_asset_archive_library = nullptr;
+        static DL::DL * g_asset_registry_library = nullptr;
 
         /* DL entry points */
+        PFN_CREATE_FILE Create_file;
         PFN_CREATE_REGISTRY Create_registry;
+        PFN_STORE_FILE Store_file;
 
         /* Static routines */
-        int32 Load_asset(const char * library_path)
+        int32 Load_asset_archive(const char * library_path)
+        {
+            /* Load library */
+            auto dl = DL::Load(library_path);
+
+            if (nullptr == dl)
+            {
+                return Failed_to_load_library;
+            }
+
+            /* Load functions */
+            Create_file = (PFN_CREATE_FILE) dl->GetFunctionAddress("Create_file");
+            Store_file = (PFN_STORE_FILE) dl->GetFunctionAddress("Store_file");
+
+            /* Verify */
+            if ((nullptr == Create_file) ||
+                (nullptr == Store_file) )
+            {
+                delete dl;
+                return Failed_to_load_function;
+            }
+
+            /* Save DL */
+            g_asset_archive_library = dl;
+
+            /* Done */
+            return Success;
+        }
+
+        int32 Load_asset_registry(const char * library_path)
         {
             /* Load library */
             auto dl = DL::Load(library_path);
@@ -68,16 +100,25 @@ namespace O8
             }
 
             /* Save DL */
-            g_asset_library = dl;
+            g_asset_registry_library = dl;
 
             /* Done */
             return Success;
         }
 
-        void Unload_asset()
+        void Unload_asset_archive()
         {
-            delete g_asset_library;
-            g_asset_library = nullptr;
+            delete g_asset_archive_library;
+            g_asset_archive_library = nullptr;
+
+            Create_file = nullptr;
+            Store_file = nullptr;
+        }
+
+        void Unload_asset_registry()
+        {
+            delete g_asset_registry_library;
+            g_asset_registry_library = nullptr;
 
             Create_registry = nullptr;
         }

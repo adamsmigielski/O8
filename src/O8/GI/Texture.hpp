@@ -33,17 +33,24 @@
 #define O8_GI_TEXTURE_HPP
 
 #include <O8\Templates\IntrusiveList.hpp>
+#include <O8\Templates\ReferenceCounted.hpp>
 
 namespace O8
 {
     namespace GI
     {
-        class Texture : public IntrusiveList::Node < Texture >
+        class Texture
+            : public IntrusiveList::Node < Texture >
+            , public ReferenceCounted::Resource
         {
         public:
+            /* Types */
+            typedef ReferenceCounted::Reference<Texture> Reference;
+
             /* Enums */
             enum MODEL
             {
+                MODEL_UNKNOWN = 0,
                 MODEL_2D,
                 MODEL_2D_ARRAY,
                 MODEL_3D,
@@ -51,6 +58,7 @@ namespace O8
                 MODEL_CUBE_ARRAY,
             };
 
+            /* Ctr & Dtr */
             virtual ~Texture();
 
         protected:

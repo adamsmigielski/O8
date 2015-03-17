@@ -51,19 +51,9 @@ namespace O8
                 uint32 line_preface,
                 uint32 line_conclusion);
 
-            Color_format & Color();
-            const Color_format & Color() const;
-
-            uint32 & Line_preface();
-            const uint32 & Line_preface() const;
-
-            uint32 & Line_conclusion();
-            const uint32 & Line_conclusion() const;
-
-        private:
-            Color_format m_color_format;
-            uint32 m_line_conclusion;
-            uint32 m_line_preface;
+            Color_format m_Color_format;
+            uint32 m_Line_conclusion;
+            uint32 m_Line_preface;
         };
     }
 }

@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2014 Adam Œmigielski
+* Copyright (c) 2015 Adam Œmigielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,16 +26,17 @@
 
 /**
 * @author Adam Œmigielski
-* @file Link.hpp
+* @file Model.cpp
 **/
 
-#ifndef O8_ASSET_LINK_HPP
-#define O8_ASSET_LINK_HPP
+#include "PCH.hpp"
 
-#include "Loader.hpp"
+#include "Model.hpp"
 
-/* DL entry points */
-O8_API_DECORATION DLL_EXPORT void O8_API Link_asset(
-    O8::Asset::PFN_CREATE_REGISTRY create_registry);
+namespace O8
+{
+    namespace RS
+    {
 
-#endif /* O8_ASSET_LINK_HPP */
+    }
+}

@@ -32,7 +32,6 @@
 #include "PCH.hpp"
 
 #include "Registry.hpp"
-#include "File.hpp"
 
 #include <fstream>
 
@@ -91,7 +90,7 @@ namespace O8
                 }
 
                 auto desc = new Registry_descriptor;
-                desc->m_ID = id;
+                desc->m_Name(id);
                 desc->m_Type = Type::Get_by_name(type);
                 desc->m_Path = path;
 
@@ -122,7 +121,7 @@ namespace O8
 
                 file << type;
                 file << " ";
-                file << it->m_ID;
+                file << it->m_Name();
                 file << " ";
                 file << it->m_Path;
                 file << std::endl;

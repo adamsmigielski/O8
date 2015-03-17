@@ -38,15 +38,15 @@ namespace O8
     namespace Image
     {
         Color_format::Color_format()
-            : m_channel(CHANNEL_NONE)
-            , m_type(TYPE_NONE)
+            : m_Channel(CHANNEL_NONE)
+            , m_Type(TYPE_NONE)
         {
             /* Nothing to be done here */
         }
 
         Color_format::Color_format(const Color_format & color_format)
-            : m_channel(color_format.m_channel)
-            , m_type(color_format.m_type)
+            : m_Channel(color_format.m_Channel)
+            , m_Type(color_format.m_Type)
         {
             /* Nothing to be done here */
         }
@@ -54,40 +54,20 @@ namespace O8
         Color_format::Color_format(
             CHANNEL channel,
             TYPE type)
-            : m_channel(channel)
-            , m_type(type)
+            : m_Channel(channel)
+            , m_Type(type)
         {
             /* Nothing to be done here */
         }
 
-        Color_format::CHANNEL & Color_format::Channel()
-        {
-            return m_channel;
-        }
-
-        const Color_format::CHANNEL & Color_format::Channel() const
-        {
-            return m_channel;
-        }
-
-        Color_format::TYPE & Color_format::Type()
-        {
-            return m_type;
-        }
-
-        const Color_format::TYPE & Color_format::Type() const
-        {
-            return m_type;
-        }
-
         uint32 Color_format::Get_bits_per_pixel() const
         {
-            return Get_number_of_channels(m_channel) * Get_type_bits(m_type);
+            return Get_number_of_channels(m_Channel) * Get_type_bits(m_Type);
         }
 
         uint32 Color_format::Get_bytes_per_pixel() const
         {
-            return Get_number_of_channels(m_channel) * Get_type_bytes(m_type);
+            return Get_number_of_channels(m_Channel) * Get_type_bytes(m_Type);
         }
 
         uint32 Color_format::Get_number_of_channels(CHANNEL channel)

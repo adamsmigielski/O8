@@ -34,70 +34,67 @@
 
 namespace O8
 {
-	namespace Utility
-	{
+    namespace Utility
+    {
         Binary_data::Binary_data()
-			: m_data(nullptr),
-			  m_size(0)
-		{
-		}
-
-        Binary_data::Binary_data(uint8 * data, uint64 size)
-			: m_data(data),
-			  m_size(size)
-		{
-		}
-
-        Binary_data::Binary_data(Binary_data & data)
-			: m_data(data.m_data),
-			  m_size(data.m_size)
-		{
-			data.Reset();
-		}
-
-        Binary_data::~Binary_data()
-		{
-			Reset();
+            : m_data(nullptr)
+            , m_size(0)
+        {
+            /* Nothing to be done here */
         }
 
-        Binary_data & Binary_data::Copy(const Binary_data & data)
+        Binary_data::Binary_data(uint8 * data, size_t size)
+            : m_data(data)
+            , m_size(size)
         {
-            auto ptr = new uint8[data.m_size];
+            /* Nothing to be done here */
+        }
 
-            if (nullptr == ptr)
-            {
-                ERRLOG("Memory allocation failure");
-                ASSERT(0);
-                return *this;
-            }
+        Binary_data::Binary_data(const Binary_data & data)
+            : m_data(nullptr)
+            , m_size(0)
+        {
+            copy(data.m_data, data.m_size);
+        }
 
-            memcpy(ptr, data.m_data, data.m_size);
+        Binary_data::Binary_data(Binary_data && data)
+            : m_data(std::move(data.m_data))
+            , m_size(std::move(data.m_size))
+        {
+            /* Nothing to be done here */
+        }
 
-            Reset(ptr, data.m_size);
+        Binary_data & Binary_data::operator = (const Binary_data & data)
+        {
+            copy(data.m_data, data.m_size);
 
             return *this;
         }
 
-        Binary_data & Binary_data::Take(Binary_data & data)
-		{
-			Reset(data.m_data, data.m_size);
+        Binary_data & Binary_data::operator = (Binary_data && data)
+        {
+            m_data = std::move(data.m_data);
+            m_size = std::move(data.m_size);
 
-			data.Reset();
+            return *this;
+        }
 
-			return *this;
-		}
+        Binary_data::~Binary_data()
+        {
+            Release();
+        }
 
         uint8 * Binary_data::Data() const
-		{
-			return m_data;
-		}
+        {
+            return m_data;
+        }
 
-        uint64 Binary_data::Size() const
-		{
-			return m_size;
-		}
+        size_t Binary_data::Size() const
+        {
+            return m_size;
+        }
 
-        uint8 * Binary_data::operator [] (uint64 offset) const
+        uint8 * Binary_data::operator [] (size_t offset) const
         {
             if (offset >= m_size)
             {
@@ -107,28 +104,51 @@ namespace O8
             return m_data + offset;
         }
 
-        void Binary_data::Reset()
-		{
-			if (nullptr != m_data)
-			{
-				delete (char *) m_data;
-				m_data = nullptr;
-			}
-			m_size = 0;
-		}
+        void Binary_data::Release()
+        {
+            if (nullptr != m_data)
+            {
+                delete (char *) m_data;
+                m_data = nullptr;
+            }
 
-        void Binary_data::Reset(uint8 * data, uint64 size)
-		{
-			Reset();
+            m_size = 0;
+        }
 
-			m_data = data;
-			m_size = size;
-		}
+        void Binary_data::Reset(uint8 * data, size_t size)
+        {
+            Release();
+
+            m_data = data;
+            m_size = size;
+        }
 
         bool Binary_data::Is_null() const
-		{
-			return (nullptr == m_data);
-		}
+        {
+            return (nullptr == m_data);
+        }
 
-	} /* namespace Utility */
+        void Binary_data::copy(uint8 * data, size_t size)
+        {
+            auto ptr = new uint8[size];
+
+            if (nullptr == ptr)
+            {
+                ERRLOG("Memory allocation failure");
+                ASSERT(0);
+                return;
+            }
+
+            memcpy(ptr, data, size);
+
+            set(ptr, size);
+        }
+
+        void Binary_data::set(uint8 * data, size_t size)
+        {
+            m_data = data;
+            m_size = size;
+        }
+
+    } /* namespace Utility */
 } /* namespace Ozone */

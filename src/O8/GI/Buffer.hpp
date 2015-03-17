@@ -26,33 +26,36 @@
 
 /**
 * @author Adam Œmigielski
-* @file Asset.hpp
+* @file Buffer.hpp
 **/
 
-#ifndef O8_ASSET_ASSET_HPP
-#define O8_ASSET_ASSET_HPP
+#ifndef O8_GI_BUFFER_HPP
+#define O8_GI_BUFFER_HPP
 
 #include <O8\Templates\IntrusiveList.hpp>
-#include <O8\Utility\Binary_data.hpp>
-#include "Type.hpp"
+#include <O8\Templates\ReferenceCounted.hpp>
 
 namespace O8
 {
-    namespace Asset
+    namespace GI
     {
-        class Asset : public IntrusiveList::Node<Asset>
+        class Buffer
+            : public IntrusiveList::Node < Buffer >
+            , public ReferenceCounted::Resource
         {
         public:
-            typedef IntrusiveList::List<Asset> List;
+            /* Types */
+            typedef ReferenceCounted::Reference<Buffer> Reference;
 
-            Asset();
-            virtual ~Asset();
+            /* Enums */
 
-            Utility::Binary_data m_Data;
-            std::string m_ID;
-            Type::Types m_Type;
+            /* Ctr & Dtr */
+            virtual ~Buffer();
+
+        protected:
+            Buffer();
         };
     }
 }
 
-#endif O8_ASSET_ASSET_HPP
+#endif /* O8_GI_BUFFER_HPP */

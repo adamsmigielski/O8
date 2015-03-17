@@ -72,10 +72,8 @@ namespace O8
                 CHANNEL number_of_channels,
                 TYPE data_type);
 
-            const CHANNEL & Channel() const;
-            CHANNEL & Channel();
-            const TYPE & Type() const;
-            TYPE & Type();
+            CHANNEL m_Channel;
+            TYPE m_Type;
 
             uint32 Get_bits_per_pixel() const;
             uint32 Get_bytes_per_pixel() const;
@@ -86,8 +84,6 @@ namespace O8
             static uint32 Get_type_bytes(TYPE type);
 
         private:
-            CHANNEL m_channel;
-            TYPE m_type;
         };
     }
 }

@@ -26,26 +26,17 @@
 
 /**
 * @author Adam Œmigielski
-* @file Descriptor.cpp
+* @file Actor.cpp
 **/
 
 #include "PCH.hpp"
 
-#include "Descriptor.hpp"
+#include "Actor.hpp"
 
 namespace O8
 {
-    namespace Asset
+    namespace Engine
     {
-        Descriptor::Descriptor()
-            : m_ID("")
-        {
-            /* Nothingto bedone here */
-        }
 
-        const std::string & Descriptor::Get_id(const Descriptor & desc)
-        {
-            return desc.m_ID;
-        }
     }
 }

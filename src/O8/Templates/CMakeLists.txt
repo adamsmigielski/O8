@@ -6,4 +6,7 @@ ADD_LIBRARY (Templates STATIC
 			 IsMethod.hpp
 			 PCH.hpp
 			 PCH.cpp
+			 ReferenceCounted.cpp
+			 ReferenceCounted.hpp
+			 SharedResource.hpp
 			 Task.hpp)

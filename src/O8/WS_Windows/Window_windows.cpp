@@ -124,7 +124,7 @@ namespace O8
             if (nullptr != m_handler)
             {
                 SetLastError(0);
-                auto result = SetWindowLong(m_native, GWL_USERDATA, (LONG) this);
+                auto result = SetWindowLongPtr(m_native, GWLP_USERDATA, (LONG_PTR) this);
                 if (0 == result)
                 {
                     DWORD err = GetLastError();
@@ -137,7 +137,7 @@ namespace O8
                     }
                 }
 
-                result = SetWindowLong(m_native, GWL_WNDPROC, (LONG) window_procedure);
+                result = SetWindowLongPtr(m_native, GWLP_WNDPROC, (LONG_PTR) window_procedure);
                 if (0 == result)
                 {
                     DWORD err = GetLastError();
@@ -168,7 +168,7 @@ namespace O8
 
         Window_windows * Window_windows::Get_from_native(HWND wnd)
         {
-            return (Window_windows *) GetWindowLong(wnd, GWL_USERDATA);;
+            return (Window_windows *) GetWindowLongPtr(wnd, GWLP_USERDATA);;
         }
 
 		Window_event_handler * Window_windows::Get_event_handler()
@@ -353,7 +353,7 @@ namespace O8
 
         LRESULT Window_windows::Handle_event(OS_message & msg)
         {
-            int ret = 0;
+            LRESULT ret = 0;
 
             switch (msg.uMsg)
             {
@@ -446,7 +446,7 @@ namespace O8
         void Window_windows::disable_input_system(){}
         void Window_windows::enable_input_system(){}
 
-        int Window_windows::on_wm_activate(OS_message & msg)
+        LRESULT Window_windows::on_wm_activate(OS_message & msg)
         {
             switch (msg.wParam)
             {
@@ -468,7 +468,7 @@ namespace O8
                 msg.lParam);
         }
 
-        int Window_windows::on_wm_close(OS_message & msg)
+        LRESULT Window_windows::on_wm_close(OS_message & msg)
         {
             bool close_window = true;
 
@@ -484,7 +484,7 @@ namespace O8
             return 0;
         }
 
-        int Window_windows::on_wm_command(OS_message & msg)
+        LRESULT Window_windows::on_wm_command(OS_message & msg)
         {
             uint16 type;
             uint16 id;
@@ -507,14 +507,14 @@ namespace O8
                 msg.lParam);
         }
 
-        int Window_windows::on_wm_destroy(OS_message & msg)
+        LRESULT Window_windows::on_wm_destroy(OS_message & msg)
         {
             release();
 
             return 0;
         }
 
-        int Window_windows::on_wm_move(OS_message & msg)
+        LRESULT Window_windows::on_wm_move(OS_message & msg)
         {
             int32 x = (int32)(short)LOWORD(msg.lParam);
             int32 y = (int32)(short)HIWORD(msg.lParam);
@@ -531,7 +531,7 @@ namespace O8
                 msg.lParam);
         }
 
-        int Window_windows::on_wm_moving(OS_message & msg)
+        LRESULT Window_windows::on_wm_moving(OS_message & msg)
         {
             RECT * rect = (RECT *)msg.lParam;
             int left = rect->left;
@@ -558,7 +558,7 @@ namespace O8
                 msg.lParam);
         }
 
-        int Window_windows::on_wm_power_broadcast(OS_message & msg)
+        LRESULT Window_windows::on_wm_power_broadcast(OS_message & msg)
         {
             switch (msg.wParam)
             {
@@ -579,7 +579,7 @@ namespace O8
                 msg.lParam);
         }
 
-        int Window_windows::on_wm_paint(OS_message & msg)
+        LRESULT Window_windows::on_wm_paint(OS_message & msg)
         {
             m_handler->On_paint(this);
 
@@ -590,7 +590,7 @@ namespace O8
                 msg.lParam);
         }
 
-        int Window_windows::on_wm_quit(OS_message & msg)
+        LRESULT Window_windows::on_wm_quit(OS_message & msg)
         {
             m_handler->On_quit(this);
 
@@ -601,7 +601,7 @@ namespace O8
                 msg.lParam);
         }
 
-        int Window_windows::on_wm_sizing(OS_message & msg)
+        LRESULT Window_windows::on_wm_sizing(OS_message & msg)
         {
             RECT * rect = (RECT *)msg.lParam;
             Window_event_handler::Sizing_direction direction;
@@ -659,7 +659,7 @@ namespace O8
                 msg.lParam);
         }
 
-        int Window_windows::on_wm_size(OS_message & msg)
+        LRESULT Window_windows::on_wm_size(OS_message & msg)
         {
             uint32 width = (uint32)(short)LOWORD(msg.lParam);
             uint32 height = (uint32)(short)HIWORD(msg.lParam);

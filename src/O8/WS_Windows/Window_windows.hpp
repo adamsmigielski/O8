@@ -110,17 +110,17 @@ namespace O8
             void capture_input();
             void disable_input_system();
             void enable_input_system();
-            int on_wm_activate(OS_message & msg);
-            int on_wm_close(OS_message & msg);
-            int on_wm_command(OS_message & msg);
-            int on_wm_destroy(OS_message & msg);
-            int on_wm_move(OS_message & msg);
-            int on_wm_moving(OS_message & msg);
-            int on_wm_paint(OS_message & msg);
-            int on_wm_power_broadcast(OS_message & msg);
-            int on_wm_quit(OS_message & msg);
-            int on_wm_sizing(OS_message & msg);
-            int on_wm_size(OS_message & msg);
+            LRESULT on_wm_activate(OS_message & msg);
+            LRESULT on_wm_close(OS_message & msg);
+            LRESULT on_wm_command(OS_message & msg);
+            LRESULT on_wm_destroy(OS_message & msg);
+            LRESULT on_wm_move(OS_message & msg);
+            LRESULT on_wm_moving(OS_message & msg);
+            LRESULT on_wm_paint(OS_message & msg);
+            LRESULT on_wm_power_broadcast(OS_message & msg);
+            LRESULT on_wm_quit(OS_message & msg);
+            LRESULT on_wm_sizing(OS_message & msg);
+            LRESULT on_wm_size(OS_message & msg);
             void release();
             void update_input_system(
                 int32 w,

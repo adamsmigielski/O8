@@ -38,6 +38,7 @@ namespace O8
     namespace GI
     {
         Texture::Texture()
+            : m_model(MODEL_UNKNOWN)
         {
         }
 

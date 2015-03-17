@@ -47,9 +47,9 @@ namespace O8
             }
 
             int32 Read(
-                uint64 offset,
+                size_t offset,
                 uint8 * buffer,
-                uint64 size)
+                size_t size)
             {
                 uint8 * ptr = (uint8 *) &m_t[offset];
 
@@ -65,9 +65,9 @@ namespace O8
             }
 
             int32 Write(
-                uint64 offset,
+                size_t offset,
                 const uint8 * buffer,
-                uint64 size)
+                size_t size)
             {
                 uint8 * ptr = (uint8 *) &m_t[offset];
 
@@ -97,9 +97,9 @@ namespace O8
             }
 
             int32 Read(
-                uint64 offset,
+                size_t offset,
                 uint8 * buffer,
-                uint64 size)
+                size_t size)
             {
                 m_t.seekg(offset, std::fstream::beg);
 
@@ -115,9 +115,9 @@ namespace O8
             }
 
             int32 Write(
-                uint64 offset,
+                size_t offset,
                 const uint8 * buffer,
-                uint64 size)
+                size_t size)
             {
                 m_t.seekp(offset, std::fstream::beg);
 
@@ -171,7 +171,7 @@ namespace O8
         template <typename B, typename T>
         int32 Read(
             Wrapper<B> & w,
-            uint64 offset,
+            size_t offset,
             T & out_t)
         {
             T t;
@@ -193,7 +193,7 @@ namespace O8
         template <typename B, typename T>
         int32 Read(
             Wrapper<B> & w,
-            uint64 offset,
+            size_t offset,
             bool swap_endianess,
             T & out_t)
         {
@@ -215,7 +215,7 @@ namespace O8
         template <typename B>
         int32 Read(
             Wrapper<B> & w,
-            uint64 offset,
+            size_t offset,
             bool swap_endianess,
             std::string & out_string)
         {
@@ -249,10 +249,20 @@ namespace O8
             return Success;
         }
 
+        template <typename B>
+        int32 Read(
+            Wrapper<B> & w,
+            size_t offset,
+            size_t size,
+            uint8 * out_t)
+        {
+            return w.Read(offset, out_t, size);
+        }
+
         template <typename B, typename T>
         int32 Read(
             B & b,
-            uint64 offset,
+            size_t offset,
             T & out_t)
         {
             return Read(
@@ -264,7 +274,7 @@ namespace O8
         template <typename B, typename T>
         int32 Read(
             B & b,
-            uint64 offset,
+            size_t offset,
             bool swap_endianess,
             T & out_t)
         {
@@ -276,9 +286,23 @@ namespace O8
         }
 
         template <typename B, typename T>
+        int32 Read(
+            B & b,
+            size_t offset,
+            size_t size,
+            T * t)
+        {
+            return Read(
+                Wrapper<B>(b),
+                offset,
+                size,
+                t);
+        }
+
+        template <typename B, typename T>
         int32 Write(
             Wrapper<B> & w,
-            uint64 offset,
+            size_t offset,
             const T & t)
         {
             return w.Write(
@@ -290,9 +314,9 @@ namespace O8
         template <typename B, typename T>
         int32 Write(
             Wrapper<B> & w,
-            uint64 offset,
+            size_t offset,
             const T * t,
-            uint64 size)
+            size_t size)
         {
             return w.Write(
                 offset,
@@ -303,10 +327,10 @@ namespace O8
         template <typename B>
         int32 Write(
             Wrapper<B> & w,
-            uint64 offset,
+            size_t offset,
             const std::string & string)
         {
-            const uint32 length = string.length();
+            const size_t length = string.length();
 
             if (Success != Write(w, offset, length))
             {
@@ -323,7 +347,7 @@ namespace O8
         template <typename B, typename T>
         int32 Write(
             B & b,
-            uint64 offset,
+            size_t offset,
             const T & t)
         {
             return Write(Wrapper<B>(b), offset, t);
@@ -332,9 +356,9 @@ namespace O8
         template <typename B, typename T>
         int32 Write(
             B & b,
-            uint64 offset,
+            size_t offset,
             const T * t,
-            uint64 size)
+            size_t size)
         {
             return Write(Wrapper<B>(b), offset, t, size);
         }

@@ -85,8 +85,14 @@ namespace O8
             T * Last();
             const T * Last() const;
 
+            template <typename P>
+            T * Search(const P & p);
+
             template <typename P, typename V>
             T * Search(const P & p, const V & v);
+
+            template <typename P>
+            const T * Search(const P & p) const;
 
             template <typename P, typename V>
             const T * Search(const P & p, const V & v) const;
@@ -300,6 +306,24 @@ namespace O8
         }
 
         template <typename T>
+        template <typename P>
+        T * List<T>::Search(const P & p)
+        {
+            T * result = nullptr;
+
+            for (T * t = First(); nullptr != t; t = t->Next())
+            {
+                if (true == p(*t))
+                {
+                    result = t;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        template <typename T>
         template <typename P, typename V>
         T * List<T>::Search(const P & p, const V & v)
         {
@@ -308,6 +332,24 @@ namespace O8
             for (T * t = First(); nullptr != t; t = t->Next())
             {
                 if (v == p(*t))
+                {
+                    result = t;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        template <typename T>
+        template <typename P>
+        const T * List<T>::Search(const P & p) const
+        {
+            const T * result = nullptr;
+
+            for (const T * t = First(); nullptr != t; t = t->Next())
+            {
+                if (true == p(*t))
                 {
                     result = t;
                     break;

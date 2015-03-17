@@ -28,3 +28,11 @@
 * @author Adam Œmigielski
 * @file PCH.hpp
 **/
+
+#include <O8\Platform.hpp>
+
+#include <O8\Common\Assert.hpp>
+#include <O8\Common\BreakToDebug.hpp>
+#include <O8\Common\Log.hpp>
+
+#include <iostream>

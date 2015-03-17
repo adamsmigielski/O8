@@ -34,33 +34,38 @@
 
 namespace O8
 {
-	namespace Utility
-	{
-		class Binary_data
-		{
-		public:
+    namespace Utility
+    {
+        class Binary_data
+        {
+        public:
             Binary_data();
-            Binary_data(uint8 * data, uint64 size);
-            Binary_data(Binary_data & data);
+            Binary_data(uint8 * data, size_t size);
+            Binary_data(const Binary_data & data);
+            Binary_data(Binary_data && data);
+            Binary_data & operator = (const Binary_data & data);
+            Binary_data & operator = (Binary_data && data);
             ~Binary_data();
 
-            Binary_data & Copy(const Binary_data & data);
-            Binary_data & Take(Binary_data & data);
 
-			uint8 * Data() const;
-			uint64 Size() const;
-            uint8 * operator [] (uint64 offset) const;
+            uint8 * Data() const;
+            size_t Size() const;
+            uint8 * operator [] (size_t offset) const;
 
-			void Reset();
-			void Reset(uint8 * data, uint64 size);
+            void Release();
+            void Reset(uint8 * data, size_t size);
 
-			bool Is_null() const;
+            bool Is_null() const;
 
-		private:
-			uint8 * m_data;
-			uint64 m_size;
-		};
+        private:
+            void copy(uint8 * data, size_t size);
+            void set(uint8 * data, size_t size);
 
-	} /* namespace Utility */
+            uint8 * m_data;
+            size_t m_size;
+        };
+
+    } /* namespace Utility */
 } /* namespace O8 */
+
 #endif /* O8_UTILITY_BINARYDATA_HPP */

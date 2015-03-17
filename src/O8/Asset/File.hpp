@@ -32,18 +32,18 @@
 #ifndef O8_ASSET_FILE_HPP
 #define O8_ASSET_FILE_HPP
 
-#include "Asset.hpp"
-#include "Descriptor.hpp"
+#include "Asset_descriptor.hpp"
 #include "Type.hpp"
 
 #include <O8\Templates\IntrusiveList.hpp>
+#include <O8\Utility\Binary_data.hpp>
+#include <O8\Utility\Name.hpp>
 
 namespace O8
 {
     namespace Asset
     {
-        class File_descriptor : public Descriptor
-                              , public IntrusiveList::Node<File_descriptor>
+        class File_descriptor : public IntrusiveList::Node<File_descriptor>
         {
         public:
             typedef IntrusiveList::List<File_descriptor> List;
@@ -51,6 +51,7 @@ namespace O8
             File_descriptor();
             virtual ~File_descriptor();
 
+            Utility::Name m_Name;
             uint64 m_Offset;
             uint64 m_Size;
             Type::Types m_Type;
@@ -62,7 +63,7 @@ namespace O8
             File();
             virtual ~File();
 
-            virtual Asset * Get_asset(const File_descriptor & desc) const;
+            virtual Utility::Binary_data Get_asset(const File_descriptor & desc) const;
             virtual const File_descriptor * Get_descriptor(const std::string & id) const;
             virtual int32 Load(const std::string & file_name);
 
@@ -73,7 +74,8 @@ namespace O8
         typedef File * (O8_API * PFN_CREATE_FILE)();
         typedef int32 (O8_API * PFN_STORE_FILE)(
             const std::string & file_name,
-            const Asset::List & assets);
+            const Asset_descriptor::List & assets,
+            Asset_data_provider * asset_data_provider);
     }
 }
 
@@ -81,6 +83,7 @@ namespace O8
 O8_API_DECORATION DLL_EXPORT O8::Asset::File * O8_API Create_file();
 O8_API_DECORATION DLL_EXPORT O8::int32 O8_API Store_file(
     const std::string & file_name,
-    const O8::Asset::Asset::List & assets);
+    const O8::Asset::Asset_descriptor::List & assets,
+    O8::Asset::Asset_data_provider * asset_data_provider);
 
 #endif O8_ASSET_FILE_HPP

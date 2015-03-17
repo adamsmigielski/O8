@@ -3,6 +3,8 @@ PROJECT ( GI )
 ADD_LIBRARY (GI STATIC
 			 Adapter.cpp
 			 Adapter.hpp
+			 Buffer.cpp
+			 Buffer.hpp
 			 GI.cpp
 			 GI.hpp
 			 Mode.cpp
@@ -17,6 +19,10 @@ ADD_LIBRARY (GI STATIC
 			 RI.hpp
 			 Texture.cpp
 			 Texture.hpp)
+
+ADD_DEPENDENCIES(GI
+				 Common
+				 Templates)
 
 ADD_LIBRARY (GI_Loader STATIC
 			 Loader.cpp

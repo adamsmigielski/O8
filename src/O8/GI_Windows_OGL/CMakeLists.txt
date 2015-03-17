@@ -23,4 +23,5 @@ TARGET_LINK_LIBRARIES (GI_Windows_OGL
 					   ${DL_IMPL}
 					   GI
 					   GI_OGL
-					   OpenGL)
+					   OpenGL
+					   Templates)

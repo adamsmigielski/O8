@@ -1,6 +1,7 @@
 PROJECT(Common)
 
 ADD_LIBRARY (Common STATIC
+			 Align.hpp
              Assert.hpp
              BreakToDebug.hpp
 			 CallConvention.hpp

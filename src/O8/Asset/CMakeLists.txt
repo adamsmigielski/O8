@@ -1,23 +1,40 @@
 PROJECT(Asset)
 
-ADD_LIBRARY(Asset SHARED
-			Asset.cpp
-			Asset.hpp
-			Descriptor.cpp
-			Descriptor.hpp
-			File.cpp
-			File.hpp
-			Library.cpp
-			Library.hpp
+ADD_LIBRARY(Asset STATIC
+			Asset_descriptor.cpp
+			Asset_descriptor.hpp
 			PCH.cpp
 			PCH.hpp
-			Registry.cpp
-			Registry.hpp
 			Type.cpp
 			Type.hpp)
 
-TARGET_LINK_LIBRARIES(Asset
-					  Utility)
+IF (BUILD_ASSET_ARCHIVE)
+	ADD_LIBRARY(Asset_Archive SHARED
+				File.cpp
+				File.hpp
+				PCH.cpp
+				PCH.hpp)
+
+	TARGET_LINK_LIBRARIES(Asset_Archive
+						  Asset
+						  Common
+						  Templates
+						  Utility)
+ENDIF (BUILD_ASSET_ARCHIVE)
+
+IF (BUILD_ASSET_REGISTRY)
+	ADD_LIBRARY(Asset_Registry SHARED
+				PCH.cpp
+				PCH.hpp
+				Registry.cpp
+				Registry.hpp)
+
+	TARGET_LINK_LIBRARIES(Asset_Registry
+						  Asset
+						  Common
+						  Templates
+						  Utility)
+ENDIF (BUILD_ASSET_REGISTRY)
 
 ADD_LIBRARY(Asset_Loader STATIC
 			Loader.cpp
@@ -27,6 +44,7 @@ ADD_LIBRARY(Asset_Loader STATIC
 
 TARGET_LINK_LIBRARIES(Asset_Loader
 					  ${DL_IMPL})
+
 
 IF (BUILD_TESTS)
 	ADD_EXECUTABLE(Asset_Test

@@ -33,16 +33,42 @@
 #define O8_RS_MATERIAL_HPP
 
 #include <O8\Templates\IntrusiveList.hpp>
+#include <O8\Templates\ReferenceCounted.hpp>
+#include <O8\GI\Texture.hpp>
+#include <O8\Utility\Name.hpp>
 
 namespace O8
 {
     namespace RS
     {
-        class Material : public IntrusiveList::Node<Material>
+        class Material_descriptor
         {
         public:
+            Material_descriptor();
+            ~Material_descriptor();
+
+            /* Maps */
+            std::string m_Diffuse_map_name;
+        };
+
+        class Material
+            : public IntrusiveList::Node<Material>
+            , public ReferenceCounted::Resource
+        {
+        public:
+            /* Types */
+            typedef IntrusiveList::List<Material> List;
+            typedef ReferenceCounted::Reference<Material> Reference;
+
+            /* Ctr & Dtr */
             Material();
             virtual ~Material();
+
+            /* Name */
+            Utility::Name m_Name;
+
+            Material_descriptor m_Descriptor;
+            GI::Texture::Reference m_Diffuse_map;
         };
     }
 }

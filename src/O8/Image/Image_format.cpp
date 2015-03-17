@@ -38,16 +38,16 @@ namespace O8
     namespace Image
     {
         Image_format::Image_format()
-            : m_line_preface(0)
-            , m_line_conclusion(0)
+            : m_Line_preface(0)
+            , m_Line_conclusion(0)
         {
             /* Nothing to be done here */
         }
 
         Image_format::Image_format(const Image_format & image_format)
-            : m_color_format(image_format.m_color_format)
-            , m_line_preface(image_format.m_line_preface)
-            , m_line_conclusion(image_format.m_line_conclusion)
+            : m_Color_format(image_format.m_Color_format)
+            , m_Line_preface(image_format.m_Line_preface)
+            , m_Line_conclusion(image_format.m_Line_conclusion)
         {
             /* Nothing to be done here */
         }
@@ -56,41 +56,11 @@ namespace O8
             const Color_format & color_format,
             uint32 line_preface,
             uint32 line_conclusion)
-            : m_color_format(color_format)
-            , m_line_preface(line_preface)
-            , m_line_conclusion(line_conclusion)
+            : m_Color_format(color_format)
+            , m_Line_preface(line_preface)
+            , m_Line_conclusion(line_conclusion)
         {
             /* Nothing to be done here */
-        }
-
-        Color_format & Image_format::Color()
-        {
-            return m_color_format;
-        }
-
-        const Color_format & Image_format::Color() const
-        {
-            return m_color_format;
-        }
-
-        uint32 & Image_format::Line_preface()
-        {
-            return m_line_preface;
-        }
-
-        const uint32 & Image_format::Line_preface() const
-        {
-            return m_line_preface;
-        }
-
-        uint32 & Image_format::Line_conclusion()
-        {
-            return m_line_conclusion;
-        }
-
-        const uint32 & Image_format::Line_conclusion() const
-        {
-            return m_line_conclusion;
         }
     }
 }
