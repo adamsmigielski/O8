@@ -63,6 +63,16 @@ namespace O8
                 const uint8 *& out_data_ptr,
                 size_t & out_data_size);
         };
+
+        int32 Merge_asset_id(
+            const std::string & archive_name,
+            const std::string & entry_name,
+            std::string & out_id);
+
+        int32 Split_asset_id(
+            const std::string & id,
+            std::string & out_archive_name,
+            std::string & out_entry_name);
     }
 }
 

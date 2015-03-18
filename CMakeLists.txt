@@ -8,6 +8,7 @@ SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # General executables to build
 SET( BUILD_TESTS ON CACHE BOOL "Build test executables")
+SET( BUILD_TOOLS ON CACHE BOOL "Build tools executables")
 SET( BUILD_DEMO ON CACHE BOOL "Build demo executables")
 
 # Modules to build

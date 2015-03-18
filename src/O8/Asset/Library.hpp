@@ -32,35 +32,22 @@
 #ifndef O8_ASSET_LIBRARY_HPP
 #define O8_ASSET_LIBRARY_HPP
 
-#include "Descriptor.hpp"
+#include "File.hpp"
 
-#include <O8\Templates\IntrusiveList.hpp>
 
 namespace O8
 {
     namespace Asset
     {
-        class Library_descriptor : public Descriptor
-                                 , public IntrusiveList::Node<Library_descriptor>
-        {
-        public:
-            Library_descriptor();
-            virtual ~Library_descriptor();
-
-            std::string m_Path;
-        };
-
-        class Library : public IntrusiveList::List<Library_descriptor>
+        class Library : public File::List
         {
         public:
             Library();
             virtual ~Library();
 
-            virtual int32 Load(const std::string & file_name);
-            virtual int32 Store(const std::string & file_name) const;
+            virtual Utility::Binary_data Get_asset(const std::string & id);
+            virtual File * Get_file(const std::string & file_name);
         };
-
-        typedef Library * (O8_API * PFN_CREATE_LIBRARY)();
     }
 }
 

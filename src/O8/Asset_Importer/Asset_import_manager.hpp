@@ -33,6 +33,7 @@
 #define O8_ASSET_IMPORTER_ASSET_IMPORT_MANAGER_HPP
 
 #include <O8\Templates\IntrusiveList.hpp>
+#include <O8\Utility\Name.hpp>
 
 #include "Asset_importer.hpp"
 
@@ -43,30 +44,32 @@ namespace O8
         class File_extension : public O8::IntrusiveList::Node < File_extension >
         {
         public:
+            /* Types */
+            typedef O8::IntrusiveList::List<File_extension> List;
+
+            /* Ctr & Dtr */
             File_extension();
             virtual ~File_extension();
 
-            static const std::string & Get_string(
-                const File_extension & ext);
-
-            std::string m_String;
+            Utility::Name m_Name;
         };
 
         class Asset_format : public O8::IntrusiveList::Node<Asset_format>
-                           , public O8::IntrusiveList::List<File_extension>
+                           , public File_extension::List
         {
         public:
+            /* Types */
+            typedef O8::IntrusiveList::List<Asset_format> List;
+
+            /* Ctr & Dtr */
             Asset_format();
             virtual ~Asset_format();
 
             virtual bool Does_extension_match(
                 const std::string & ext) const;
 
-            static const std::string & Get_name(
-                const Asset_format & format);
-
             Asset_importer * m_Importer;
-            std::string m_Name;
+            Utility::Name m_Name;
         };
 
         class Asset_import_manager : public O8::IntrusiveList::Node<Asset_importer>
@@ -83,7 +86,7 @@ namespace O8
                 const std::string & file_path);
 
         private:
-            O8::IntrusiveList::List<Asset_format> m_formats;
+            Asset_format::List m_formats;
         };
     }
 }

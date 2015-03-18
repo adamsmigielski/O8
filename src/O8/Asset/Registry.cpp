@@ -39,14 +39,13 @@ namespace O8
 {
     namespace Asset
     {
-        Registry_descriptor::Registry_descriptor()
+        Registry_entry::Registry_entry()
             : m_Path("")
-            , m_Type(Type::Unknown)
         {
             /* Nothing to be done here */
         }
 
-        Registry_descriptor::~Registry_descriptor()
+        Registry_entry::~Registry_entry()
         {
             /* Nothing to be done here */
         }
@@ -78,9 +77,7 @@ namespace O8
             {
                 std::string id;
                 std::string path;
-                std::string type;
 
-                file >> type;
                 file >> id;
                 file >> path;
 
@@ -89,9 +86,8 @@ namespace O8
                     break;
                 }
 
-                auto desc = new Registry_descriptor;
+                auto desc = new Registry_entry;
                 desc->m_Name(id);
-                desc->m_Type = Type::Get_by_name(type);
                 desc->m_Path = path;
 
                 Attach(desc);
@@ -117,9 +113,6 @@ namespace O8
 
             for (auto it = First(); nullptr != it; it = it->Next())
             {
-                const std::string & type = Type::Get_name(it->m_Type);
-
-                file << type;
                 file << " ";
                 file << it->m_Name();
                 file << " ";
@@ -137,4 +130,9 @@ namespace O8
 O8::Asset::Registry * Create_registry()
 {
     return new O8::Asset::Registry;
+}
+
+O8::Asset::Registry_entry * Create_registry_entry()
+{
+    return new O8::Asset::Registry_entry;
 }

@@ -77,6 +77,16 @@ namespace O8
         private:
             size_t m_hash;
         };
+
+        template <typename T>
+        class Name_ascend_predicate
+        {
+        public:
+            int operator()(const T& left, const T& right) const
+            {
+                return left.m_Name().compare(right.m_Name());
+            }
+        };
     }
 }
 

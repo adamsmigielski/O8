@@ -41,18 +41,17 @@ namespace O8
 {
     namespace Asset
     {
-        class Registry_descriptor : public IntrusiveList::Node<Registry_descriptor>
+        class Registry_entry : public IntrusiveList::Node<Registry_entry>
         {
         public:
-            Registry_descriptor();
-            virtual ~Registry_descriptor();
+            Registry_entry();
+            virtual ~Registry_entry();
 
             Utility::Name m_Name;
             std::string m_Path;
-            Type::Types m_Type;
         };
 
-        class Registry : public IntrusiveList::List<Registry_descriptor>
+        class Registry : public IntrusiveList::List<Registry_entry>
         {
         public:
             Registry();
@@ -66,10 +65,12 @@ namespace O8
         };
 
         typedef Registry * (O8_API * PFN_CREATE_REGISTRY)();
+        typedef Registry_entry * (O8_API * PFN_CREATE_REGISTRY_ENTRY)();
     }
 }
 
 /* DL entry points */
 O8_API_DECORATION DLL_EXPORT O8::Asset::Registry * O8_API Create_registry();
+O8_API_DECORATION DLL_EXPORT O8::Asset::Registry_entry * O8_API Create_registry_entry();
 
 #endif O8_ASSET_REGISTRY_HPP

@@ -33,6 +33,7 @@
 
 #include "Asset_import_manager.hpp"
 #include <O8\DL\DL.hpp>
+#include <O8\Utility\Hash_string.hpp>
 
 namespace O8
 {
@@ -48,12 +49,6 @@ namespace O8
 
         }
 
-        const std::string & File_extension::Get_string(
-            const File_extension & ext)
-        {
-            return ext.m_String;
-        }
-
         Asset_format::Asset_format()
         {
 
@@ -67,15 +62,9 @@ namespace O8
         bool Asset_format::Does_extension_match(
             const std::string & ext) const
         {
-            auto ptr = Search(File_extension::Get_string, ext);
+            auto ptr = Search(Utility::Name_predicate<File_extension>(ext));
 
             return (nullptr != ptr);
-        }
-
-        const std::string & Asset_format::Get_name(
-            const Asset_format & format)
-        {
-            return format.m_Name;
         }
 
         class Match_asset_format_by_ext
@@ -124,7 +113,7 @@ namespace O8
         Asset_importer * Asset_import_manager::Get_importer_by_format(
             const std::string & format_name)
         {
-            auto format = m_formats.Search(Asset_format::Get_name, format_name);
+            auto format = m_formats.Search(Utility::Name_predicate<Asset_format>(format_name));
 
             if (nullptr != format)
             {
@@ -171,9 +160,9 @@ namespace O8
             {
                 if (nullptr == it->m_Importer)
                 {
-                    if (true == importer->Is_format_supported(it->m_Name))
+                    if (true == importer->Is_format_supported(it->m_Name()))
                     {
-                        LOG("Importer registered for: " << it->m_Name);
+                        LOG("Importer registered for: " << it->m_Name());
 
                         it->m_Importer = importer;
                     }

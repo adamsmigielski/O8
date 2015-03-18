@@ -42,6 +42,7 @@ namespace O8
         /* DL entry points */
         extern PFN_CREATE_FILE Create_file;
         extern PFN_CREATE_REGISTRY Create_registry;
+        extern PFN_CREATE_REGISTRY_ENTRY Create_registry_entry;
         extern PFN_STORE_FILE Store_file;
 
         /* Static routines */

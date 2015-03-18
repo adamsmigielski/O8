@@ -80,6 +80,8 @@ namespace O8
             void Clear();
             void Detach(T * node);
 
+            void Exchange(T * left, T * right);
+
             T * First();
             const T * First() const;
             T * Last();
@@ -96,6 +98,9 @@ namespace O8
 
             template <typename P, typename V>
             const T * Search(const P & p, const V & v) const;
+
+            template <typename P>
+            void Sort(const P & p);
 
         private:
             T * m_first;
@@ -282,6 +287,59 @@ namespace O8
         }
 
         template <typename T>
+        void List<T>::Exchange(T * left, T * right)
+        {
+            T * const left_next = left->m_next;
+            T * const left_prev = left->m_prev;
+            T * const right_next = right->m_next;
+            T * const right_prev = right->m_prev;
+
+            /* Is left first ? */
+            if (nullptr != left_prev)
+            {
+                left_prev->m_next = right;
+            }
+            else
+            {
+                m_first = right;
+            }
+            right->m_prev = left_prev;
+
+            /* Is left last ? */
+            if (nullptr != left_next)
+            {
+                left_next->m_prev = right;
+            }
+            else
+            {
+                m_last = right;
+            }
+            right->m_next = left_next;
+
+            /* Is right first */
+            if (nullptr != right_prev)
+            {
+                right_prev->m_next = left;
+            }
+            else
+            {
+                m_first = left;
+            }
+            left->m_prev = right_prev;
+
+            /* Is right last ? */
+            if (nullptr != right_next)
+            {
+                right_next->m_prev = left;
+            }
+            else
+            {
+                m_last = left;
+            }
+            left->m_next = right_next;
+        }
+
+        template <typename T>
         T * List<T>::First()
         {
             return m_first;
@@ -375,6 +433,40 @@ namespace O8
             }
 
             return result;
+        }
+
+        template <typename T>
+        template <typename P>
+        void List<T>::Sort(const P & p)
+        {
+            for (T * last = Last();
+                nullptr != last;
+                last = last->Previous())
+            {
+                for (T * it = First();
+                    last != it;
+                    it = it->Next())
+                {
+                    T * left = it;
+                    T * right = it->Next();
+
+                    if (0 < p(*left, *right))
+                    {
+                        T * right_next = right->Next();
+
+                        Exchange(left, right);
+
+                        if (nullptr == right_next)
+                        {
+                            last = Last();
+                        }
+                        else
+                        {
+                            last = right_next->Previous();
+                        }
+                    }
+                }
+            }
         }
     }
 }

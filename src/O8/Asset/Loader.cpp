@@ -47,6 +47,7 @@ namespace O8
         /* DL entry points */
         PFN_CREATE_FILE Create_file;
         PFN_CREATE_REGISTRY Create_registry;
+        PFN_CREATE_REGISTRY_ENTRY Create_registry_entry;
         PFN_STORE_FILE Store_file;
 
         /* Static routines */
@@ -91,9 +92,11 @@ namespace O8
 
             /* Load functions */
             Create_registry = (PFN_CREATE_REGISTRY) dl->GetFunctionAddress("Create_registry");
+            Create_registry_entry = (PFN_CREATE_REGISTRY_ENTRY) dl->GetFunctionAddress("Create_registry_entry");
 
             /* Verify */
-            if (nullptr == Create_registry)
+            if ((nullptr == Create_registry) ||
+                (nullptr == Create_registry_entry) )
             {
                 delete dl;
                 return Failed_to_load_function;
@@ -121,6 +124,7 @@ namespace O8
             g_asset_registry_library = nullptr;
 
             Create_registry = nullptr;
+            Create_registry_entry = nullptr;
         }
     }
 }

@@ -26,23 +26,8 @@
 
 /**
 * @author Adam Œmigielski
-* @file PCH.hpp
+* @file PCH.cpp
 **/
 
-#ifndef O8_ASSET_PCH_HPP
-#define O8_ASSET_PCH_HPP
+#include "PCH.hpp"
 
-#include <O8\Platform.hpp>
-
-#include <O8\Common\Assert.hpp>
-#include <O8\Common\BreakToDebug.hpp>
-#include <O8\Common\CallConvention.hpp>
-#include <O8\Common\ErrorCodes.hpp>
-#include <O8\Common\Log.hpp>
-
-
-
-#include <iostream>
-#include <string>
-
-#endif O8_ASSET_PCH_HPP

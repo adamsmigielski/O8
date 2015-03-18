@@ -29,8 +29,8 @@
 * @file PCH.hpp
 **/
 
-#ifndef O8_ASSET_PCH_HPP
-#define O8_ASSET_PCH_HPP
+#ifndef O8_ASSETCMDTOOL_PCH_HPP
+#define O8_ASSETCMDTOOL_PCH_HPP
 
 #include <O8\Platform.hpp>
 
@@ -40,9 +40,13 @@
 #include <O8\Common\ErrorCodes.hpp>
 #include <O8\Common\Log.hpp>
 
-
-
+#include <fstream>
 #include <iostream>
 #include <string>
 
-#endif O8_ASSET_PCH_HPP
+#include <O8\Asset\Loader.hpp>
+#include <O8\Asset_Importer\Asset_import_manager.hpp>
+#include <O8\Utility\Name.hpp>
+#include <O8\Utility\Hash_string.hpp>
+
+#endif O8_ASSETCMDTOOL_PCH_HPP

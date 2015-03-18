@@ -47,5 +47,43 @@ namespace O8
         {
             /* Nothing to be done here */
         }
+
+        int32 Merge_asset_id(
+            const std::string & archive_name,
+            const std::string & entry_name,
+            std::string & out_id)
+        {
+            out_id = archive_name;
+            out_id.append(":");
+            out_id.append(entry_name);
+
+            return Success;
+        }
+
+        int32 Split_asset_id(
+            const std::string & id,
+            std::string & out_archive_name,
+            std::string & out_entry_name)
+        {
+            const size_t delim_off = id.find(':');
+            const size_t str_length = id.length();
+
+            if ((std::string::npos == delim_off) ||
+                (0 == delim_off) ||
+                (str_length <= delim_off + 2))
+            {
+                return Invalid_parameter;
+            }
+
+            const size_t archive_name_length = delim_off;
+            const size_t entry_name_offset = delim_off + 1;
+            const size_t entry_name_length = str_length - entry_name_offset;
+
+            out_archive_name = id.substr(0, delim_off);
+            out_entry_name = id.substr(entry_name_offset, entry_name_length);
+
+            return Success;
+        }
+
     }
 }

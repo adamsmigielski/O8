@@ -57,12 +57,22 @@ namespace O8
             Type::Types m_Type;
         };
 
-        class File : public File_descriptor::List
+        class File
+            : public File_descriptor::List
+            , public IntrusiveList::Node<File>
         {
         public:
+            /* Types */
+            typedef IntrusiveList::List<File> List;
+
+            /* Ctr & Dtr */
             File();
             virtual ~File();
 
+            /* Name */
+            Utility::Name m_Name;
+
+            /* Asset access */
             virtual Utility::Binary_data Get_asset(const File_descriptor & desc) const;
             virtual const File_descriptor * Get_descriptor(const std::string & id) const;
             virtual int32 Load(const std::string & file_name);
