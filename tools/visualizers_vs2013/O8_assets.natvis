@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="O8::Asset_importer::Asset_format">
+    <DisplayString ExcludeView="simple">Format: {m_Name,na} Prev: {m_prev,view(simple)na} Next: {m_next,view(simple)na}</DisplayString>
+    <DisplayString>Format: {m_Name,na}</DisplayString>
+	<Expand>
+	  <Item Name="Name">m_Name</Item>
+	  <Item Name="Next">m_next</Item>
+	  <Item Name="Prev">m_prev</Item>
+	  <LinkedListItems>
+        <HeadPointer>m_first</HeadPointer>
+        <NextPointer>m_next</NextPointer>
+        <ValueNode>this,na</ValueNode>
+      </LinkedListItems>
+	</Expand>
+  </Type>
+  <Type Name="O8::Asset_importer::File_extension">
+    <DisplayString>Extension: {m_Name,na}</DisplayString>
+	<Expand>
+	  <Item Name="Name">m_Name</Item>
+	</Expand>
+  </Type>
+</AutoVisualizer>

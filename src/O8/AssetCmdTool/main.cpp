@@ -77,6 +77,11 @@ int Action_append_asset(int argc, const char * argv[])
     return 0;
 }
 
+/*
+ * @param argv[2] Registry file
+ * @param argv[3] Extension name
+ * @param argv[4] Format name
+ */
 int Action_append_extension(int argc, const char * argv[])
 {
     if (5 != argc)
@@ -86,30 +91,42 @@ int Action_append_extension(int argc, const char * argv[])
         return -1;
     }
 
+    /* Arguments */
+    const char * registry_file_name = argv[2];
+    const char * extension_name = argv[3];
+    const char * format_name = argv[4];
+
+    /* Load current content */
     O8::Asset_importer::Asset_format::List list;
-    if (0 != Load_extensions(argv[2], list))
-    {
-        return -1;
-    }
+    Load_extensions(registry_file_name, list);
 
+    /* Search for format entry */
     auto format = list.Search(
-        O8::Utility::Name_predicate<O8::Asset_importer::Asset_format>(argv[4]));
+        O8::Utility::Name_predicate<O8::Asset_importer::Asset_format>(format_name));
 
+    /* Format was not added yet */
     if (nullptr == format)
     {
+        LOG(format_name << " format added");
+
         format = new O8::Asset_importer::Asset_format;
         format->m_Name(argv[4]);
+
+        list.Attach(format);
+
+        list.Sort(
+            O8::Utility::Name_ascend_predicate<O8::Asset_importer::Asset_format>());
     }
 
-    list.Attach(format);
-    list.Sort(
-        O8::Utility::Name_ascend_predicate<O8::Asset_importer::Asset_format>());
-
+    /* Saerch for extension entry */
     auto ext = format->Search(
-        O8::Utility::Name_predicate<O8::Asset_importer::File_extension>(argv[3]));
+        O8::Utility::Name_predicate<O8::Asset_importer::File_extension>(extension_name));
 
+    /* Extension was not added yet */
     if (nullptr == ext)
     {
+        LOG(extension_name << " extension added");
+
         ext = new O8::Asset_importer::File_extension;
         ext->m_Name(argv[3]);
         format->Attach(ext);
@@ -121,6 +138,8 @@ int Action_append_extension(int argc, const char * argv[])
     }
     else
     {
+        LOG(extension_name << " extension was already available");
+
         return 0;
     }
 }
@@ -157,7 +176,6 @@ int Load_extensions(
     file.open(file_name, std::fstream::in);
     if (false == file.is_open())
     {
-        ERRLOG("Failed to open file: " << file_name);
         return -1;
     }
 

@@ -102,6 +102,8 @@ namespace O8
             template <typename P>
             void Sort(const P & p);
 
+            uint32 Size() const;
+
         private:
             T * m_first;
             T * m_last;
@@ -294,49 +296,115 @@ namespace O8
             T * const right_next = right->m_next;
             T * const right_prev = right->m_prev;
 
-            /* Is left first ? */
-            if (nullptr != left_prev)
+            /* Are they different */
+            if (left == right)
             {
-                left_prev->m_next = right;
+                return;
             }
-            else
+            /* Are they neighbours */
+            else if (left_next == right)
             {
-                m_first = right;
-            }
-            right->m_prev = left_prev;
+                left->m_next = right_next;
+                left->m_prev = right;
+                right->m_next = left;
+                right->m_prev = left_prev;
 
-            /* Is left last ? */
-            if (nullptr != left_next)
-            {
-                left_next->m_prev = right;
-            }
-            else
-            {
-                m_last = right;
-            }
-            right->m_next = left_next;
+                /* Is left first? */
+                if (nullptr != left_prev)
+                {
+                    left_prev->m_next = right;
+                }
+                else
+                {
+                    m_first = right;
+                }
 
-            /* Is right first */
-            if (nullptr != right_prev)
-            {
-                right_prev->m_next = left;
+                /* Is right last? */
+                if (nullptr != right_next)
+                {
+                    right_next->m_prev = left;
+                }
+                else
+                {
+                    m_last = left;
+                }
             }
-            else
+            /* Are they neighbours */
+            else if (left_prev == right)
             {
-                m_first = left;
-            }
-            left->m_prev = right_prev;
+                right->m_next = left_next;
+                right->m_prev = left;
+                left->m_next = right;
+                left->m_prev = right_prev;
 
-            /* Is right last ? */
-            if (nullptr != right_next)
-            {
-                right_next->m_prev = left;
+                /* Is right first? */
+                if (nullptr != right_prev)
+                {
+                    right_prev->m_next = left;
+                }
+                else
+                {
+                    m_first = left;
+                }
+
+                /* Is left last? */
+                if (nullptr != left_next)
+                {
+                    left_next->m_prev = right;
+                }
+                else
+                {
+                    m_last = right;
+                }
             }
+            /* They are away */
             else
             {
-                m_last = left;
+                left->m_next = right_next;
+                left->m_prev = right_prev;
+                right->m_next = left_next;
+                right->m_prev = left_prev;
+
+                /* Is left first? */
+                if (nullptr != left_prev)
+                {
+                    left_prev->m_next = right;
+                }
+                else
+                {
+                    m_first = right;
+                }
+
+                /* Is left last? */
+                if (nullptr != left_next)
+                {
+                    left_next->m_prev = right;
+                }
+                else
+                {
+                    m_last = right;
+                }
+
+                /* Is right first? */
+                if (nullptr != right_prev)
+                {
+                    right_prev->m_next = left;
+                }
+                else
+                {
+                    m_first = left;
+                }
+
+                /* Is right last? */
+                if (nullptr != right_next)
+                {
+                    right_next->m_prev = left;
+                }
+                else
+                {
+                    m_last = left;
+                }
             }
-            left->m_next = right_next;
         }
 
         template <typename T>
@@ -444,29 +512,42 @@ namespace O8
                 last = last->Previous())
             {
                 for (T * it = First();
-                    last != it;
-                    it = it->Next())
+                    last != it;)
                 {
                     T * left = it;
                     T * right = it->Next();
 
                     if (0 < p(*left, *right))
                     {
-                        T * right_next = right->Next();
-
                         Exchange(left, right);
 
-                        if (nullptr == right_next)
+                        /* Last was just moved before it, end inner loop */
+                        if (right == last)
                         {
-                            last = Last();
+                            break;
                         }
-                        else
-                        {
-                            last = right_next->Previous();
-                        }
+                    }
+                    else
+                    {
+                        it = it->Next();
                     }
                 }
             }
+        }
+
+        template <typename T>
+        uint32 List<T>::Size() const
+        {
+            GLuint size = 0;
+
+            for (T * it = First();
+                nullptr != it;
+                it = it->Next())
+            {
+                size += 1;
+            }
+
+            return size;
         }
     }
 }
