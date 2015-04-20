@@ -5,6 +5,7 @@
     <DisplayString>Format: {m_Name,na}</DisplayString>
 	<Expand>
 	  <Item Name="Name">m_Name</Item>
+	  <Item Name="Importer lib">m_Importer_library_path</Item>
 	  <Item Name="Next">m_next</Item>
 	  <Item Name="Prev">m_prev</Item>
 	  <LinkedListItems>
@@ -18,6 +19,14 @@
     <DisplayString>Extension: {m_Name,na}</DisplayString>
 	<Expand>
 	  <Item Name="Name">m_Name</Item>
+	</Expand>
+  </Type>
+  <Type Name="O8::Asset::Registry_entry">
+    <DisplayString ExcludeView="simple">Entry: {m_Name,na} Prev: {m_prev,view(simple)na} Next: {m_next,view(simple)na}</DisplayString>
+    <DisplayString>Entry: {m_Name,na}</DisplayString>
+	<Expand>
+	  <Item Name="Name">m_Name</Item>
+	  <Item Name="Path">m_Path</Item>
 	</Expand>
   </Type>
 </AutoVisualizer>

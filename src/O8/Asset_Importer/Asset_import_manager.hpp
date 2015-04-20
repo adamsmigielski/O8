@@ -32,6 +32,8 @@
 #ifndef O8_ASSET_IMPORTER_ASSET_IMPORT_MANAGER_HPP
 #define O8_ASSET_IMPORTER_ASSET_IMPORT_MANAGER_HPP
 
+#include <memory>
+
 #include <O8\Templates\IntrusiveList.hpp>
 #include <O8\Utility\Name.hpp>
 
@@ -68,7 +70,8 @@ namespace O8
             virtual bool Does_extension_match(
                 const std::string & ext) const;
 
-            Asset_importer * m_Importer;
+            std::unique_ptr<Asset_importer> m_Importer;
+            std::string m_Importer_library_path;
             Utility::Name m_Name;
         };
 

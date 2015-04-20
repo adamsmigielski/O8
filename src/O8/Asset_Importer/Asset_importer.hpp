@@ -52,11 +52,11 @@ namespace O8
             Asset_importer();
             virtual ~Asset_importer();
 
-            virtual bool Is_format_supported(const std::string & name) = 0;
+            virtual bool Is_format_supported(const std::string & name);
             virtual int32 Get_asset(
                 const std::string & file_path,
                 Utility::Binary_data & out_data,
-                Asset::Type::Types & out_type) = 0;
+                Asset::Type::Types & out_type);
 
             DL::DL * m_Dl;
         };

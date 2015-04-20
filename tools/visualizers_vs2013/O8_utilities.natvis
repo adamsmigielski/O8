@@ -10,6 +10,9 @@
       </LinkedListItems>
 	</Expand>
   </Type>
+  <Type Name="O8::IntrusiveList::Node&lt;*&gt;">
+    <DisplayString>Node Next: {m_next,view(simple)na} Prev: {m_prev,view(simple)na}</DisplayString>
+  </Type>
   <Type Name="O8::Utility::Name">
     <DisplayString>{m_name,na}</DisplayString>
 	<Expand>

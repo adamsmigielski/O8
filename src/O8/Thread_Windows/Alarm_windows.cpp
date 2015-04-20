@@ -82,7 +82,7 @@ namespace O8
                 return Invalid_object;
 			}
 
-			long long time = time_s * -10000000.0f;
+			long long time = (long long)(time_s * -10000000.0f);
 
             BOOL ret = SetWaitableTimer(handle,
 				(LARGE_INTEGER *)&time,

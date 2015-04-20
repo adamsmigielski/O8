@@ -44,6 +44,9 @@ namespace O8
         Invalid_object = -512,
         Invalid_parameter,
 
+        /* File access */
+        Failed_to_open_file = -128,
+
         /* DL loader */
         Failed_to_load_library = -64,
         Failed_to_load_function,

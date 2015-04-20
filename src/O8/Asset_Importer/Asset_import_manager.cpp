@@ -102,7 +102,7 @@ namespace O8
 
             if (nullptr != format)
             {
-                return format->m_Importer;
+                return format->m_Importer.get();
             }
             else
             {
@@ -117,7 +117,7 @@ namespace O8
 
             if (nullptr != format)
             {
-                return format->m_Importer;
+                return format->m_Importer.get();
             }
             else
             {
@@ -164,7 +164,7 @@ namespace O8
                     {
                         LOG("Importer registered for: " << it->m_Name());
 
-                        it->m_Importer = importer;
+                        it->m_Importer.reset(importer);
                     }
                 }
             }

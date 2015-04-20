@@ -68,9 +68,8 @@ namespace O8
 
             if (false == file.is_open())
             {
-                ERRLOG("Failed to open file: " << file_name);
-                ASSERT(0);
-                return Failure;
+                DEBUGLOG("Failed to open file: " << file_name);
+                return Failed_to_open_file;
             }
 
             while (1)
