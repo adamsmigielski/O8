@@ -248,7 +248,8 @@ namespace O8
 
         int32 File::Store_file(
             const std::string & file_name,
-            const Asset_descriptor::List & assets)
+            const Asset_descriptor * first,
+            const Asset_descriptor * end)
         {
             std::fstream file;
             O8::uint64 mem_req_for_descriptors = 0;
@@ -266,7 +267,7 @@ namespace O8
                 return O8::Failure;
             }
 
-            for (auto it = assets.First(); nullptr != it; it = it->Next())
+            for (auto it = first; end != it; it = it->Next())
             {
                 mem_req_for_descriptors += O8::Asset::desc_size;
                 mem_req_for_ids += it->Get_name().length() + sizeof(O8::uint32);
@@ -275,17 +276,23 @@ namespace O8
             off_id = off_desc + mem_req_for_descriptors;
             off_data = off_id + mem_req_for_ids;
 
-            for (auto it = assets.First(); nullptr != it; it = it->Next())
+            for (auto it = first; end != it; it = it->Next())
             {
-                Utility::Binary_data data = it->Get_data();
+                Utility::Binary_data data;
+                Type::Types type;
+                
                 const std::string & name = it->Get_name();
+                if (O8::Success != it->Get_details(data, type))
+                {
+                    ERRLOG("Failed to import asset: " << name);
+                }
 
                 if (O8::Success != O8::Asset::write_descriptor(
                     file,
                     off_desc,
                     name,
                     off_id,
-                    it->Get_type(),
+                    type,
                     data.Data(),
                     data.Size(),
                     off_data))
@@ -501,9 +508,4 @@ namespace O8
             return Success;
         }
     }
-}
-
-O8::Asset::File * Create_file()
-{
-    return new O8::Asset::File;
 }

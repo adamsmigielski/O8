@@ -59,13 +59,16 @@ namespace O8
         class Asset_descriptor : public IntrusiveList::Node<Asset_descriptor>
         {
         public:
+            /*Types */
             typedef IntrusiveList::List<Asset_descriptor> List;
 
+            /* Ctr $ Dtr */
             virtual ~Asset_descriptor() {}
 
+            virtual int32 Get_details(
+                Utility::Binary_data & out_data,
+                Type::Types & out_type) const = 0;
             virtual const std::string & Get_name() const = 0;
-            virtual Type::Types Get_type() const = 0;
-            virtual Utility::Binary_data && Get_data() const = 0;
 
         protected:
             Asset_descriptor() {}
@@ -94,7 +97,8 @@ namespace O8
             /* Static routines */
             static int32 Store_file(
                 const std::string & file_name,
-                const Asset_descriptor::List & assets);
+                const Asset_descriptor * first,
+                const Asset_descriptor * end);
 
         private:
             std::string m_file_name;

@@ -29,13 +29,14 @@
 * @file Archiver.hpp
 **/
 
-#ifndef O8_ASSET_REGISTRY_HPP
-#define O8_ASSET_REGISTRY_HPP
+#ifndef O8_ASSET_ARCHIVER_HPP
+#define O8_ASSET_ARCHIVER_HPP
 
 #include "Type.hpp"
 #include "File.hpp"
 
 #include "Importer.hpp"
+#include "Import_manager.hpp"
 
 #include <O8\Templates\IntrusiveList.hpp>
 #include <O8\Utility\Name.hpp>
@@ -79,19 +80,28 @@ namespace O8
 
             /* Ctr $ Dtr */
             Archiver_descriptor(
-                Registry_entry * entry,
+                const Registry_entry * entry,
                 Importer * importer);
             virtual ~Archiver_descriptor();
 
+            virtual int32 Get_details(
+                Utility::Binary_data & out_data,
+                Type::Types & out_type) const;
             virtual const std::string & Get_name() const;
-            virtual Type::Types Get_type() const;
-            virtual Utility::Binary_data && Get_data() const;
 
         private:
-            Registry_entry * m_entry;
+            const Registry_entry * m_entry;
             Importer * m_importer;
+        };
+
+        class Archiver
+        {
+        public:
+            static Asset_descriptor::List Get_archivization_list(
+                const Registry_entry::List & entries,
+                Import_manager & import_manager);
         };
     }
 }
 
-#endif O8_ASSET_REGISTRY_HPP
+#endif O8_ASSET_ARCHIVER_HPP

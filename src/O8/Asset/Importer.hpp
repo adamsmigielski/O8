@@ -65,4 +65,4 @@ namespace O8
     }
 }
 
-#endif /* O8_ASSET_IMPORTER_ASSET_IMPORTER_HPP */
+#endif /* O8_ASSET_IMPORTER_HPP */

@@ -123,5 +123,79 @@ namespace O8
 
             return Success;
         }
+
+        Archiver_descriptor::Archiver_descriptor(
+            const Registry_entry * entry,
+            Importer * importer)
+            : m_entry(entry)
+            , m_importer(importer)
+        {
+            /* Nothing to be done here*/
+        }
+
+        Archiver_descriptor::~Archiver_descriptor()
+        {
+            m_entry = nullptr;
+            m_importer = nullptr;
+        }
+
+        int32 Archiver_descriptor::Get_details(
+            Utility::Binary_data & out_data,
+            Type::Types & out_type) const
+        {
+            return m_importer->Get_asset(
+                m_entry->m_Path,
+                out_data,
+                out_type);
+        }
+
+        const std::string & Archiver_descriptor::Get_name() const
+        {
+            return m_entry->m_Name();
+        }
+
+        Asset_descriptor::List Archiver::Get_archivization_list(
+            const Registry_entry::List & entries,
+            Import_manager & import_manager)
+        {
+            Asset_descriptor::List list;
+
+            for (auto entry = entries.First();
+                nullptr != entry;
+                entry = entry->Next())
+            {
+                size_t last_dot = entry->m_Name().rfind('.');
+
+                if (std::string::npos == last_dot)
+                {
+                    ERRLOG("Wrong path string, extension is missing: " << entry->m_Name());
+                    continue;
+                }
+
+                const std::string & extension_str = entry->m_Name().substr(last_dot + 1);
+
+                auto importer = import_manager.Get_importer_by_extension(extension_str);
+
+                if (nullptr == importer)
+                {
+                    ERRLOG("Missing importer for extension: " << extension_str);
+                    continue;
+                }
+
+                auto desc = new Archiver_descriptor(
+                    entry,
+                    importer);
+
+                if (nullptr == desc)
+                {
+                    ERRLOG("Memory allocation failed");
+                    continue;
+                }
+
+                list.Attach(desc);
+            }
+
+            return list;
+        }
     }
 }

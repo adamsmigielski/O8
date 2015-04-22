@@ -42,6 +42,7 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
 
 #include <O8\Utility\Hash_string.hpp>
 

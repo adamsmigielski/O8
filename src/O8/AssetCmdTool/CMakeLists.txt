@@ -6,6 +6,7 @@ ADD_EXECUTABLE(AssetCmdTool
 			   PCH.hpp)
 
 TARGET_LINK_LIBRARIES(AssetCmdTool
-					  Asset_Loader
+					  Asset_Archive
+					  Asset_Archiver
 					  Asset_Import_Manager
 					  Utility)

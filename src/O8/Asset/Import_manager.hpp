@@ -43,15 +43,15 @@ namespace O8
 {
     namespace Asset
     {
-        class Asset_format : public O8::IntrusiveList::Node<Asset_format>
+        class Format : public O8::IntrusiveList::Node<Format>
         {
         public:
             /* Types */
-            typedef O8::IntrusiveList::List<Asset_format> List;
+            typedef O8::IntrusiveList::List<Format> List;
 
             /* Ctr & Dtr */
-            Asset_format();
-            virtual ~Asset_format();
+            Format();
+            virtual ~Format();
 
             Importer * m_Importer;
             Utility::Name m_Importer_library_path;
@@ -68,16 +68,16 @@ namespace O8
             File_extension();
             ~File_extension();
 
-            Asset_format * m_Format;
+            Format * m_Format;
             Utility::Name m_Format_name;
             Utility::Name m_Name;
         };
 
-        class Asset_importer_owner : public O8::IntrusiveList::Node<Asset_importer_owner>
+        class Importer_owner : public O8::IntrusiveList::Node<Importer_owner>
         {
         public:
             /* Types */
-            typedef O8::IntrusiveList::List<Asset_importer_owner> List;
+            typedef O8::IntrusiveList::List<Importer_owner> List;
 
             std::unique_ptr<Importer> m_Importer;
             Utility::Name m_Importer_library_path;
@@ -86,20 +86,26 @@ namespace O8
         class Import_manager
         {
         public:
-            Importer * Get_importer_by_extension(
+            virtual Importer * Get_importer_by_extension(
                 const std::string & extension);
 
+            int32 Load_extensions(const std::string & file_name);
+            int32 Load_formats(const std::string & file_name);
+            int32 Load_importers(const std::string & file_name);
+            int32 Store_extensions(const std::string & file_name);
+            int32 Store_formats(const std::string & file_name);
+
             File_extension::List m_Extensions;
-            Asset_format::List m_Formats;
-            Asset_importer_owner::List m_Importers;
+            Format::List m_Formats;
+            Importer_owner::List m_Importers;
 
         private:
-            Asset_format * get_format(
+            Format * get_format(
                 const std::string & format_name);
             Importer * get_importer(
                 File_extension * ext);
             Importer * get_importer(
-                Asset_format * format);
+                Format * format);
             Importer * get_importer(
                 const std::string & library_path);
             Importer * load_importer(
@@ -133,4 +139,4 @@ namespace O8
     }
 }
 
-#endif /* O8_ASSET_IMPORTER_ASSET_IMPORT_MANAGER_HPP */
+#endif /* O8_ASSET_IMPORT_MANAGER_HPP */
