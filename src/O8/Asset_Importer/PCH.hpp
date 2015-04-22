@@ -42,4 +42,6 @@
 #include <iostream>
 #include <string>
 
+#include <O8\Utility\Hash_string.hpp>
+
 #endif O8_ASSET_IMPORTER_PCH_HPP

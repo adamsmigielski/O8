@@ -32,100 +32,115 @@
 #include "PCH.hpp"
 
 #include "Asset_import_manager.hpp"
-#include <O8\DL\DL.hpp>
-#include <O8\Utility\Hash_string.hpp>
+#include <O8\DL\DL.hpp> 
 
 namespace O8
 {
     namespace Asset_importer
     {
+        
+        Asset_format::Asset_format()
+        {
+            m_Importer = nullptr;
+        }
+        
+        Asset_format::~Asset_format()
+        {
+            m_Importer = nullptr;
+        }
+
         File_extension::File_extension()
         {
-
+            m_Format = nullptr;
         }
 
         File_extension::~File_extension()
         {
-
+            m_Format = nullptr;
         }
 
-        Asset_format::Asset_format()
-        {
-
-        }
-
-        Asset_format::~Asset_format()
-        {
-
-        }
-
-        bool Asset_format::Does_extension_match(
-            const std::string & ext) const
-        {
-            auto ptr = Search(Utility::Name_predicate<File_extension>(ext));
-
-            return (nullptr != ptr);
-        }
-
-        class Match_asset_format_by_ext
-        {
-        public:
-            Match_asset_format_by_ext(const std::string & ext)
-                : m_ext(ext)
-            {
-
-            }
-
-            bool operator ()(const Asset_format & format) const
-            {
-                return format.Does_extension_match(m_ext);
-            }
-
-        private:
-            const std::string & m_ext;
-        };
-
-        Asset_import_manager::Asset_import_manager()
-        {
-
-        }
-
-        Asset_import_manager::~Asset_import_manager()
-        {
-
-        }
+        //Asset_import_manager::Asset_import_manager()
+        //{
+        //
+        //}
+        //
+        //Asset_import_manager::~Asset_import_manager()
+        //{
+        //
+        //}
 
         Asset_importer * Asset_import_manager::Get_importer_by_extension(
             const std::string & extension)
         {
-            auto format = m_formats.Search(Match_asset_format_by_ext(extension), true);
+            DEBUGLOG("Accessing importer for extension: " << extension);
 
-            if (nullptr != format)
-            {
-                return format->m_Importer.get();
-            }
-            else
-            {
-                return nullptr;
-            }
+            auto ext = m_Extensions.Search(Utility::Name_predicate<File_extension>(extension));
+
+            return get_importer(ext);
         }
 
-        Asset_importer * Asset_import_manager::Get_importer_by_format(
+        Asset_format * Asset_import_manager::get_format(
             const std::string & format_name)
         {
-            auto format = m_formats.Search(Utility::Name_predicate<Asset_format>(format_name));
-
-            if (nullptr != format)
-            {
-                return format->m_Importer.get();
-            }
-            else
-            {
-                return nullptr;
-            }
+            return m_Formats.Search(
+                Utility::Name_predicate<Asset_format>(
+                format_name));
         }
 
-        Asset_importer * Asset_import_manager::Load_importer(
+        Asset_importer * Asset_import_manager::get_importer(File_extension * ext)
+        {
+            if (nullptr == ext)
+            {
+                ERRLOG("Missing entry for extension.");
+                return nullptr;
+            }
+
+            if (nullptr == ext->m_Format)
+            {
+                ext->m_Format = get_format(ext->m_Format_name());
+            }
+
+            return get_importer(ext->m_Format);
+        }
+
+        Asset_importer * Asset_import_manager::get_importer(Asset_format * format)
+        {
+            if (nullptr == format)
+            {
+                ERRLOG("Missing entry for format.");
+                return nullptr;
+            }
+
+            if (nullptr == format->m_Importer)
+            {
+                format->m_Importer = get_importer(format->m_Importer_library_path());
+            }
+
+            return format->m_Importer;
+        }
+
+        Asset_importer * Asset_import_manager::get_importer(const std::string & library_path)
+        {
+            auto owner = m_Importers.Search(
+                Importer_library_path_predicate<Asset_importer_owner>(
+                    library_path));
+
+            if (nullptr == owner)
+            {
+                ERRLOG("Missing entry for importer: " << library_path);
+                return nullptr;
+            }
+
+            if (nullptr == owner->m_Importer)
+            {
+                owner->m_Importer.reset(load_importer(
+                    owner->m_Importer_library_path()));
+            }
+
+            return owner->m_Importer.get();
+        }
+
+        Asset_importer * Asset_import_manager::load_importer(
             const std::string & file_path)
         {
             DL::DL * dl = DL::Load(file_path.c_str());
@@ -155,19 +170,6 @@ namespace O8
             }
 
             importer->m_Dl = dl;
-
-            for (auto it = m_formats.First(); nullptr != it; ++it)
-            {
-                if (nullptr == it->m_Importer)
-                {
-                    if (true == importer->Is_format_supported(it->m_Name()))
-                    {
-                        LOG("Importer registered for: " << it->m_Name());
-
-                        it->m_Importer.reset(importer);
-                    }
-                }
-            }
 
             return importer;
         }

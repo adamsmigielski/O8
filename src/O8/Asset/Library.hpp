@@ -48,10 +48,17 @@ namespace O8
             virtual Utility::Binary_data Get_asset(const std::string & id);
             virtual File * Get_file(const std::string & file_name);
         };
+
+        int32 Merge_asset_id(
+            const std::string & archive_name,
+            const std::string & entry_name,
+            std::string & out_id);
+
+        int32 Split_asset_id(
+            const std::string & id,
+            std::string & out_archive_name,
+            std::string & out_entry_name);
     }
 }
-
-/* DL entry points */
-O8_API_DECORATION DLL_EXPORT O8::Asset::Library * O8_API Create_library();
 
 #endif O8_ASSET_LIBRARY_HPP

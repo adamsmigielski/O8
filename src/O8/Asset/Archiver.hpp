@@ -26,72 +26,71 @@
 
 /**
 * @author Adam Œmigielski
-* @file Asset_importer.hpp
+* @file Archiver.hpp
 **/
 
-#ifndef O8_ASSET_IMPORTER_ASSET_IMPORT_MANAGER_HPP
-#define O8_ASSET_IMPORTER_ASSET_IMPORT_MANAGER_HPP
+#ifndef O8_ASSET_REGISTRY_HPP
+#define O8_ASSET_REGISTRY_HPP
 
-#include <memory>
+#include "Type.hpp"
+#include "File.hpp"
+
+#include <O8\Asset_Importer\Asset_importer.hpp>
 
 #include <O8\Templates\IntrusiveList.hpp>
 #include <O8\Utility\Name.hpp>
 
-#include "Asset_importer.hpp"
-
 namespace O8
 {
-    namespace Asset_importer
+    namespace Asset
     {
-        class File_extension : public O8::IntrusiveList::Node < File_extension >
+        class Registry_entry : public IntrusiveList::Node<Registry_entry>
         {
         public:
             /* Types */
-            typedef O8::IntrusiveList::List<File_extension> List;
+            typedef IntrusiveList::List<Registry_entry> List;
 
             /* Ctr & Dtr */
-            File_extension();
-            virtual ~File_extension();
+            Registry_entry();
+            virtual ~Registry_entry();
 
             Utility::Name m_Name;
+            std::string m_Path;
         };
 
-        class Asset_format : public O8::IntrusiveList::Node<Asset_format>
-                           , public File_extension::List
+        class Registry : public Registry_entry::List
         {
         public:
-            /* Types */
-            typedef O8::IntrusiveList::List<Asset_format> List;
+            Registry();
+            Registry(const Registry &) = delete;
+            Registry & operator = (const Registry &) = delete;
 
-            /* Ctr & Dtr */
-            Asset_format();
-            virtual ~Asset_format();
+            virtual ~Registry();
 
-            virtual bool Does_extension_match(
-                const std::string & ext) const;
-
-            std::unique_ptr<Asset_importer> m_Importer;
-            std::string m_Importer_library_path;
-            Utility::Name m_Name;
+            virtual int32 Load(const std::string & file_name);
+            virtual int32 Store(const std::string & file_name) const;
         };
 
-        class Asset_import_manager : public O8::IntrusiveList::Node<Asset_importer>
+        class Archiver_descriptor : public Asset_descriptor
         {
         public:
-            Asset_import_manager();
-            virtual ~Asset_import_manager();
+            /*Types */
+            typedef IntrusiveList::List<Archiver_descriptor> List;
 
-            virtual Asset_importer * Get_importer_by_extension(
-                const std::string & extension);
-            virtual Asset_importer * Get_importer_by_format(
-                const std::string & format_name);
-            virtual Asset_importer * Load_importer(
-                const std::string & file_path);
+            /* Ctr $ Dtr */
+            Archiver_descriptor(
+                Registry_entry * entry);
+            virtual ~Archiver_descriptor();
+
+            virtual const std::string & Get_name() const;
+            virtual Type::Types Get_type() const;
+            virtual Utility::Binary_data && Get_data() const;
 
         private:
-            Asset_format::List m_formats;
+            Registry_entry * m_entry;
+            Asset_importer::Asset_importer * m_importer;
         };
     }
 }
 
-#endif /* O8_ASSET_IMPORTER_ASSET_IMPORT_MANAGER_HPP */
+#endif O8_ASSET_REGISTRY_HPP

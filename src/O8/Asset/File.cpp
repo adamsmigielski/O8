@@ -244,6 +244,67 @@ namespace O8
             return Success;
         }
 
+
+
+        int32 File::Store_file(
+            const std::string & file_name,
+            const Asset_descriptor::List & assets)
+        {
+            std::fstream file;
+            O8::uint64 mem_req_for_descriptors = 0;
+            O8::uint64 mem_req_for_ids = 0;
+            O8::uint64 off_desc = O8::Asset::preamble_size;
+            O8::uint64 off_id = 0;
+            O8::uint64 off_data = 0;
+
+            file.open(file_name.c_str(), std::fstream::out | std::fstream::trunc);
+
+            if (false == file.is_open())
+            {
+                ERRLOG("Failed to open file: " << file_name);
+                ASSERT(0);
+                return O8::Failure;
+            }
+
+            for (auto it = assets.First(); nullptr != it; it = it->Next())
+            {
+                mem_req_for_descriptors += O8::Asset::desc_size;
+                mem_req_for_ids += it->Get_name().length() + sizeof(O8::uint32);
+            }
+
+            off_id = off_desc + mem_req_for_descriptors;
+            off_data = off_id + mem_req_for_ids;
+
+            for (auto it = assets.First(); nullptr != it; it = it->Next())
+            {
+                Utility::Binary_data data = it->Get_data();
+                const std::string & name = it->Get_name();
+
+                if (O8::Success != O8::Asset::write_descriptor(
+                    file,
+                    off_desc,
+                    name,
+                    off_id,
+                    it->Get_type,
+                    data.Data(),
+                    data.Size(),
+                    off_data))
+                {
+                    ERRLOG("Failed to store archive in file.");
+                    ASSERT(0);
+                    return O8::Failure;
+                }
+
+                off_desc += O8::Asset::desc_size;
+                off_id += name.length() + sizeof(O8::uint32);
+                off_data += data.Size();
+            }
+
+            file.close();
+
+            return O8::Success;
+        }
+
         bool check_endianess(
             std::fstream & file)
         {
@@ -445,69 +506,4 @@ namespace O8
 O8::Asset::File * Create_file()
 {
     return new O8::Asset::File;
-}
-
-O8::int32 Store_file(
-    const std::string & file_name,
-    const O8::Asset::Asset_descriptor::List & assets,
-    O8::Asset::Asset_data_provider * asset_data_provider)
-{
-    std::fstream file;
-    O8::uint64 mem_req_for_descriptors = 0;
-    O8::uint64 mem_req_for_ids = 0;
-    O8::uint64 off_desc = O8::Asset::preamble_size;
-    O8::uint64 off_id = 0;
-    O8::uint64 off_data = 0;
-
-    file.open(file_name.c_str(), std::fstream::out | std::fstream::trunc);
-
-    if (false == file.is_open())
-    {
-        ERRLOG("Failed to open file: " << file_name);
-        ASSERT(0);
-        return O8::Failure;
-    }
-
-    for (auto it = assets.First(); nullptr != it; it = it->Next())
-    {
-        mem_req_for_descriptors += O8::Asset::desc_size;
-        mem_req_for_ids += it->m_ID.length() + sizeof(O8::uint32);
-    }
-
-    off_id = off_desc + mem_req_for_descriptors;
-    off_data = off_id + mem_req_for_ids;
-
-    for (auto it = assets.First(); nullptr != it; it = it->Next())
-    {
-        const O8::uint8 * data_ptr = nullptr;
-        size_t data_size = 0;
-
-        asset_data_provider->Provide_data(
-            *it,
-            data_ptr,
-            data_size);
-
-        if (O8::Success != O8::Asset::write_descriptor(
-            file,
-            off_desc,
-            it->m_ID,
-            off_id,
-            it->m_Type,
-            data_ptr,
-            data_size,
-            off_data))
-        {
-            ERRLOG("Failed to store archive in file.");
-            ASSERT(0);
-            return O8::Failure;
-        }
-
-        off_desc += O8::Asset::desc_size;
-        off_id += it->m_ID.length() + sizeof(O8::uint32);
-        off_data += data_size;
-    }
-
-    file.close();
-
-    return O8::Success;
 }

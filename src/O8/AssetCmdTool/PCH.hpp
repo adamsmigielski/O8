@@ -44,8 +44,6 @@
 #include <iostream>
 #include <string>
 
-#include <O8\Asset\Loader.hpp>
-#include <O8\Asset_Importer\Asset_import_manager.hpp>
 #include <O8\Utility\Name.hpp>
 #include <O8\Utility\Hash_string.hpp>
 

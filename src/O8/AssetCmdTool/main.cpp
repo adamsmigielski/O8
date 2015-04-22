@@ -31,6 +31,10 @@
 
 #include "PCH.hpp"
 
+#include <O8\Asset\File.hpp>
+#include <O8\Asset\Registry.hpp>
+#include <O8\Asset_Importer\Asset_import_manager.hpp>
+
 typedef int(*Action)(int argc, const char * argv[]);
 
 int Load_extensions(
@@ -67,12 +71,12 @@ int Action_append_asset(int argc, const char * argv[])
     const char * path = argv[4];
 
     /* Create and load registry */
-    auto registry = O8::Asset::Create_registry();
+    O8::Asset::Registry registry;
 
-    registry->Load(registry_file_name);
+    registry.Load(registry_file_name);
 
     /* Search for entry */
-    auto entry = registry->Search(
+    auto entry = registry.Search(
         O8::Utility::Name_predicate<O8::Asset::Registry_entry>(id));
 
     /* Add new entry */
@@ -83,8 +87,8 @@ int Action_append_asset(int argc, const char * argv[])
         entry = O8::Asset::Create_registry_entry();
         entry->m_Name(id);
         
-        registry->Attach(entry);
-        registry->Sort(O8::Utility::Name_ascend_predicate<O8::Asset::Registry_entry>());
+        registry.Attach(entry);
+        registry.Sort(O8::Utility::Name_ascend_predicate<O8::Asset::Registry_entry>());
     }
     else
     {
@@ -95,7 +99,7 @@ int Action_append_asset(int argc, const char * argv[])
     entry->m_Path = path;
 
     /* Store results */
-    return registry->Store(registry_file_name);
+    return registry.Store(registry_file_name);
 }
 
 /*
@@ -118,29 +122,11 @@ int Action_append_extension(int argc, const char * argv[])
     const char * format_name = argv[4];
 
     /* Load current content */
-    O8::Asset_importer::Asset_format::List list;
+    O8::Asset_importer::File_extension::List list;
     Load_extensions(registry_file_name, list);
 
     /* Search for format entry */
-    auto format = list.Search(
-        O8::Utility::Name_predicate<O8::Asset_importer::Asset_format>(format_name));
-
-    /* Format was not added yet */
-    if (nullptr == format)
-    {
-        LOG(format_name << " format added");
-
-        format = new O8::Asset_importer::Asset_format;
-        format->m_Name(argv[4]);
-
-        list.Attach(format);
-
-        list.Sort(
-            O8::Utility::Name_ascend_predicate<O8::Asset_importer::Asset_format>());
-    }
-
-    /* Saerch for extension entry */
-    auto ext = format->Search(
+    auto ext = list.Search(
         O8::Utility::Name_predicate<O8::Asset_importer::File_extension>(extension_name));
 
     /* Extension was not added yet */
@@ -149,20 +135,21 @@ int Action_append_extension(int argc, const char * argv[])
         LOG(extension_name << " extension added");
 
         ext = new O8::Asset_importer::File_extension;
-        ext->m_Name(argv[3]);
-        format->Attach(ext);
+        ext->m_Name(extension_name);
+        ext->m_Format_name(format_name);
 
-        format->Sort(
-            O8::Utility::Name_ascend_predicate<O8::Asset_importer::File_extension>());
+        list.Attach(ext);
 
-        return Store_extensions(argv[2], list);
+        list.Sort(
+            O8::Utility::Name_ascend_predicate<O8::Asset_importer::Asset_format>());
     }
     else
     {
-        LOG(extension_name << " extension was already available");
-
-        return 0;
+        LOG(extension_name << " extension updated");
+        ext->m_Format_name(format_name);
     }
+
+    return Store_extensions(argv[2], list);
 }
 
 /*
@@ -211,7 +198,7 @@ int Action_append_importer(int argc, const char * argv[])
         LOG(format_name << " format already available, update importer");
     }
 
-    format->m_Importer_library_path = importer_name;
+    format->m_Importer_library_path(importer_name);
 
     return Store_importers(argv[2], list);
 }
@@ -232,12 +219,37 @@ int Action_create_archive(int argc, const char * argv[])
     const char * registry_file_name = argv[5];
 
     /* Create and load registry */
-    auto registry = O8::Asset::Create_registry();
+    O8::Asset::Registry registry;
 
-    registry->Load(registry_file_name);
+    if (O8::Success != registry.Load(registry_file_name))
+    {
+        ERRLOG("Assets registry file is not available");
+        return -1;
+    }
+
+    /* Load asset import manager */
+    O8::Asset_importer::Asset_import_manager import_manager;
+    if (O8::Success != Load_importers(
+        registry_file_name,
+        import_manager.m_Formats,
+        import_manager.m_Importers))
+    {
+        ERRLOG("Importers registry file is not available");
+        return -1;
+    }
+
+    if (O8::Success != Load_extensions(
+        extension_file_name,
+        import_manager.m_Extensions))
+    {
+        ERRLOG("Extensions registry file is not available");
+        return -1;
+    }
 
     /* Create archive */
-    auto archive = O8::Asset::Create_file();
+    auto archive = O8::Asset::Store_file(
+        archive_file_name,
+        );
 
 
     return 0;
@@ -245,7 +257,7 @@ int Action_create_archive(int argc, const char * argv[])
 
 int Load_extensions(
     const char * file_name,
-    O8::Asset_importer::Asset_format::List& list)
+    O8::Asset_importer::File_extension::List& list)
 {
     std::fstream file;
     file.open(file_name, std::fstream::in);
@@ -274,23 +286,20 @@ int Load_extensions(
             continue;
         }
 
-        auto format = list.Search(
-            O8::Utility::Name_predicate<O8::Asset_importer::Asset_format>(format_str));
-        if (nullptr == format)
-        {
-            format = new O8::Asset_importer::Asset_format;
-            format->m_Name(format_str);
-            list.Attach(format);
-        }
-
-        auto ext = format->Search(
+        auto ext = list.Search(
             O8::Utility::Name_predicate<O8::Asset_importer::File_extension>(ext_str));
-
         if (nullptr == ext)
         {
+            LOG("Loaded entry: " << ext_str << " " << format_str);
+
             ext = new O8::Asset_importer::File_extension;
-            ext->m_Name(ext_str);
-            format->Attach(ext);
+            ext->m_Name(format_str);
+            ext->m_Format_name(format_str);
+            list.Attach(ext);
+        }
+        else
+        {
+            ERRLOG("Multiple entries for the same extension: " << ext_str << " " << format_str);
         }
     }
 
@@ -337,7 +346,65 @@ int Load_importers(
             list.Attach(format);
         }
 
-        format->m_Importer_library_path = importer_str;
+        format->m_Importer_library_path(importer_str);
+    }
+
+    return 0;
+}
+
+int Load_importers(
+    const char * file_name,
+    O8::Asset_importer::Asset_format::List& formats,
+    O8::Asset_importer::Asset_importer_owner::List& importers)
+{
+    std::fstream file;
+    file.open(file_name, std::fstream::in);
+    if (false == file.is_open())
+    {
+        return -1;
+    }
+
+    while (1)
+    {
+        std::string importer_str;
+        std::string format_str;
+
+        file >> importer_str;
+        file >> format_str;
+
+        if (true == file.eof())
+        {
+            break;
+        }
+
+        if ((true == importer_str.empty()) ||
+            (true == format_str.empty()))
+        {
+            ERRLOG("Invalid entry. Importer: " << importer_str << " format: " << format_str);
+            continue;
+        }
+
+        auto format = formats.Search(
+            O8::Utility::Name_predicate<O8::Asset_importer::Asset_format>(format_str));
+        if (nullptr == format)
+        {
+            format = new O8::Asset_importer::Asset_format;
+            format->m_Name(format_str);
+            formats.Attach(format);
+        }
+
+        format->m_Importer_library_path(importer_str);
+
+        auto importer = importers.Search(
+            O8::Asset_importer::Importer_library_path_predicate
+            <O8::Asset_importer::Asset_importer_owner>
+            (importer_str));
+        if (nullptr == importer)
+        {
+            importer = new O8::Asset_importer::Asset_importer_owner;
+            importer->m_Importer_library_path(importer_str);
+            importers.Attach(importer);
+        }
     }
 
     return 0;
@@ -378,7 +445,7 @@ Action Get_action(const char * arg_1)
 
 int Store_extensions(
     const char * file_name,
-    O8::Asset_importer::Asset_format::List& list)
+    O8::Asset_importer::File_extension::List& list)
 {
     std::fstream file;
     file.open(file_name, std::fstream::out | std::fstream::trunc);
@@ -388,12 +455,9 @@ int Store_extensions(
         return -1;
     }
 
-    for (auto format = list.First(); nullptr != format; format = format->Next())
+    for (auto ext = list.First(); nullptr != ext; ext = ext->Next())
     {
-        for (auto ext = format->First(); nullptr != ext; ext = ext->Next())
-        {
-            file << ext->m_Name() << " " << format->m_Name() << std::endl;
-        }
+        file << ext->m_Name() << " " << ext->m_Format_name() << std::endl;
     }
 
     return 0;
@@ -413,7 +477,7 @@ int Store_importers(
 
     for (auto format = list.First(); nullptr != format; format = format->Next())
     {
-        file << format->m_Importer_library_path  << " " << format->m_Name() << std::endl;
+        file << format->m_Importer_library_path()  << " " << format->m_Name() << std::endl;
     }
 
     return 0;
@@ -435,13 +499,6 @@ int main(int argc, const char * argv[])
         Output_usage();
         return -1;
     }
-
-    if (O8::Success != O8::Asset::Load_asset_registry("Asset_Registry.dll"))
-    {
-        return -2;
-    }
-
-
 
     return action(argc, argv);
 }

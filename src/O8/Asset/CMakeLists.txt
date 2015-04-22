@@ -1,24 +1,13 @@
 PROJECT(Asset)
 
 ADD_LIBRARY(Asset STATIC
-			Asset_descriptor.cpp
-			Asset_descriptor.hpp
 			PCH.cpp
 			PCH.hpp
 			Type.cpp
 			Type.hpp)
 
-ADD_LIBRARY(Asset_Loader STATIC
-			Loader.cpp
-			Loader.hpp
-			PCH.cpp
-			PCH.hpp)
-
-TARGET_LINK_LIBRARIES(Asset_Loader
-					  ${DL_IMPL})
-
 IF (BUILD_ASSET_ARCHIVE)
-	ADD_LIBRARY(Asset_Archive SHARED
+	ADD_LIBRARY(Asset_Archive STATIC
 				File.cpp
 				File.hpp
 				Library.cpp
@@ -31,26 +20,20 @@ IF (BUILD_ASSET_ARCHIVE)
 						  Common
 						  Templates
 						  Utility)
-
-	ADD_DEPENDENCIES(Asset_Loader
-					 Asset_Archive)
 ENDIF (BUILD_ASSET_ARCHIVE)
 
 IF (BUILD_ASSET_REGISTRY)
-	ADD_LIBRARY(Asset_Registry SHARED
+	ADD_LIBRARY(Asset_Archiver STATIC
 				PCH.cpp
 				PCH.hpp
-				Registry.cpp
-				Registry.hpp)
+				Archiver.cpp
+				Archiver.hpp)
 
-	TARGET_LINK_LIBRARIES(Asset_Registry
+	TARGET_LINK_LIBRARIES(Asset_Archiver
 						  Asset
 						  Common
 						  Templates
 						  Utility)
-
-	ADD_DEPENDENCIES(Asset_Loader
-					 Asset_Registry)
 ENDIF (BUILD_ASSET_REGISTRY)
 
 
@@ -61,8 +44,7 @@ IF (BUILD_TESTS)
 				   PCH.hpp)
 
 	TARGET_LINK_LIBRARIES(Asset_Test
-						  DL
-						  Asset_Loader)
+						  DL)
 
 	ADD_DEPENDENCIES(Asset_Test
 					 Asset)

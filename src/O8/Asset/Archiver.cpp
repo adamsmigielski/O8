@@ -26,12 +26,12 @@
 
 /**
 * @author Adam Œmigielski
-* @file Registry.cpp
+* @file Archiver.cpp
 **/
 
 #include "PCH.hpp"
 
-#include "Registry.hpp"
+#include "Archiver.hpp"
 
 #include <fstream>
 
@@ -124,14 +124,4 @@ namespace O8
             return Success;
         }
     }
-}
-
-O8::Asset::Registry * Create_registry()
-{
-    return new O8::Asset::Registry;
-}
-
-O8::Asset::Registry_entry * Create_registry_entry()
-{
-    return new O8::Asset::Registry_entry;
 }

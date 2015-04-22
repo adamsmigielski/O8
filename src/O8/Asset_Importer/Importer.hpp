@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2014 Adam Œmigielski
+* Copyright (c) 2015 Adam Œmigielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -26,20 +26,42 @@
 
 /**
 * @author Adam Œmigielski
-* @file YYY.hpp
+* @file Asset_importer.hpp
 **/
 
-#ifndef O8_ASSET_YYY_HPP
-#define O8_ASSET_YYY_HPP
+#ifndef O8_ASSET_IMPORTER_ASSET_IMPORTER_HPP
+#define O8_ASSET_IMPORTER_ASSET_IMPORTER_HPP
+
+
+#include <O8\Asset\Type.hpp>
+#include <O8\Templates\IntrusiveList.hpp>
+#include <O8\Utility\Binary_data.hpp>
 
 namespace O8
 {
-    namespace Asset
+    namespace DL
     {
-        class YYY 
+        class DL;
+    }
+
+    namespace Asset_importer
+    {
+        class Asset_importer
         {
+        public:
+            Asset_importer();
+            virtual ~Asset_importer();
+
+            virtual int32 Get_asset(
+                const std::string & file_path,
+                Utility::Binary_data & out_data,
+                Asset::Type::Types & out_type) = 0;
+
+            DL::DL * m_Dl;
         };
+
+        typedef Asset_importer * (O8_API * PFN_CREATE_IMPORTER)();
     }
 }
 
-#endif O8_ASSET_YYY_HPP
+#endif /* O8_ASSET_IMPORTER_ASSET_IMPORTER_HPP */
