@@ -40,9 +40,9 @@
 #include <O8\Common\ErrorCodes.hpp>
 #include <O8\Common\Log.hpp>
 
-
-
 #include <iostream>
 #include <string>
+
+#include <O8\Utility\Hash_string.hpp>
 
 #endif O8_ASSET_PCH_HPP

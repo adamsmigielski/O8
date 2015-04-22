@@ -31,12 +31,12 @@
 
 #include "PCH.hpp"
 
-#include "Asset_import_manager.hpp"
+#include "Import_manager.hpp"
 #include <O8\DL\DL.hpp> 
 
 namespace O8
 {
-    namespace Asset_importer
+    namespace Asset
     {
         
         Asset_format::Asset_format()
@@ -59,17 +59,7 @@ namespace O8
             m_Format = nullptr;
         }
 
-        //Asset_import_manager::Asset_import_manager()
-        //{
-        //
-        //}
-        //
-        //Asset_import_manager::~Asset_import_manager()
-        //{
-        //
-        //}
-
-        Asset_importer * Asset_import_manager::Get_importer_by_extension(
+        Importer * Import_manager::Get_importer_by_extension(
             const std::string & extension)
         {
             DEBUGLOG("Accessing importer for extension: " << extension);
@@ -79,7 +69,7 @@ namespace O8
             return get_importer(ext);
         }
 
-        Asset_format * Asset_import_manager::get_format(
+        Asset_format * Import_manager::get_format(
             const std::string & format_name)
         {
             return m_Formats.Search(
@@ -87,7 +77,7 @@ namespace O8
                 format_name));
         }
 
-        Asset_importer * Asset_import_manager::get_importer(File_extension * ext)
+        Importer * Import_manager::get_importer(File_extension * ext)
         {
             if (nullptr == ext)
             {
@@ -103,7 +93,7 @@ namespace O8
             return get_importer(ext->m_Format);
         }
 
-        Asset_importer * Asset_import_manager::get_importer(Asset_format * format)
+        Importer * Import_manager::get_importer(Asset_format * format)
         {
             if (nullptr == format)
             {
@@ -119,7 +109,7 @@ namespace O8
             return format->m_Importer;
         }
 
-        Asset_importer * Asset_import_manager::get_importer(const std::string & library_path)
+        Importer * Import_manager::get_importer(const std::string & library_path)
         {
             auto owner = m_Importers.Search(
                 Importer_library_path_predicate<Asset_importer_owner>(
@@ -140,7 +130,7 @@ namespace O8
             return owner->m_Importer.get();
         }
 
-        Asset_importer * Asset_import_manager::load_importer(
+        Importer * Import_manager::load_importer(
             const std::string & file_path)
         {
             DL::DL * dl = DL::Load(file_path.c_str());

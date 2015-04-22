@@ -36,6 +36,28 @@ IF (BUILD_ASSET_REGISTRY)
 						  Utility)
 ENDIF (BUILD_ASSET_REGISTRY)
 
+IF (BUILD_ASSET_IMPORT)
+	ADD_LIBRARY(Asset_Importer STATIC
+				importer.cpp
+				importer.hpp
+				PCH.cpp
+				PCH.hpp)
+
+	ADD_LIBRARY(Asset_Import_Manager STATIC
+				import_manager.cpp
+				import_manager.hpp
+				PCH.cpp
+				PCH.hpp)
+ENDIF (BUILD_ASSET_IMPORT)
+
+TARGET_LINK_LIBRARIES(Asset_Importer
+				      ${DL_IMPL})
+
+TARGET_LINK_LIBRARIES(Asset_Import_Manager
+				      ${DL_IMPL})
+
+
+
 
 IF (BUILD_TESTS)
 	ADD_EXECUTABLE(Asset_Test

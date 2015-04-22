@@ -285,7 +285,7 @@ namespace O8
                     off_desc,
                     name,
                     off_id,
-                    it->Get_type,
+                    it->Get_type(),
                     data.Data(),
                     data.Size(),
                     off_data))

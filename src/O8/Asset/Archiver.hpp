@@ -35,7 +35,7 @@
 #include "Type.hpp"
 #include "File.hpp"
 
-#include <O8\Asset_Importer\Asset_importer.hpp>
+#include "Importer.hpp"
 
 #include <O8\Templates\IntrusiveList.hpp>
 #include <O8\Utility\Name.hpp>
@@ -79,7 +79,8 @@ namespace O8
 
             /* Ctr $ Dtr */
             Archiver_descriptor(
-                Registry_entry * entry);
+                Registry_entry * entry,
+                Importer * importer);
             virtual ~Archiver_descriptor();
 
             virtual const std::string & Get_name() const;
@@ -88,7 +89,7 @@ namespace O8
 
         private:
             Registry_entry * m_entry;
-            Asset_importer::Asset_importer * m_importer;
+            Importer * m_importer;
         };
     }
 }

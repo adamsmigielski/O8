@@ -26,22 +26,22 @@
 
 /**
 * @author Adam Œmigielski
-* @file Asset_importer.hpp
+* @file Import_manager.hpp
 **/
 
-#ifndef O8_ASSET_IMPORTER_ASSET_IMPORT_MANAGER_HPP
-#define O8_ASSET_IMPORTER_ASSET_IMPORT_MANAGER_HPP
+#ifndef O8_ASSET_IMPORT_MANAGER_HPP
+#define O8_ASSET_IMPORT_MANAGER_HPP
 
 #include <memory>
 
 #include <O8\Templates\IntrusiveList.hpp>
 #include <O8\Utility\Name.hpp>
 
-#include "Asset_importer.hpp"
+#include "Importer.hpp"
 
 namespace O8
 {
-    namespace Asset_importer
+    namespace Asset
     {
         class Asset_format : public O8::IntrusiveList::Node<Asset_format>
         {
@@ -53,7 +53,7 @@ namespace O8
             Asset_format();
             virtual ~Asset_format();
 
-            Asset_importer * m_Importer;
+            Importer * m_Importer;
             Utility::Name m_Importer_library_path;
             Utility::Name m_Name;
         };
@@ -79,17 +79,14 @@ namespace O8
             /* Types */
             typedef O8::IntrusiveList::List<Asset_importer_owner> List;
 
-            std::unique_ptr<Asset_importer> m_Importer;
+            std::unique_ptr<Importer> m_Importer;
             Utility::Name m_Importer_library_path;
         };
 
-        class Asset_import_manager
+        class Import_manager
         {
         public:
-            //Asset_import_manager();
-            //~Asset_import_manager();
-
-            Asset_importer * Get_importer_by_extension(
+            Importer * Get_importer_by_extension(
                 const std::string & extension);
 
             File_extension::List m_Extensions;
@@ -99,13 +96,13 @@ namespace O8
         private:
             Asset_format * get_format(
                 const std::string & format_name);
-            Asset_importer * get_importer(
+            Importer * get_importer(
                 File_extension * ext);
-            Asset_importer * get_importer(
+            Importer * get_importer(
                 Asset_format * format);
-            Asset_importer * get_importer(
+            Importer * get_importer(
                 const std::string & library_path);
-            Asset_importer * load_importer(
+            Importer * load_importer(
                 const std::string & file_path);
         };
 

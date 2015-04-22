@@ -26,22 +26,43 @@
 
 /**
 * @author Adam Œmigielski
-* @file PCH.hpp
+* @file Asset_importer.hpp
 **/
 
-#ifndef O8_ASSET_IMPORTER_PCH_HPP
-#define O8_ASSET_IMPORTER_PCH_HPP
+#ifndef O8_ASSET_IMPORTER_HPP
+#define O8_ASSET_IMPORTER_HPP
 
-#include <O8\Platform.hpp>
 
-#include <O8\Common\Assert.hpp>
-#include <O8\Common\BreakToDebug.hpp>
-#include <O8\Common\CallConvention.hpp>
-#include <O8\Common\Log.hpp>
+#include <O8\Templates\IntrusiveList.hpp>
+#include <O8\Utility\Binary_data.hpp>
 
-#include <iostream>
-#include <string>
+#include"Type.hpp"
 
-#include <O8\Utility\Hash_string.hpp>
+namespace O8
+{
+    namespace DL
+    {
+        class DL;
+    }
 
-#endif O8_ASSET_IMPORTER_PCH_HPP
+    namespace Asset
+    {
+        class Importer
+        {
+        public:
+            Importer();
+            virtual ~Importer();
+
+            virtual int32 Get_asset(
+                const std::string & file_path,
+                Utility::Binary_data & out_data,
+                Asset::Type::Types & out_type) = 0;
+
+            DL::DL * m_Dl;
+        };
+
+        typedef Importer * (O8_API * PFN_CREATE_IMPORTER)();
+    }
+}
+
+#endif /* O8_ASSET_IMPORTER_ASSET_IMPORTER_HPP */

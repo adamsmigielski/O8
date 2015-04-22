@@ -31,21 +31,21 @@
 
 #include "PCH.hpp"
 
-#include "Asset_importer.hpp"
+#include "Importer.hpp"
 
 #include <O8\DL\DL.hpp>
 
 namespace O8
 {
-    namespace Asset_importer
+    namespace Asset
     {
-        Asset_importer::Asset_importer()
+        Importer::Importer()
             : m_Dl(nullptr)
         {
 
         }
 
-        Asset_importer::~Asset_importer()
+        Importer::~Importer()
         {
             if (nullptr != m_Dl)
             {
