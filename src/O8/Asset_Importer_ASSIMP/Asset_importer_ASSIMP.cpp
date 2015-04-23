@@ -35,30 +35,28 @@
 
 namespace O8
 {
-    namespace Asset_importer
+    namespace Asset
     {
-        Asset_importer_ASSIMP::Asset_importer_ASSIMP()
+        Importer_ASSIMP::Importer_ASSIMP()
         {
         }
 
-        Asset_importer_ASSIMP::~Asset_importer_ASSIMP()
+        Importer_ASSIMP::~Importer_ASSIMP()
         {
         }
 
-        bool Asset_importer_ASSIMP::Is_format_supported(const std::string & name)
+        int32 Importer_ASSIMP::Get_asset(
+            const std::string & file_path,
+            Utility::Binary_data & out_data,
+            Type::Types & out_type)
         {
-            return false;
-        }
-
-        Asset::Asset * Asset_importer_ASSIMP::Get_asset(const std::string & file_path)
-        {
-            return nullptr;
+            return Success;
         }
     }
 }
 
-O8::Asset_importer::Asset_importer * Create_importer()
+O8::Asset::Importer * Create_importer()
 {
-    return new O8::Asset_importer::Asset_importer_ASSIMP;
+    return new O8::Asset::Importer_ASSIMP;
 }
 

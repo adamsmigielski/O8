@@ -56,7 +56,7 @@ namespace O8
             virtual int32 Get_asset(
                 const std::string & file_path,
                 Utility::Binary_data & out_data,
-                Asset::Type::Types & out_type) = 0;
+                Type::Types & out_type) = 0;
 
             DL::DL * m_Dl;
         };

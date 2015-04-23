@@ -32,7 +32,7 @@
 #ifndef O8_ASSET_IMPORTER_ASSIMP_HPP
 #define O8_ASSET_IMPORTER_ASSIMP_HPP
 
-#include <O8\Asset_Importer\Asset_importer.hpp>
+#include <O8\Asset\Importer.hpp>
 
 namespace O8
 {
@@ -46,20 +46,22 @@ namespace O8
         class DL;
     }
 
-    namespace Asset_importer
+    namespace Asset
     {
-        class Asset_importer_ASSIMP : public Asset_importer
+        class Importer_ASSIMP : public Importer
         {
         public:
-            Asset_importer_ASSIMP();
-            virtual ~Asset_importer_ASSIMP();
+            Importer_ASSIMP();
+            virtual ~Importer_ASSIMP();
 
-            virtual bool Is_format_supported(const std::string & name);
-            virtual Asset::Asset * Get_asset(const std::string & file_path);
+            virtual int32 Get_asset(
+                const std::string & file_path,
+                Utility::Binary_data & out_data,
+                Type::Types & out_type);
         };
     }
 }
 
-O8_API_DECORATION DLL_EXPORT O8::Asset_importer::Asset_importer * O8_API Create_importer();
+O8_API_DECORATION DLL_EXPORT O8::Asset::Importer * O8_API Create_importer();
 
 #endif /* O8_ASSET_IMPORTER_ASSIMP_HPP */

@@ -37,6 +37,7 @@
 #include <O8\Common\Assert.hpp>
 #include <O8\Common\BreakToDebug.hpp>
 #include <O8\Common\CallConvention.hpp>
+#include <O8\Common\ErrorCodes.hpp>
 #include <O8\Common\Log.hpp>
 
 #include <iostream>

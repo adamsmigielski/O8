@@ -47,54 +47,67 @@ namespace O8
 
     namespace RS
     {
-        class Vertex_attribute : public IntrusiveList::Node < Vertex_attribute >
+        namespace Vertex
         {
-        public:
             enum Attribute
             {
+                Bone_ids = 0,
+                Bone_weights,
                 Position,
                 Texture_coordinate,
-                Bone_ids,
-                Bone_weights,
+
+                /*  */
+                n_Attributes
             };
 
-            Vertex_attribute();
-            virtual ~Vertex_attribute();
+            class Data_descriptor
+            {
+            public:
+                Attribute m_Attribute;
+                uint64 m_Offset;
+                Type m_Type;
+            };
 
-            Attribute m_Attribute;
-            GI::Buffer::Reference m_Buffer;
-            uint64 m_Offset;
-            uint64 m_Stride;
-            Type m_Type;
-        };
+            class Definition : public IntrusiveList::Node < Definition >
+            {
+            public:
+                /* Types */
+                typedef IntrusiveList::List<Definition> List;
 
-        class Vertex_definition : public IntrusiveList::List < Vertex_attribute >
+                Definition();
+                virtual ~Definition();
+
+                Attribute m_Attribute;
+                GI::Buffer::Reference m_Buffer;
+                uint64 m_Offset;
+                Type m_Type;
+            };
+        }
+
+        namespace Mesh
         {
-        public:
-            Vertex_definition();
-            virtual ~Vertex_definition();
+            class Data_descriptor
+            {
+            public:
+                uint32 m_n_Vertices;
+                uint32 m_n_Attributes;
+            };
 
-            GI::Vertex_attributes * m_Vertex_attributes;
-        };
+            class Definition : public IntrusiveList::Node<Definition>
+            {
+            public:
+                /* Types */
+                typedef IntrusiveList::List<Definition> List;
 
-        class Mesh
-            : public IntrusiveList::Node<Mesh>
-            , ReferenceCounted::Resource
-        {
-        public:
-            /* Types*/
-            typedef IntrusiveList::List<Mesh> List;
-            typedef ReferenceCounted::Reference<Mesh> Reference;
+                /* Ctr & Dtr */
+                Definition();
+                virtual ~Definition();
 
-            /* Ctr & Dtr */
-            Mesh();
-            virtual ~Mesh();
-
-            /* Name */
-            Utility::Name m_Name;
-
-            virtual Vertex_definition * Get_vertex_definition();
-        };
+                Vertex::Definition::List m_Attributes;
+                uint32 m_n_Vertices;
+                GI::Vertex_attributes * m_Vertex_attributes;
+            };
+        }
     }
 }
 

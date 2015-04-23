@@ -43,39 +43,55 @@ namespace O8
 {
     namespace RS
     {
-        class Model_element : public IntrusiveList::Node<Model_element>
+        namespace Model
         {
-        public:
-            /* Types */
-            typedef IntrusiveList::List<Model_element> List;
+            class Descriptor
+            {
+            public:
+                uint32 m_n_Meshes;
+                uint32 m_n_Nodes;
+            };
 
-            /* Ctr & Dtr */
-            Model_element();
-            ~Model_element();
+            class Bone_descriptor
+            {
+            public:
+                uint32 m_n_Children;
+            };
 
-            List m_Children;
-            Material::Reference m_Material;
-            Mesh::Reference m_Mesh;
-        };
+            class Bone : public IntrusiveList::Node < Bone >
+            {
+            public:
+                /* Types */
+                typedef IntrusiveList::List<Bone> List;
 
-        class Model
-            : public IntrusiveList::Node<Model>
-            , ReferenceCounted::Resource
-        {
-        public:
-            /* Types */
-            typedef IntrusiveList::List<Model> List;
-            typedef ReferenceCounted::Reference<Model> Reference;
+                List m_Children;
+            };
 
-            /* Ctr & Dtr */
-            Model();
-            virtual ~Model();
+            class Element : public IntrusiveList::Node<Element>
+            {
+            public:
+                /* Types */
+                typedef IntrusiveList::List<Element> List;
 
-            /* Name */
-            Utility::Name m_Name;
 
-            Model_element::List m_Elements;
-        };
+                Material::Reference m_Material;
+                Mesh::Definition * m_Mesh;
+            };
+
+            class Definition
+                : public IntrusiveList::Node < Definition >
+                , ReferenceCounted::Resource
+            {
+            public:
+                /* Types */
+                typedef IntrusiveList::List<Definition> List;
+                typedef ReferenceCounted::Reference<Definition> Reference;
+
+                Bone m_Root_bone;
+                Element::List m_Elements;
+                Mesh::Definition m_Meshes;
+            };
+        }
     }
 }
 
