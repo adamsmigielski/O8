@@ -47,19 +47,16 @@ namespace O8
             Node();
             virtual ~Node();
 
-            inline T * Get();
-            inline const T * Get() const;
+            T * Get();
+            const T * Get() const;
 
-            inline void Next(T * t);
-            inline T * Next();
-            inline const T * Next() const;
-            inline void Previous(T * t);
-            inline T * Previous();
-            inline const T * Previous() const;
+            T * Next();
+            const T * Next() const;
+            T * Previous();
+            const T * Previous() const;
 
-            inline void Parent(List<T> * list);
-            inline List<T> * Parent();
-            inline const List<T> * Parent() const;
+            List<T> * Parent();
+            const List<T> * Parent() const;
 
         private:
             T * m_next;
@@ -144,12 +141,6 @@ namespace O8
         }
 
         template <typename T>
-        void Node<T>::Next(T * t)
-        {
-            m_next = t;
-        }
-
-        template <typename T>
         T * Node<T>::Next()
         {
             return m_next;
@@ -162,12 +153,6 @@ namespace O8
         }
 
         template <typename T>
-        void Node<T>::Previous(T * t)
-        {
-            m_prev = t;
-        }
-
-        template <typename T>
         T * Node<T>::Previous()
         {
             return m_prev;
@@ -177,12 +162,6 @@ namespace O8
         const T * Node<T>::Previous() const
         {
             return m_prev;
-        }
-
-        template <typename T>
-        void Node<T>::Parent(List<T> * list)
-        {
-            m_parent = list;
         }
 
         template <typename T>
@@ -235,15 +214,15 @@ namespace O8
             else
             {
                 /* Make connection */
-                m_last->Next(node);
-                node->Previous(m_last);
+                m_last->m_next = node;
+                node->m_prev = m_last;
 
                 /* Set last pointer */
                 m_last = node;
             }
 
             /* Set parent */
-            node->Parent(this);
+            node->m_parent = this;
         }
 
         template <typename T>
@@ -283,10 +262,10 @@ namespace O8
                 }
                 else
                 {
-                    auto prev = node->Previous();
+                    auto prev = node->m_prev;
 
                     /* Break connection prev >> node */
-                    prev->Next(nullptr);
+                    prev->m_next = nullptr;
 
                     /* Store last pointer */
                     m_last = prev;
@@ -294,37 +273,37 @@ namespace O8
             }
             else if (m_first == node) /* Begining of the list */
             {
-                auto next = node->Next();
+                auto next = node->m_next;
 
                 /* Break connection next >> node */
-                next->Previous(nullptr);
+                next->m_prev = nullptr;
 
                 /* Store first pointer */
                 m_first = next;
             }
             else /* In the middle */
             {
-                auto next = node->Next();
-                auto prev = node->Previous();
+                auto next = node->m_next;
+                auto prev = node->m_prev;
 
                 /* Make connection prev <> next */
-                next->Previous(prev);
-                prev->Next(next);
+                next->m_prev = prev;
+                prev->m_next = next;
             }
 
             /* Null all pointers in node */
-            node->Next(nullptr);
-            node->Previous(nullptr);
-            node->Parent(nullptr);
+            node->m_next = nullptr;
+            node->m_prev = nullptr;
+            node->m_parent = nullptr;
         }
 
         template <typename T>
         void List<T>::Exchange(T * left, T * right)
         {
-            T * const left_next = left->Next();
-            T * const left_prev = left->Previous();
-            T * const right_next = right->Next();
-            T * const right_prev = right->Previous();
+            T * const left_next = left->m_next;
+            T * const left_prev = left->m_prev;
+            T * const right_next = right->m_next;
+            T * const right_prev = right->m_prev;
 
             /* Are they different */
             if (left == right)
@@ -334,15 +313,15 @@ namespace O8
             /* Are they neighbours */
             else if (left_next == right)
             {
-                left->Next(right_next);
-                left->Previous(right);
-                right->Next(left);
-                right->Previous(left_prev);
+                left->m_next = right_next;
+                left->m_prev = right;
+                right->m_next = left;
+                right->m_prev = left_prev;
 
                 /* Is left first? */
                 if (nullptr != left_prev)
                 {
-                    left_prev->Next(right);
+                    left_prev->m_next = right;
                 }
                 else
                 {
@@ -352,7 +331,7 @@ namespace O8
                 /* Is right last? */
                 if (nullptr != right_next)
                 {
-                    right_next->Previous(left);
+                    right_next->m_prev = left;
                 }
                 else
                 {
@@ -362,15 +341,15 @@ namespace O8
             /* Are they neighbours */
             else if (left_prev == right)
             {
-                right->Next(left_next);
-                right->Previous(left);
-                left->Next(right);
-                left->Previous(right_prev);
+                right->m_next = left_next;
+                right->m_prev = left;
+                left->m_next = right;
+                left->m_prev = right_prev;
 
                 /* Is right first? */
                 if (nullptr != right_prev)
                 {
-                    right_prev->Next(left);
+                    right_prev->m_next = left;
                 }
                 else
                 {
@@ -380,7 +359,7 @@ namespace O8
                 /* Is left last? */
                 if (nullptr != left_next)
                 {
-                    left_next->Previous(right);
+                    left_next->m_prev = right;
                 }
                 else
                 {
@@ -390,15 +369,15 @@ namespace O8
             /* They are away */
             else
             {
-                left->Next(right_next);
-                left->Previous(right_prev);
-                right->Next(left_next);
-                right->Previous(left_prev);
+                left->m_next = right_next;
+                left->m_prev = right_prev;
+                right->m_next = left_next;
+                right->m_prev = left_prev;
 
                 /* Is left first? */
                 if (nullptr != left_prev)
                 {
-                    left_prev->Next(right);
+                    left_prev->m_next = right;
                 }
                 else
                 {
@@ -408,7 +387,7 @@ namespace O8
                 /* Is left last? */
                 if (nullptr != left_next)
                 {
-                    left_next->Previous(right);
+                    left_next->m_prev = right;
                 }
                 else
                 {
@@ -418,7 +397,7 @@ namespace O8
                 /* Is right first? */
                 if (nullptr != right_prev)
                 {
-                    right_prev->Next(left);
+                    right_prev->m_next = left;
                 }
                 else
                 {
@@ -428,7 +407,7 @@ namespace O8
                 /* Is right last? */
                 if (nullptr != right_next)
                 {
-                    right_next->Previous(left);
+                    right_next->m_prev = left;
                 }
                 else
                 {
