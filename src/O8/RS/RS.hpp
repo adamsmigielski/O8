@@ -33,7 +33,6 @@
 #define O8_RS_RS_HPP
 
 #include "Material.hpp"
-#include "Mesh.hpp"
 #include "Model.hpp"
 
 namespace O8

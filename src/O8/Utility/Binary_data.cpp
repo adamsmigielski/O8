@@ -94,14 +94,9 @@ namespace O8
             return m_size;
         }
 
-        uint8 * Binary_data::operator [] (size_t offset) const
+        uint8 & Binary_data::operator [] (size_t offset) const
         {
-            if (offset >= m_size)
-            {
-                return nullptr;
-            }
-
-            return m_data + offset;
+            return *(m_data + offset);
         }
 
         void Binary_data::Release()

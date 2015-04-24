@@ -39,6 +39,7 @@ namespace O8
         class Type
         {
         public:
+            /* Enums */
             enum Basic_type
             {
                 Unknown,
@@ -47,9 +48,15 @@ namespace O8
                 Unsigned_integer
             };
 
+            /* Attributes */
+            Basic_type m_Basic_type;
             uint32 m_N_columns;
             uint32 m_N_rows;
 
+            /* Static routines */
+            static size_t Get_size(const Type & type);
+
+            /* Constatns */
             static const Type _float;
             static const Type _int;
             static const Type _uint;

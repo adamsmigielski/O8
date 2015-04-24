@@ -145,6 +145,8 @@ namespace O8
             {
                 m_resource->increase_reference_count();
             }
+
+            return *this;
         }
 
         template <typename T>

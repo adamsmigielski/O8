@@ -50,8 +50,12 @@ namespace O8
 
             uint8 * Data() const;
             size_t Size() const;
-            uint8 * operator [] (size_t offset) const;
+            uint8 & operator [] (size_t offset) const;
 
+            int32 Copy_range(
+                const Binary_data & data,
+                size_t offset,
+                size_t size);
             void Release();
             void Reset(uint8 * data, size_t size);
 

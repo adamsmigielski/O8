@@ -52,6 +52,12 @@ namespace O8
             /* Ctr & Dtr */
             virtual ~Buffer();
 
+            /*  */
+            virtual int32 Update_data(
+                size_t offset,
+                size_t size,
+                void * data) = 0;
+
         protected:
             Buffer();
         };

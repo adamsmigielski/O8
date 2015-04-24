@@ -3,8 +3,6 @@ PROJECT(RS)
 ADD_LIBRARY(RS STATIC
 			Material.cpp
 			Material.hpp
-			Mesh.cpp
-			Mesh.hpp
 			Model.cpp
 			Model.hpp
 			PCH.cpp
