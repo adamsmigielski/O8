@@ -33,6 +33,12 @@
 
 #include "Asset_importer_ASSIMP.hpp"
 
+#include <assimp/Importer.hpp>      // C++ importer interface
+#include <assimp/scene.h>           // Output data structure
+#include <assimp/postprocess.h>     // Post processing flags
+
+#include <O8\RS\Model.hpp>
+
 namespace O8
 {
     namespace Asset
@@ -45,12 +51,56 @@ namespace O8
         {
         }
 
+        int32 Importer_ASSIMP::Init()
+        {
+            return Success;
+        }
+
         int32 Importer_ASSIMP::Get_asset(
             const std::string & file_path,
             Utility::Binary_data & out_data,
             Type::Types & out_type)
         {
+            Assimp::Importer importer;
+
+            // And have it read the given file with some example postprocessing
+            // Usually - if speed is not the most important aspect for you - you'll 
+            // propably to request more postprocessing than we do in this example.
+            const aiScene* scene = importer.ReadFile(file_path,
+                aiProcess_CalcTangentSpace |
+                aiProcess_Triangulate |
+                aiProcess_JoinIdenticalVertices |
+                aiProcess_SortByPType);
+
+            if (nullptr == scene)
+            {
+                return Failed_to_load_model;
+            }
+
+            RS::Model::Definition model;
+
+            auto root_node = scene->mRootNode;
+            const size_t n_nodes = get_number_of_children(root_node) + 1;
+
+            model.m_Bones.resize(n_nodes);
+
             return Success;
+        }
+
+        size_t Importer_ASSIMP::get_number_of_children(const aiNode * node)
+        {
+            const size_t n_children = node->mNumChildren;
+            size_t sum = 0;
+
+            for (size_t i = 0; i < n_children; ++i)
+            {
+                auto child = node->mChildren[i];
+                sum += get_number_of_children(child);
+            }
+
+            sum += n_children;
+
+            return sum;
         }
     }
 }

@@ -348,6 +348,15 @@ namespace O8
 
             importer->m_Dl = dl;
 
+            auto ret = importer->Init();
+            if (Success != ret)
+            {
+                ERRLOG("Importer initialization failed");
+                ASSERT(0);
+                delete importer;
+                return nullptr;
+            }
+
             return importer;
         }
     }

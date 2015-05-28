@@ -48,13 +48,13 @@ IF (BUILD_ASSET_IMPORT)
 				import_manager.hpp
 				PCH.cpp
 				PCH.hpp)
+
+	TARGET_LINK_LIBRARIES(Asset_Importer
+						  ${DL_IMPL})
+
+	TARGET_LINK_LIBRARIES(Asset_Import_Manager
+						  ${DL_IMPL})
 ENDIF (BUILD_ASSET_IMPORT)
-
-TARGET_LINK_LIBRARIES(Asset_Importer
-				      ${DL_IMPL})
-
-TARGET_LINK_LIBRARIES(Asset_Import_Manager
-				      ${DL_IMPL})
 
 
 

@@ -53,6 +53,8 @@ namespace O8
             Importer();
             virtual ~Importer();
 
+            virtual int32 Init() = 0;
+
             virtual int32 Get_asset(
                 const std::string & file_path,
                 Utility::Binary_data & out_data,
