@@ -47,6 +47,7 @@ namespace O8
             /* Event processing */
             virtual int32 Start_event_processing() = 0;
             virtual int32 Stop_event_processing() = 0;
+            virtual int32 Process_events() = 0;
 
             /* Window management */
             virtual Window * Create_window() = 0;

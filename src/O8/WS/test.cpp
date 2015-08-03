@@ -31,15 +31,36 @@
 
 #include "PCH.hpp"
 
+#include <O8\Common\Assert.hpp>
 #include <O8\Common\ErrorCodes.hpp>
 #include <O8\Thread\Loader.hpp>
 #include <O8\WS\Loader.hpp>
 #include <O8\WS\ErrorCodes.hpp>
 #include <O8\WS\Window.hpp>
 #include <O8\WS\Window_event_handler.hpp>
-#include <O8\Test\Test.hpp>
+#include <O8\Unit_Tests\UnitTests.hpp>
 
-class Event_handler : public O8::WS::Window_event_handler
+class WS_test_enviroment : public O8::UnitTests::EnviromentBase
+{
+public:
+    WS_test_enviroment()
+    {
+        ASSERT(O8::Success == O8::Thread::LoadDL(THREAD_IMPL));
+        ASSERT(O8::Success == O8::WS::LoadDL(WS_IMPL));
+    }
+
+    virtual ~WS_test_enviroment()
+    {
+        O8::WS::UnloadDL();
+        O8::Thread::UnloadDL();
+    }
+
+private:
+    static WS_test_enviroment s_ws_test_enviroment;
+};
+
+
+class WS_test_event_handler : public O8::WS::Window_event_handler
 {
 public:
     void Init(O8::WS::Manager * manager)
@@ -58,6 +79,8 @@ public:
     {
         return m_release;
     }
+
+    virtual O8::int32 On_init
 
     virtual O8::int32 On_close(
         O8::WS::Window * window,
@@ -84,38 +107,29 @@ private:
     O8::uint32 m_release;
 };
 
-int main()
+WS_test_enviroment WS_test_enviroment::s_ws_test_enviroment;
+
+UNIT_TEST(ws_creation_and_closing)
 {
-    Event_handler handler;
-
-	O8_TEST_INIT("ws_test.txt");
-
-    O8_TEST_ASSERT((O8::Success == O8::Thread::LoadDL("Thread_Windows.dll")), "O8::Thread::LoadDL");
-
-    O8_TEST_ASSERT((O8::Success == O8::WS::LoadDL("WS_Windows.dll")), "O8::WS::LoadDL");
+    WS_test_event_handler handler;
 
 	auto ws_manager = O8::WS::Create_manager();
-	O8_TEST_ASSERT((nullptr != ws_manager), "O8::WS::Create_manager");
+	TEST_ASSERT((nullptr != ws_manager), "O8::WS::Create_manager");
     handler.Init(ws_manager);
 
     auto ws_window = ws_manager->Create_window();
-    O8_TEST_ASSERT((nullptr != ws_window), "O8::WS::Manager::Create_window");
+    TEST_ASSERT((nullptr != ws_window), "O8::WS::Manager::Create_window");
 
-    O8_TEST_ASSERT((O8::Success == ws_window->Init(&handler, 16, 16, 64, 64, "WS_Test")), "O8::WS::Window::Init");
+    TEST_ASSERT((O8::Success == ws_window->Init(&handler, 16, 16, 64, 64, "WS_Test")), "O8::WS::Window::Init");
 
-    ws_manager->Start_event_processing();
-    O8_TEST_CHECK((1 <= handler.GetClose()), "O8::WS::Manager::Start/Stop_event_processing - close >= 1");
-    O8_TEST_CHECK((1 <= handler.GetRelease()), "O8::WS::Manager::Start/Stop_event_processing - release >= 1");
-    O8_TEST_CHECK((1 == handler.GetClose()), "O8::WS::Manager::Start/Stop_event_processing - close == 1");
-    O8_TEST_CHECK((1 == handler.GetRelease()), "O8::WS::Manager::Start/Stop_event_processing - release == 1");
+    ws_manager->Process_events();
+    TEST_ASSERT((1 <= handler.GetClose()), "O8::WS::Manager::Start/Stop_event_processing - close >= 1");
+    TEST_ASSERT((1 <= handler.GetRelease()), "O8::WS::Manager::Start/Stop_event_processing - release >= 1");
+    TEST_ASSERT((1 == handler.GetClose()), "O8::WS::Manager::Start/Stop_event_processing - close == 1");
+    TEST_ASSERT((1 == handler.GetRelease()), "O8::WS::Manager::Start/Stop_event_processing - release == 1");
 
     delete ws_window;
     delete ws_manager;
 
-    O8::WS::UnloadDL();
-    O8::Thread::UnloadDL();
-
-    return 0;
+    return O8::UnitTests::Passed;
 }
-
-

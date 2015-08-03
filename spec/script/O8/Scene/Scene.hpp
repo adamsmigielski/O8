@@ -25,56 +25,37 @@
 **/
 
 /**
-* @author Adam Œmigielski
-* @file Manager.hpp
+* @file Scene.hpp
 **/
 
-#ifndef O8_WS_WINDOWS_MANAGER_HPP
-#define O8_WS_WINDOWS_MANAGER_HPP
+/* This file was generated */
 
-#include <O8\Templates\IntrusiveList.hpp> /* IntrusiveList::List */
-#include <O8\WS\Manager.hpp>              /* Manager */
+#ifndef O8_SCENE_SCENE_HPP
+#define O8_SCENE_SCENE_HPP
 
+/* **** Include directives **** */
+#include "Node.hpp"
+
+/* **** Definitions **** */
 namespace O8
 {
-	namespace WS
-	{
-        class Window_windows;
+    namespace Scene
+    {
+        /* **** Routines **** */
+        extern PFN_CREATE_ROOT_NODE Create_root_node;
+        extern PFN_GET_SUPPORTED_TYPES_NUMBER Get_supported_types_number;
+        extern PFN_ENUMERATE_TYPES Enumerate_types;
 
-		class Manager_windows : public Manager, public IntrusiveList::List<Window_windows>
-		{
-		public:
-            Manager_windows();
-            virtual ~Manager_windows();
+        /* **** Static routines for DL loading and linking **** */
+        int  Load_dl(const char * file_path);
+        void Unload_dl();
+        void Link_scene(
+            PFN_CREATE_ROOT_NODE create_root_node,
+            PFN_GET_SUPPORTED_TYPES_NUMBER get_supported_types_number,
+            PFN_ENUMERATE_TYPES enumerate_types)
+    } /* namespace Scene */
 
-            /* Event processing */
-            virtual int32 Start_event_processing();
-            virtual int32 Stop_event_processing();
-            virtual int32 Process_events();
+} /* namespace O8 */
 
-            /* Window management */
-            virtual Window * Create_window();
+#endif /* O8_SCENE_SCENE_HPP */
 
-		private:
-			void destroy_windows();
-			void loop();
-
-			//loop
-			enum class loop_state
-			{
-				Unknown,
-				Halt,
-				Stoping,
-				Starting,
-				Run,
-			};
-
-			loop_state m_loop_state;
-		};
-	}
-}
-
-/* DL entry points */
-O8_API_DECORATION DLL_EXPORT O8::WS::Manager * O8_API Create_manager();
-
-#endif /* O8_WS_WINDOWS_MANAGER_HPP */

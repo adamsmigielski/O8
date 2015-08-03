@@ -65,7 +65,7 @@ namespace O8
 
             HWND hwnd = CreateWindowEx(
                 WS_EX_TOPMOST,
-                Window_class_register::s_Window_class_name,
+                wcs->Get_class_name(),
                 title,
                 WS_VISIBLE | WS_POPUP,
                 x,

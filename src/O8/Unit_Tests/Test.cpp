@@ -26,55 +26,51 @@
 
 /**
 * @author Adam Œmigielski
-* @file Manager.hpp
+* @file Test.cpp
 **/
 
-#ifndef O8_WS_WINDOWS_MANAGER_HPP
-#define O8_WS_WINDOWS_MANAGER_HPP
+#ifdef UNIT_TESTS_ENABLE
 
-#include <O8\Templates\IntrusiveList.hpp> /* IntrusiveList::List */
-#include <O8\WS\Manager.hpp>              /* Manager */
+#include "Test.hpp"
 
 namespace O8
 {
-	namespace WS
-	{
-        class Window_windows;
+    namespace UnitTests
+    {
+        EnviromentBase::EnviromentBase()
+        {
 
-		class Manager_windows : public Manager, public IntrusiveList::List<Window_windows>
-		{
-		public:
-            Manager_windows();
-            virtual ~Manager_windows();
+        }
 
-            /* Event processing */
-            virtual int32 Start_event_processing();
-            virtual int32 Stop_event_processing();
-            virtual int32 Process_events();
+        EnviromentBase::~EnviromentBase()
+        {
 
-            /* Window management */
-            virtual Window * Create_window();
+        }
 
-		private:
-			void destroy_windows();
-			void loop();
+        Test::Test(const char * name)
+            : m_name(name)
+        {
 
-			//loop
-			enum class loop_state
-			{
-				Unknown,
-				Halt,
-				Stoping,
-				Starting,
-				Run,
-			};
+        }
 
-			loop_state m_loop_state;
-		};
-	}
+        Test::~Test()
+        {
+            m_name = nullptr;
+        }
+
+        void Test::Assert(
+            const char * description,
+            const char * file,
+            unsigned int line)
+        {
+
+        }
+
+        const char * Test::Get_name() const
+        {
+            return m_name;
+        }
+    }
 }
 
-/* DL entry points */
-O8_API_DECORATION DLL_EXPORT O8::WS::Manager * O8_API Create_manager();
-
-#endif /* O8_WS_WINDOWS_MANAGER_HPP */
+#endif /* UNIT_TESTS_ENABLE */

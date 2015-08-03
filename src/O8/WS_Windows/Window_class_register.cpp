@@ -37,65 +37,53 @@ namespace O8
 {
     namespace WS
     {
-        Window_class_register * Window_class_register::m_singleton = nullptr;
-        const char * Window_class_register::s_Window_class_name = "O8DefaultWindowClass";
+        const char * Window_class_register::s_window_class_name = "O8DefaultWindowClass";
 
         Window_class_register::Window_class_register()
         {
-            if (nullptr == m_singleton)
+            WNDCLASSEX wndClass;
+            wndClass.cbSize = sizeof(WNDCLASSEX);
+            wndClass.style = 0;// CS_NOCLOSE;
+            wndClass.lpfnWndProc = (WNDPROC) window_procedure;
+            wndClass.cbClsExtra = 0;
+            wndClass.cbWndExtra = 0;
+            wndClass.hInstance = GetModuleHandle(0);
+            wndClass.hIcon = 0;
+            wndClass.hCursor = 0;
+            wndClass.hbrBackground = 0;
+            wndClass.lpszMenuName = 0;
+            wndClass.lpszClassName = s_window_class_name;
+            wndClass.hIconSm = 0;
+
+            ATOM reg = RegisterClassEx(&wndClass);
+
+            if (0 == reg)
             {
-                WNDCLASSEX wndClass;
-                wndClass.cbSize = sizeof(WNDCLASSEX);
-                wndClass.style = 0;// CS_NOCLOSE;
-                wndClass.lpfnWndProc = (WNDPROC) window_procedure;
-                wndClass.cbClsExtra = 0;
-                wndClass.cbWndExtra = 0;
-                wndClass.hInstance = GetModuleHandle(0);
-                wndClass.hIcon = 0;
-                wndClass.hCursor = 0;
-                wndClass.hbrBackground = 0;
-                wndClass.lpszMenuName = 0;
-                wndClass.lpszClassName = s_Window_class_name;
-                wndClass.hIconSm = 0;
-
-                ATOM reg = RegisterClassEx(&wndClass);
-
-                if (0 == reg)
+                DWORD err = GetLastError();
+                if (1410 == err) //class WINDOW_DLL registred
                 {
-                    DWORD err = GetLastError();
-                    if (1410 == err) //class WINDOW_DLL registred
-                    {
-                    }
-                    else
-                    {
-                        ASSERT(0);
-                        ERRLOG("Error occured: " << err);
-                        return;
-                    }
                 }
-
-                m_singleton = this;
-                DEBUGLOG(s_Window_class_name << " class registered");
+                else
+                {
+                    ASSERT(0);
+                    ERRLOG("Error occured: " << err);
+                    return;
+                }
             }
+
+            DEBUGLOG(s_window_class_name << " class registered");
         }
 
         Window_class_register::~Window_class_register()
         {
-            UnregisterClass(s_Window_class_name, GetModuleHandle(0));
+            UnregisterClass(s_window_class_name, GetModuleHandle(0));
 
-            DEBUGLOG(s_Window_class_name << " class WINDOW_DLL unregistered");
-
-            m_singleton = nullptr;
+            DEBUGLOG(s_window_class_name << " class WINDOW_DLL unregistered");
         }
 
-        Window_class_register * Window_class_register::Get_singleton()
+        const char * Window_class_register::Get_class_name() const
         {
-            if (nullptr == m_singleton)
-            {
-                new Window_class_register;
-            }
-
-            return m_singleton;
+            return s_window_class_name;
         }
 
         LRESULT Window_class_register::window_procedure(

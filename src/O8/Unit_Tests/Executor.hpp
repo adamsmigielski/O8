@@ -26,55 +26,38 @@
 
 /**
 * @author Adam Œmigielski
-* @file Manager.hpp
+* @file Executor.hpp
 **/
 
-#ifndef O8_WS_WINDOWS_MANAGER_HPP
-#define O8_WS_WINDOWS_MANAGER_HPP
+#ifndef O8_UNIT_TESTS_EXECUTOR_HPP
+#define O8_UNIT_TESTS_EXECUTOR_HPP
 
-#include <O8\Templates\IntrusiveList.hpp> /* IntrusiveList::List */
-#include <O8\WS\Manager.hpp>              /* Manager */
+#ifdef UNIT_TESTS_ENABLE
+
+#include "ExecutorInterface.hpp"
+
+#include <map>
 
 namespace O8
 {
-	namespace WS
-	{
-        class Window_windows;
+    namespace UnitTests
+    {
+        class Executor : public ExecutorInterface
+        {
+        public:
+            Executor();
+            ~Executor();
 
-		class Manager_windows : public Manager, public IntrusiveList::List<Window_windows>
-		{
-		public:
-            Manager_windows();
-            virtual ~Manager_windows();
+            virtual Result Get_result() const;
+            virtual void Run(Test * test);
 
-            /* Event processing */
-            virtual int32 Start_event_processing();
-            virtual int32 Stop_event_processing();
-            virtual int32 Process_events();
-
-            /* Window management */
-            virtual Window * Create_window();
-
-		private:
-			void destroy_windows();
-			void loop();
-
-			//loop
-			enum class loop_state
-			{
-				Unknown,
-				Halt,
-				Stoping,
-				Starting,
-				Run,
-			};
-
-			loop_state m_loop_state;
-		};
-	}
+        private:
+            std::map<const char *, Result> m_results;
+            Result m_result;
+        };
+    }
 }
 
-/* DL entry points */
-O8_API_DECORATION DLL_EXPORT O8::WS::Manager * O8_API Create_manager();
+#endif /* UNIT_TESTS_ENABLE */
 
-#endif /* O8_WS_WINDOWS_MANAGER_HPP */
+#endif /* O8_UNIT_TESTS_EXECUTOR_HPP */

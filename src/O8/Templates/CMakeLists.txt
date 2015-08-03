@@ -7,7 +7,10 @@ ADD_LIBRARY (Templates STATIC
 			 MemoryAccess.hpp
 			 PCH.hpp
 			 PCH.cpp
+			 PointerContainer.hpp
 			 ReferenceCounted.cpp
 			 ReferenceCounted.hpp
 			 SharedResource.hpp
-			 Task.hpp)
+			 Singleton.hpp
+			 Task.hpp
+			 Type.hpp)

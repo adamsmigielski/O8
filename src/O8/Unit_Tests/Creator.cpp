@@ -26,55 +26,63 @@
 
 /**
 * @author Adam Œmigielski
-* @file Manager.hpp
+* @file Creator.cpp
 **/
 
-#ifndef O8_WS_WINDOWS_MANAGER_HPP
-#define O8_WS_WINDOWS_MANAGER_HPP
+#ifdef UNIT_TESTS_ENABLE
 
-#include <O8\Templates\IntrusiveList.hpp> /* IntrusiveList::List */
-#include <O8\WS\Manager.hpp>              /* Manager */
+#include <O8\Templates\PointerContainer.hpp>
+
+#include "Creator.hpp"
+#include "ExecutorInterface.hpp"
+#include "Test.hpp"
 
 namespace O8
 {
-	namespace WS
-	{
-        class Window_windows;
+    namespace UnitTests
+    {
+        TestCreatorBase::TestCreatorBase()
+        {
+            auto reg = TestCreatorRegister::Get_singleton();
 
-		class Manager_windows : public Manager, public IntrusiveList::List<Window_windows>
-		{
-		public:
-            Manager_windows();
-            virtual ~Manager_windows();
+            reg->Register(this);
+        }
 
-            /* Event processing */
-            virtual int32 Start_event_processing();
-            virtual int32 Stop_event_processing();
-            virtual int32 Process_events();
+        TestCreatorRegister::TestCreatorRegister()
+        {
 
-            /* Window management */
-            virtual Window * Create_window();
+        }
 
-		private:
-			void destroy_windows();
-			void loop();
+        TestCreatorRegister::~TestCreatorRegister()
+        {
 
-			//loop
-			enum class loop_state
-			{
-				Unknown,
-				Halt,
-				Stoping,
-				Starting,
-				Run,
-			};
+        }
 
-			loop_state m_loop_state;
-		};
-	}
+        void TestCreatorRegister::Execute(ExecutorInterface & executor)
+        {
+            for (auto it = m_list.begin(), end = m_list.end();
+                it != end;
+                ++it)
+            {
+                auto test = (*it)->Create();
+
+                if (nullptr == test)
+                {
+                    continue;
+                }
+
+                executor.Run(test);
+
+                delete test;
+            }
+        }
+
+
+        void TestCreatorRegister::Register(TestCreatorBase * creator)
+        {
+            m_list.push_front(creator);
+        }
+    }
 }
 
-/* DL entry points */
-O8_API_DECORATION DLL_EXPORT O8::WS::Manager * O8_API Create_manager();
-
-#endif /* O8_WS_WINDOWS_MANAGER_HPP */
+#endif /* UNIT_TESTS_ENABLE */

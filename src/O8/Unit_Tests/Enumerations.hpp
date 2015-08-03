@@ -26,55 +26,30 @@
 
 /**
 * @author Adam Œmigielski
-* @file Manager.hpp
+* @file Enumerations.hpp
 **/
 
-#ifndef O8_WS_WINDOWS_MANAGER_HPP
-#define O8_WS_WINDOWS_MANAGER_HPP
+#ifndef O8_UNIT_TESTS_ENUMERATIONS_HPP
+#define O8_UNIT_TESTS_ENUMERATIONS_HPP
 
-#include <O8\Templates\IntrusiveList.hpp> /* IntrusiveList::List */
-#include <O8\WS\Manager.hpp>              /* Manager */
+#ifdef UNIT_TESTS_ENABLE
 
 namespace O8
 {
-	namespace WS
-	{
-        class Window_windows;
+    namespace UnitTests
+    {
+        enum Result
+        {
+            Passed = 0,
+            Failed,
+            NotAvailable,
 
-		class Manager_windows : public Manager, public IntrusiveList::List<Window_windows>
-		{
-		public:
-            Manager_windows();
-            virtual ~Manager_windows();
-
-            /* Event processing */
-            virtual int32 Start_event_processing();
-            virtual int32 Stop_event_processing();
-            virtual int32 Process_events();
-
-            /* Window management */
-            virtual Window * Create_window();
-
-		private:
-			void destroy_windows();
-			void loop();
-
-			//loop
-			enum class loop_state
-			{
-				Unknown,
-				Halt,
-				Stoping,
-				Starting,
-				Run,
-			};
-
-			loop_state m_loop_state;
-		};
-	}
+            /* */
+            RESULT_MAX
+        };
+    }
 }
 
-/* DL entry points */
-O8_API_DECORATION DLL_EXPORT O8::WS::Manager * O8_API Create_manager();
+#endif /* UNIT_TESTS_ENABLE */
 
-#endif /* O8_WS_WINDOWS_MANAGER_HPP */
+#endif /* O8_UNIT_TESTS_TEST_HPP */

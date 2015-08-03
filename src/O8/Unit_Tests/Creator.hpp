@@ -26,55 +26,58 @@
 
 /**
 * @author Adam Œmigielski
-* @file Manager.hpp
+* @file Creator.hpp
 **/
 
-#ifndef O8_WS_WINDOWS_MANAGER_HPP
-#define O8_WS_WINDOWS_MANAGER_HPP
+#ifndef O8_UNIT_TESTS_CREATOR_HPP
+#define O8_UNIT_TESTS_CREATOR_HPP
 
-#include <O8\Templates\IntrusiveList.hpp> /* IntrusiveList::List */
-#include <O8\WS\Manager.hpp>              /* Manager */
+#ifdef UNIT_TESTS_ENABLE
+
+#include <forward_list>
+
+#include <O8\Templates\Singleton.hpp>
 
 namespace O8
 {
-	namespace WS
-	{
-        class Window_windows;
+    namespace UnitTests
+    {
+        class ExecutorInterface;
+        class Test;
 
-		class Manager_windows : public Manager, public IntrusiveList::List<Window_windows>
-		{
-		public:
-            Manager_windows();
-            virtual ~Manager_windows();
+        class TestCreatorBase
+        {
+        public:
+            TestCreatorBase();
 
-            /* Event processing */
-            virtual int32 Start_event_processing();
-            virtual int32 Stop_event_processing();
-            virtual int32 Process_events();
+            virtual Test * Create() = 0;
+        };
 
-            /* Window management */
-            virtual Window * Create_window();
+        template <class T>
+        class TestCreator : public TestCreatorBase
+        {
+        public:
+            virtual Test * Create()
+            {
+                return new T;
+            }
+        };
 
-		private:
-			void destroy_windows();
-			void loop();
+        class TestCreatorRegister : public Templates::Containers::Singleton<TestCreatorRegister>
+        {
+        public:
+            TestCreatorRegister();
+            ~TestCreatorRegister();
 
-			//loop
-			enum class loop_state
-			{
-				Unknown,
-				Halt,
-				Stoping,
-				Starting,
-				Run,
-			};
+            void Execute(ExecutorInterface & executor);
+            void Register(TestCreatorBase * creator);
 
-			loop_state m_loop_state;
-		};
-	}
+        private:
+            std::forward_list<TestCreatorBase *> m_list;
+        };
+    }
 }
 
-/* DL entry points */
-O8_API_DECORATION DLL_EXPORT O8::WS::Manager * O8_API Create_manager();
+#endif /* UNIT_TESTS_ENABLE */
 
-#endif /* O8_WS_WINDOWS_MANAGER_HPP */
+#endif /* O8_UNIT_TESTS_CREATOR_HPP */

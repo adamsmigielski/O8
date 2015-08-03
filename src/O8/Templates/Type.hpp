@@ -26,40 +26,52 @@
 
 /**
 * @author Adam Œmigielski
-* @file Window_class_register.hpp
+* @file Type.hpp
 **/
 
-#ifndef O8_WS_WINDOWS_WINDOW_CLASS_REGISTER_HPP
-#define O8_WS_WINDOWS_WINDOW_CLASS_REGISTER_HPP
-
-#include <O8\Templates\Singleton.hpp>
+#ifndef O8_TEMPLATES_TYPE_HPP
+#define O8_TEMPLATES_TYPE_HPP
 
 namespace O8
 {
-    namespace WS
+    namespace Templates
     {
-        class Window_class_register : public Templates::Containers::Singleton<Window_class_register>
+        namespace Utilities
         {
-            /* Singleton needs access to constructor */
-            friend class Templates::Containers::Singleton<Window_class_register>;
+            template <class T>
+            class Type
+            {
+            public:
+                typedef T value_type;
+                typedef value_type * pointer;
+                typedef value_type & reference;
+                typedef const pointer const_pointer;
+                typedef const reference & const_reference;
+            };
 
-        public:
-            ~Window_class_register();
+            template <class T>
+            class Type<T*>
+            {
+            public:
+                typedef T value_type;
+                typedef value_type * pointer;
+                typedef value_type & reference;
+                typedef const pointer const_pointer;
+                typedef const reference & const_reference;
+            };
 
-            const char * Get_class_name() const;
-
-        private:
-            Window_class_register();
-
-            static LRESULT CALLBACK window_procedure(
-                HWND hwnd,
-                UINT msg,
-                WPARAM wParam,
-                LPARAM lParam);
-
-            static const char * s_window_class_name;
-        };
+            template <class T>
+            class Type<T&>
+            {
+            public:
+                typedef T value_type;
+                typedef value_type * pointer;
+                typedef value_type & reference;
+                typedef const pointer const_pointer;
+                typedef const reference & const_reference;
+            };
+        }
     }
 }
 
-#endif /* O8_WS_WINDOWS_WINDOW_CLASS_REGISTER_HPP */
+#endif O8_TEMPLATES_TYPE_HPP

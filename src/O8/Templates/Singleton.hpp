@@ -26,40 +26,61 @@
 
 /**
 * @author Adam Œmigielski
-* @file Window_class_register.hpp
+* @file Singleton.hpp
 **/
 
-#ifndef O8_WS_WINDOWS_WINDOW_CLASS_REGISTER_HPP
-#define O8_WS_WINDOWS_WINDOW_CLASS_REGISTER_HPP
-
-#include <O8\Templates\Singleton.hpp>
+#ifndef O8_TEMPLATES_SINGLETON_HPP
+#define O8_TEMPLATES_SINGLETON_HPP
 
 namespace O8
 {
-    namespace WS
+    namespace Templates
     {
-        class Window_class_register : public Templates::Containers::Singleton<Window_class_register>
+        namespace Containers
         {
-            /* Singleton needs access to constructor */
-            friend class Templates::Containers::Singleton<Window_class_register>;
+            template <class T>
+            class Singleton
+            {
+            public:
+                typedef T value_type;
+                typedef T * pointer;
 
-        public:
-            ~Window_class_register();
+                Singleton();
+                virtual ~Singleton();
 
-            const char * Get_class_name() const;
+                static typename pointer Get_singleton();
 
-        private:
-            Window_class_register();
+            private:
+                static typename pointer s_singleton;
+            };
 
-            static LRESULT CALLBACK window_procedure(
-                HWND hwnd,
-                UINT msg,
-                WPARAM wParam,
-                LPARAM lParam);
+            template <class T>
+            Singleton<T>::Singleton()
+            {
+                s_singleton = (pointer) this;
+            }
 
-            static const char * s_window_class_name;
-        };
+            template <class T>
+            Singleton<T>::~Singleton()
+            {
+                s_singleton = nullptr;
+            }
+
+            template <class T>
+            typename Singleton<T>::pointer Singleton<T>::Get_singleton()
+            {
+                if (nullptr == s_singleton)
+                {
+                    new T;
+                }
+
+                return s_singleton;
+            }
+
+            template <class T>
+            typename Singleton<T>::pointer Singleton<T>::s_singleton = nullptr;
+        }
     }
 }
 
-#endif /* O8_WS_WINDOWS_WINDOW_CLASS_REGISTER_HPP */
+#endif /* O8_TEMPLATES_SINGLETON_HPP */
