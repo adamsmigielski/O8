@@ -1,7 +1,5 @@
 # Basics
-ADD_SUBDIRECTORY(Common)
-ADD_SUBDIRECTORY(Templates)
-ADD_SUBDIRECTORY(Utility)
+ADD_SUBDIRECTORY(Utilities)
 
 # Tests
 IF (BUILD_TESTS)
