@@ -7,7 +7,7 @@ ADD_LIBRARY(Engine STATIC
 			PCH.hpp)
 
 ADD_DEPENDENCIES(Engine
-				 common
+				 basic
 				 containers
 				 helpers
 				 memory
