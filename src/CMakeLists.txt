@@ -1,1 +1,7 @@
-add_subdirectory(O8)
+ADD_SUBDIRECTORY(O8)
+ADD_SUBDIRECTORY(Utilities)
+
+# Tests
+IF (BUILD_TESTS)
+	ADD_SUBDIRECTORY(Unit_Tests)
+ENDIF(BUILD_TESTS)

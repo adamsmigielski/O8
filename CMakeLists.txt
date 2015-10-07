@@ -41,7 +41,7 @@ SET(BUILD_SHARED_LIBS ON)
 
 # Include target specific stuff
 INCLUDE(targets/targets.cmake)
-INCLUDE(platforms/platforms.cmake)
+INCLUDE(src/O8/Utilities/platforms/platforms.cmake)
 
 
 #Disable exceptions
