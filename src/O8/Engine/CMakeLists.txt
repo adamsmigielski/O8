@@ -7,5 +7,8 @@ ADD_LIBRARY(Engine STATIC
 			PCH.hpp)
 
 ADD_DEPENDENCIES(Engine
-				 Common
-				 Templates)
+				 common
+				 containers
+				 helpers
+				 memory
+				 task)

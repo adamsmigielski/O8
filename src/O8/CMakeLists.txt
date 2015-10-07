@@ -1,3 +1,5 @@
+ADD_SUBDIRECTORY(Common)
+
 ADD_SUBDIRECTORY(Image)
 
 # DLL

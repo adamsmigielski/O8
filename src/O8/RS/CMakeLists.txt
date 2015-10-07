@@ -11,6 +11,9 @@ ADD_LIBRARY(RS STATIC
 			RS.hpp)
 
 ADD_DEPENDENCIES(RS
-			     Common
-                 GI
-				 Utility)
+			     common
+				 containers
+				 helpers
+				 memory
+				 task
+                 GI)

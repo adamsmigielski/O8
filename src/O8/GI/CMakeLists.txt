@@ -21,8 +21,11 @@ ADD_LIBRARY (GI STATIC
 			 Texture.hpp)
 
 ADD_DEPENDENCIES(GI
-				 Common
-				 Templates)
+				 common
+				 containers
+				 helpers
+				 memory
+				 task)
 
 ADD_LIBRARY (GI_Loader STATIC
 			 Loader.cpp

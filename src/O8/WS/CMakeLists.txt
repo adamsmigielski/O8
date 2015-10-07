@@ -31,7 +31,7 @@ IF (BUILD_TESTS)
     ADD_EXECUTABLE (WS_Test
     			    ErrorCodes.hpp
     				Loader.hpp
-    				../Unit_Tests/main.cpp
+    				${CMAKE_SOURCE_DIR}/src/Unit_Tests/main.cpp
     				PCH.cpp
     				PCH.hpp
 					test.cpp)
