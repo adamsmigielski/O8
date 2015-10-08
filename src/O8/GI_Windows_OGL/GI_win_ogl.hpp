@@ -48,7 +48,7 @@ namespace O8
             GI_win_ogl();
             virtual ~GI_win_ogl();
 
-            virtual int32 Init();
+            virtual Platform::int32 Init();
             virtual void Release();
 
             virtual RI * Create_rendering_interface(
@@ -59,21 +59,21 @@ namespace O8
                 const std::string & name,
                 const std::string & key,
                 const std::string & string,
-                uint32 vendor_id,
-                uint32 device_id);
+                Platform::uint32 vendor_id,
+                Platform::uint32 device_id);
             void add_output_to_adapter(
                 const std::string & name,
                 Adapter_win_ogl * adapter);
-            int32 compare_device_key(
+            Platform::int32 compare_device_key(
                 const char * dev_a,
                 const char * dev_b);
             RI_win_ogl * create_rendering_interface(
                 Output_win_ogl * output);
-            uint32 get_device_id(
+            Platform::uint32 get_device_id(
                 const char * device_id);
-            uint32 get_vendor_id(
+            Platform::uint32 get_vendor_id(
                 const char * device_id);
-            int32 process_adapters();
+            Platform::int32 process_adapters();
         };
     }
 }

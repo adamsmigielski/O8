@@ -46,7 +46,7 @@ namespace O8
             Presentation_win_ogl();
             virtual ~Presentation_win_ogl();
 
-            int32 Init(
+            Platform::int32 Init(
                 HWND hwnd,
                 Context_win_ogl * parent_context);
 

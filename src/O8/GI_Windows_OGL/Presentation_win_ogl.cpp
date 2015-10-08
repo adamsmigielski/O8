@@ -62,7 +62,7 @@ namespace O8
             }
         }
 
-        int32 Presentation_win_ogl::Init(
+        Platform::int32 Presentation_win_ogl::Init(
             HWND hwnd,
             Context_win_ogl * parent_context)
         {
@@ -70,7 +70,7 @@ namespace O8
             {
                 ERRLOG("Presentation already initialized");
                 ASSERT(0);
-                return Invalid_object;
+                return Utilities::Invalid_object;
             }
 
             auto hdc = GetDC(hwnd);
@@ -80,7 +80,7 @@ namespace O8
 
                 ASSERT(0);
                 ERRLOG("Failed to get DC: " << err);
-                return Failure;
+                return Utilities::Failure;
             }
 
             auto context = new Context_win_ogl;
@@ -89,7 +89,7 @@ namespace O8
                 ASSERT(0);
                 ERRLOG("Failed to create ogl context");
                 ReleaseDC(hwnd, hdc);
-                return Failure;
+                return Utilities::Failure;
             }
 
             auto ret = context->Init(hdc, parent_context);
@@ -99,7 +99,7 @@ namespace O8
                 ERRLOG("Failed to initialize context");
                 delete context;
                 ReleaseDC(hwnd, hdc);
-                return Failure;
+                return Utilities::Failure;
             }
 
             m_context = context;

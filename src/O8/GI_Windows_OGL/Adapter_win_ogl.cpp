@@ -67,8 +67,8 @@ namespace O8
         void Adapter_win_ogl::Init(
             const std::string & name,
             const std::string & key,
-            uint32 vendor_id,
-            uint32 device_id)
+            Platform::uint32 vendor_id,
+            Platform::uint32 device_id)
         {
             m_name = name;
             m_key = key;
@@ -86,27 +86,27 @@ namespace O8
             return m_name;
         }
 
-        uint32 Adapter_win_ogl::Vendor_id() const
+        Platform::uint32 Adapter_win_ogl::Vendor_id() const
         {
             return m_vendor_id;
         }
 
-        uint32 Adapter_win_ogl::Device_id() const
+        Platform::uint32 Adapter_win_ogl::Device_id() const
         {
             return m_device_id;
         }
 
-        uint32 Adapter_win_ogl::Video_memory() const
+        Platform::uint32 Adapter_win_ogl::Video_memory() const
         {
             return -1;
         }
 
-        uint32 Adapter_win_ogl::System_memory() const
+        Platform::uint32 Adapter_win_ogl::System_memory() const
         {
             return -1;
         }
 
-        uint32 Adapter_win_ogl::Shared_memory() const
+        Platform::uint32 Adapter_win_ogl::Shared_memory() const
         {
             return -1;
         }

@@ -127,32 +127,32 @@ namespace O8
             return m_name;
         }
 
-        int32 Output_win_ogl::Left() const
+        Platform::int32 Output_win_ogl::Left() const
         {
             return m_left;
         }
 
-        int32 Output_win_ogl::Right() const
+        Platform::int32 Output_win_ogl::Right() const
         {
             return m_right;
         }
 
-        int32 Output_win_ogl::Top() const
+        Platform::int32 Output_win_ogl::Top() const
         {
             return m_top;
         }
 
-        int32 Output_win_ogl::Bottom() const
+        Platform::int32 Output_win_ogl::Bottom() const
         {
             return m_bottom;
         }
 
         void Output_win_ogl::add_new_mode(DEVMODE & mode)
         {
-            uint32 width = 0;
-            uint32 height = 0;
-            uint32 freq = 0;
-            uint32 bpp = 0;
+            Platform::uint32 width = 0;
+            Platform::uint32 height = 0;
+            Platform::uint32 freq = 0;
+            Platform::uint32 bpp = 0;
 
             if (mode.dmFields & DM_PELSWIDTH)
             {

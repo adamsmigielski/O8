@@ -65,7 +65,7 @@ namespace O8
             }
         }
 
-        int32 RI_win_ogl::Init(
+        Platform::int32 RI_win_ogl::Init(
             Output_win_ogl * output)
         {
             DEBUGLOG("Create ogl window");
@@ -79,7 +79,7 @@ namespace O8
             {
                 ASSERT(0);
                 ERRLOG("Failed to create window for rendering interface");
-                return Failure;
+                return Utilities::Failure;
             }
 
             auto hdc = GetDC(window);
@@ -90,7 +90,7 @@ namespace O8
                 ASSERT(0);
                 ERRLOG("Failed to get DC: " << err);
                 DestroyWindow(window);
-                return Failure;
+                return Utilities::Failure;
             }
 
             auto context = new Context_win_ogl;
@@ -100,7 +100,7 @@ namespace O8
                 ERRLOG("Failed to create ogl context");
                 ReleaseDC(window, hdc);
                 DestroyWindow(window);
-                return Failure;
+                return Utilities::Failure;
             }
 
             auto ret = context->Init(hdc);
@@ -111,7 +111,7 @@ namespace O8
                 delete context;
                 ReleaseDC(window, hdc);
                 DestroyWindow(window);
-                return Failure;
+                return Utilities::Failure;
             }
 
             m_ogl_window = window;
@@ -175,10 +175,10 @@ namespace O8
         }
 
         HWND RI_win_ogl::create_ogl_window(
-            int32 left,
-            int32 right,
-            int32 top,
-            int32 bottom)
+            Platform::int32 left,
+            Platform::int32 right,
+            Platform::int32 top,
+            Platform::int32 bottom)
         {
             HWND wnd;
             WNDCLASSEX wndClass;

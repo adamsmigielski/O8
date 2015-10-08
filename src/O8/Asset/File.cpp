@@ -35,8 +35,8 @@
 
 #include <fstream>
 
-#include <O8\Templates\MemoryAccess.hpp>
-#include <O8\Utility\Hash_string.hpp>
+#include <Utilities\helpers\Hash_string.hpp>
+#include <Utilities\memory\Access.hpp>
 
 namespace O8
 {

@@ -33,7 +33,7 @@
 
 #include "Model.hpp"
 
-#include <O8\Templates\MemoryAccess.hpp>
+#include <Utilities\memory\Access.hpp>
 
 namespace O8
 {

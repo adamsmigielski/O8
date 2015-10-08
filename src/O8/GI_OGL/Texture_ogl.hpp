@@ -44,11 +44,11 @@ namespace O8
             Texture_ogl();
             virtual ~Texture_ogl();
 
-            uint32 & Id() { return m_id; }
-            const uint32 & Id() const { return m_id; }
+            Platform::uint32 & Id() { return m_id; }
+            const Platform::uint32 & Id() const { return m_id; }
 
         private:
-            uint32 m_id;
+            Platform::uint32 m_id;
         };
     }
 }

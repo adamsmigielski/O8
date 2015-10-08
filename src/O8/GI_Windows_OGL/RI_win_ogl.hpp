@@ -47,7 +47,7 @@ namespace O8
             RI_win_ogl();
             virtual ~RI_win_ogl();
 
-            int32 Init(
+            Platform::int32 Init(
                 Output_win_ogl * output);
 
             virtual OpenGL::Context * Get_context();
@@ -58,10 +58,10 @@ namespace O8
 
         private:
             HWND create_ogl_window(
-                int32 left,
-                int32 right,
-                int32 top,
-                int32 bottom);
+                Platform::int32 left,
+                Platform::int32 right,
+                Platform::int32 top,
+                Platform::int32 bottom);
 
             HWND m_ogl_window;
             Context_win_ogl * m_parent_context;

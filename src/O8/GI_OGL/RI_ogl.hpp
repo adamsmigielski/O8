@@ -43,9 +43,6 @@ namespace O8
 
     namespace GI
     {
-        class Context_win_ogl;
-        class Output_win_ogl;
-
         class RI_ogl : public RI
         {
         public:

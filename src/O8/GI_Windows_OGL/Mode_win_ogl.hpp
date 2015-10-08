@@ -45,22 +45,22 @@ namespace O8
             virtual ~Mode_win_ogl();
 
             void Init(
-                uint32 width,
-                uint32 height,
-                uint32 freq,
-                uint32 bpp);
+                Platform::uint32 width,
+                Platform::uint32 height,
+                Platform::uint32 freq,
+                Platform::uint32 bpp);
 
-            virtual uint32 Width() const;
-            virtual uint32 Height() const;
-            virtual uint32 RefreshRate() const;
-            virtual uint32 Channels() const;
-            virtual uint32 BitsPerChannel() const;
+            virtual Platform::uint32 Width() const;
+            virtual Platform::uint32 Height() const;
+            virtual Platform::uint32 RefreshRate() const;
+            virtual Platform::uint32 Channels() const;
+            virtual Platform::uint32 BitsPerChannel() const;
 
         private:
-            uint32 m_width;
-            uint32 m_height;
-            uint32 m_freq;
-            uint32 m_bpp;
+            Platform::uint32 m_width;
+            Platform::uint32 m_height;
+            Platform::uint32 m_freq;
+            Platform::uint32 m_bpp;
         };
     }
 }

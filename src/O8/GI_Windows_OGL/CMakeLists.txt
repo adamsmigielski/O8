@@ -24,4 +24,6 @@ TARGET_LINK_LIBRARIES (GI_Windows_OGL
 					   GI
 					   GI_OGL
 					   OpenGL
-					   Templates)
+					   basic
+					   containers
+					   helpers)

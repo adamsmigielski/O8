@@ -92,8 +92,8 @@ namespace O8
 
         struct gl_version
         {
-            int32 major;
-            int32 minor;
+            Platform::int32 major;
+            Platform::int32 minor;
         };
 
         static const gl_version known_gl_versions[] =
@@ -110,33 +110,33 @@ namespace O8
             { 3, 0 },
         };
 
-        static const uint32 n_known_gl_versions =
+        static const Platform::uint32 n_known_gl_versions =
             sizeof(known_gl_versions) / sizeof(gl_version);
 
-        int32 Context_win_ogl::Init(
+        Platform::int32 Context_win_ogl::Init(
             HDC hdc)
         {
-            int32 ret;
+            Platform::int32 ret;
             HGLRC hglrc = NULL;
 
             if (NULL != m_hdc)
             {
                 ERRLOG("Context already initialized");
                 ASSERT(0);
-                return Invalid_object;
+                return Utilities::Invalid_object;
             }
 
             ret = LoadWGL();
             if (Utilities::Success != ret)
             {
                 ERRLOG("Cannot load wgl");
-                return Failure;
+                return Utilities::Failure;
             }
 
-            for (uint32 i = 0; i < n_known_gl_versions; ++i)
+            for (Platform::uint32 i = 0; i < n_known_gl_versions; ++i)
             {
-                const int32 major = known_gl_versions[i].major;
-                const int32 minor = known_gl_versions[i].minor;
+                const Platform::int32 major = known_gl_versions[i].major;
+                const Platform::int32 minor = known_gl_versions[i].minor;
 
                 DEBUGLOG("Test:" << major << "." << minor);
 
@@ -180,11 +180,11 @@ namespace O8
 
 
 
-        int32 Context_win_ogl::Init(
+        Platform::int32 Context_win_ogl::Init(
             HDC hdc,
             Context_win_ogl * parent_context)
         {
-            int32 ret;
+            Platform::int32 ret;
             HGLRC hglrc = NULL;
             PIXELFORMATDESCRIPTOR pixel_format;
 
@@ -206,7 +206,7 @@ namespace O8
                 return ret;
             }
 
-            int32 attributes[] = {
+            Platform::int32 attributes[] = {
                 WGL_CONTEXT_MAJOR_VERSION_ARB, parent_context->m_major,
                 WGL_CONTEXT_MINOR_VERSION_ARB, parent_context->m_minor,
                 WGL_CONTEXT_FLAGS_ARB,
@@ -217,14 +217,14 @@ namespace O8
             {
                 ERRLOG("Context already initialized");
                 ASSERT(0);
-                return Invalid_object;
+                return Utilities::Invalid_object;
             }
 
             ret = LoadWGL();
             if (Utilities::Success != ret)
             {
                 ERRLOG("Cannot load wgl");
-                return Failure;
+                return Utilities::Failure;
             }
 
             DEBUGLOG("Test:" 
@@ -243,7 +243,7 @@ namespace O8
             {
                 DEBUGLOG("Failed: " << GetLastError());
 
-                return Failure;
+                return Utilities::Failure;
             }
             else
             {
@@ -294,7 +294,7 @@ namespace O8
             return m_get_proc_address(name);
         }
 
-        int32 Context_win_ogl::LoadWGL()
+        Platform::int32 Context_win_ogl::LoadWGL()
         {
             if (nullptr == s_opengl_dl)
             {
@@ -305,14 +305,14 @@ namespace O8
                 {
                     ASSERT(0);
                     ERRLOG("Failed to load gdi32.dll");
-                    return O8::Failed_to_load_library;
+                    return Failed_to_load_library;
                 }
 
                 if (nullptr == s_opengl_dl)
                 {
                     ASSERT(0);
                     ERRLOG("Failed to load opengl32.dll");
-                    return O8::Failed_to_load_library;
+                    return Failed_to_load_library;
                 }
             }
 
@@ -343,7 +343,7 @@ namespace O8
             int major,
             int minor)
         {
-            int32 attributes[] = {
+            Platform::int32 attributes[] = {
                 WGL_CONTEXT_MAJOR_VERSION_ARB, major,
                 WGL_CONTEXT_MINOR_VERSION_ARB, minor,
                 WGL_CONTEXT_FLAGS_ARB,
@@ -360,11 +360,11 @@ namespace O8
                 attributes);
         }
 
-        int32 Context_win_ogl::init_gl_rc(
+        Platform::int32 Context_win_ogl::init_gl_rc(
             HDC hdc,
             Context_win_ogl * parent_context,
-            int32 major,
-            int32 minor,
+            Platform::int32 major,
+            Platform::int32 minor,
             HGLRC & out_hglrc)
         {
             HGLRC basic_context = NULL;
@@ -384,7 +384,7 @@ namespace O8
             pixel_format.cDepthBits = 32;
             pixel_format.iLayerType = PFD_MAIN_PLANE;
 
-            int32 ret = prepare_pixel_format(
+            Platform::int32 ret = prepare_pixel_format(
                 hdc,
                 pixel_format);
             if (Utilities::Success != ret)
@@ -398,7 +398,7 @@ namespace O8
             {
                 ASSERT(0);
                 ERRLOG(" Failed to create basic OGL context");
-                return Failure;
+                return Utilities::Failure;
             }
 
             if (nullptr != parent_context)
@@ -422,18 +422,18 @@ namespace O8
             if (NULL == extended_context)
             {
                 ERRLOG("Failed to create extended OGL context");
-                return Failure;
+                return Utilities::Failure;
             }
 
             out_hglrc = extended_context;
             return Utilities::Success;
         }
 
-        int32 Context_win_ogl::prepare_pixel_format(
+        Platform::int32 Context_win_ogl::prepare_pixel_format(
             HDC hdc,
             PIXELFORMATDESCRIPTOR & pixel_format)
         {
-            int32 format_index = ChoosePixelFormat(hdc, &pixel_format);
+            Platform::int32 format_index = ChoosePixelFormat(hdc, &pixel_format);
             BOOL ret;
 
             ret = SetPixelFormat(hdc, format_index, &pixel_format);
@@ -441,7 +441,7 @@ namespace O8
             {
                 ERRLOG("SetPixelFormat failed");
                 ASSERT(0);
-                return Failure;
+                return Utilities::Failure;
             }
 
             return Utilities::Success;

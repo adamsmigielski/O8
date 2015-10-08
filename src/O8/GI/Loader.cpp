@@ -34,6 +34,7 @@
 #include "Loader.hpp"
 
 #include <Utilities\basic\ErrorCodes.hpp>
+#include <O8\Common\ErrorCodes.hpp>
 #include <O8\DL\DL.hpp>
 
 namespace O8

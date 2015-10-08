@@ -52,13 +52,13 @@ namespace O8
             Context_win_ogl();
             virtual ~Context_win_ogl();
 
-            int32 Init(
+            Platform::int32 Init(
                 HDC hdc);
-            int32 Init(
+            Platform::int32 Init(
                 HDC hdc,
                 Context_win_ogl * parent_context);
             HDC GetDC() const;
-            int32 LoadWGL();
+            Platform::int32 LoadWGL();
 
             virtual void Make_current();
             virtual void Swap();
@@ -71,15 +71,15 @@ namespace O8
                 HDC hdc,
                 HGLRC basic_context,
                 HGLRC shared_context,
-                int32 major,
-                int32 minor);
-            int32 init_gl_rc(
+                Platform::int32 major,
+                Platform::int32 minor);
+            Platform::int32 init_gl_rc(
                 HDC hdc,
                 Context_win_ogl * parent_context,
-                int32 major,
-                int32 minor,
+                Platform::int32 major,
+                Platform::int32 minor,
                 HGLRC & out_hglrc);
-            int32 prepare_pixel_format(
+            Platform::int32 prepare_pixel_format(
                 HDC hdc,
                 PIXELFORMATDESCRIPTOR & pixel_format);
 
@@ -88,7 +88,7 @@ namespace O8
             typedef HGLRC (WINAPI * PFNWGLCREATECONTEXTATTRIBSARBPROC)(
                 HDC hDC,
                 HGLRC hShareContext,
-                const int32 *attribList);
+                const Platform::int32 *attribList);
             typedef BOOL(WINAPI * PFNWGLDELETECONTEXT)(
                 HGLRC opengl_context);
             typedef PROC (WINAPI * PFNWGLGETPROCADDRESS)(
@@ -108,8 +108,8 @@ namespace O8
 
             HDC m_hdc;
             HGLRC m_hglrc;
-            int32 m_major;
-            int32 m_minor;
+            Platform::int32 m_major;
+            Platform::int32 m_minor;
 
             static DL::DL * s_gdi_dl;
             static DL::DL * s_opengl_dl;

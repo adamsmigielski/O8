@@ -51,7 +51,7 @@ namespace O8
 
         }
 
-        int32 GI_win_ogl::Init()
+        Platform::int32 GI_win_ogl::Init()
         {
             return process_adapters();
         }
@@ -110,8 +110,8 @@ namespace O8
             const std::string & name,
             const std::string & key,
             const std::string & string,
-            uint32 vendor_id,
-            uint32 device_id)
+            Platform::uint32 vendor_id,
+            Platform::uint32 device_id)
         {
             auto adapter = new Adapter_win_ogl;
 
@@ -154,7 +154,7 @@ namespace O8
             adapter->Add_output(name);
         }
 
-        int32 GI_win_ogl::compare_device_key(
+        Platform::int32 GI_win_ogl::compare_device_key(
             const char * dev_a,
             const char * dev_b)
         {
@@ -187,7 +187,7 @@ namespace O8
             return ri;
         }
 
-        uint32 GI_win_ogl::get_device_id(
+        Platform::uint32 GI_win_ogl::get_device_id(
             const char * device_id)
         {
             auto id = strstr(device_id, "DEV_");
@@ -209,7 +209,7 @@ namespace O8
             return atoi(buffer);
         }
 
-        uint32 GI_win_ogl::get_vendor_id(
+        Platform::uint32 GI_win_ogl::get_vendor_id(
             const char * device_id)
         {
             auto id = strstr(device_id, "VEN_");
@@ -231,11 +231,11 @@ namespace O8
             return atoi(buffer);
         }
 
-        int32 GI_win_ogl::process_adapters()
+        Platform::int32 GI_win_ogl::process_adapters()
         {
             static const DWORD flags = 0;
 
-            uint32 device_index = 0;
+            Platform::uint32 device_index = 0;
             DISPLAY_DEVICE display_device;
 
             display_device.cb = sizeof(DISPLAY_DEVICE);
@@ -261,7 +261,7 @@ namespace O8
                 {
                     auto temp = (Adapter_win_ogl *) it;
 
-                    int32 is_same = compare_device_key(
+                    Platform::int32 is_same = compare_device_key(
                         temp->Key().c_str(),
                         display_device.DeviceKey);
 

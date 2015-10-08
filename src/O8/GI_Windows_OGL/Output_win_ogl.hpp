@@ -50,20 +50,20 @@ namespace O8
 
             virtual std::string Name() const;
 
-            virtual int32 Left() const;
-            virtual int32 Right() const;
-            virtual int32 Top() const;
-            virtual int32 Bottom() const;
+            virtual Platform::int32 Left() const;
+            virtual Platform::int32 Right() const;
+            virtual Platform::int32 Top() const;
+            virtual Platform::int32 Bottom() const;
 
         private:
             void add_new_mode(DEVMODE & mode);
 
             std::string m_name;
             bool m_is_connected;
-            int32 m_left;
-            int32 m_right;
-            int32 m_top;
-            int32 m_bottom;
+            Platform::int32 m_left;
+            Platform::int32 m_right;
+            Platform::int32 m_top;
+            Platform::int32 m_bottom;
         };
     }
 }

@@ -50,24 +50,24 @@ namespace O8
             void Init(
                 const std::string & name,
                 const std::string & key,
-                uint32 vendor_id,
-                uint32 device_id);
+                Platform::uint32 vendor_id,
+                Platform::uint32 device_id);
 
             virtual std::string Name() const;
             std::string Key() const;
 
-            virtual uint32 Vendor_id() const;
-            virtual uint32 Device_id() const;
-            virtual uint32 Video_memory() const;
-            virtual uint32 System_memory() const;
-            virtual uint32 Shared_memory() const;
+            virtual Platform::uint32 Vendor_id() const;
+            virtual Platform::uint32 Device_id() const;
+            virtual Platform::uint32 Video_memory() const;
+            virtual Platform::uint32 System_memory() const;
+            virtual Platform::uint32 Shared_memory() const;
 
 
         private:
             std::string m_name;
             std::string m_key;
-            uint32 m_vendor_id;
-            uint32 m_device_id;
+            Platform::uint32 m_vendor_id;
+            Platform::uint32 m_device_id;
         };
     }
 }

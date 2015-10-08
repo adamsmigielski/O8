@@ -52,10 +52,10 @@ namespace O8
         }
 
         void Mode_win_ogl::Init(
-            uint32 width,
-            uint32 height,
-            uint32 freq,
-            uint32 bpp)
+            Platform::uint32 width,
+            Platform::uint32 height,
+            Platform::uint32 freq,
+            Platform::uint32 bpp)
         {
             m_width  = width;
             m_height = height;
@@ -63,27 +63,27 @@ namespace O8
             m_bpp    = bpp;
         }
 
-        uint32 Mode_win_ogl::Width() const
+        Platform::uint32 Mode_win_ogl::Width() const
         {
             return m_width;
         }
 
-        uint32 Mode_win_ogl::Height() const
+        Platform::uint32 Mode_win_ogl::Height() const
         {
             return m_height;
         }
 
-        uint32 Mode_win_ogl::RefreshRate() const
+        Platform::uint32 Mode_win_ogl::RefreshRate() const
         {
             return m_freq;
         }
 
-        uint32 Mode_win_ogl::Channels() const
+        Platform::uint32 Mode_win_ogl::Channels() const
         {
             return -1;
         }
 
-        uint32 Mode_win_ogl::BitsPerChannel() const
+        Platform::uint32 Mode_win_ogl::BitsPerChannel() const
         {
             return m_bpp;
         }
