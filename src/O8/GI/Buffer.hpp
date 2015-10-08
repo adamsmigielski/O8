@@ -32,7 +32,7 @@
 #ifndef O8_GI_BUFFER_HPP
 #define O8_GI_BUFFER_HPP
 
-#include <O8\Templates\IntrusiveList.hpp>
+#include <Utilities\containers\IntrusiveList.hpp>
 #include <O8\Templates\ReferenceCounted.hpp>
 
 namespace O8

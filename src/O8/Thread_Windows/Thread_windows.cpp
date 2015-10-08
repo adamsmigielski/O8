@@ -54,7 +54,7 @@ namespace O8
             return 0;
         }
 
-        int32 Thread_windows::Start(Runnable * runnable)
+		Platform::int32 Thread_windows::Start(Runnable * runnable)
 		{
 			HANDLE thread = CreateThread(
                 nullptr /* attributes */,
@@ -67,11 +67,11 @@ namespace O8
 			{
 				ASSERT(0);
 				ERRLOG("CreateThread");
-				return Failure;
+				return Utilities::Failure;
 			}
 
 			auto ret = Init_handle(thread);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 CloseHandle(thread);
             }
@@ -79,7 +79,7 @@ namespace O8
             return ret;
 		}
 
-        Synchronizer::WaitResult Thread_windows::Wait(uint32 timeout_ms) const
+		Synchronizer::WaitResult Thread_windows::Wait(Platform::uint32 timeout_ms) const
         {
             return Wait_for_single(timeout_ms);
         }

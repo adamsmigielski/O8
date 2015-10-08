@@ -21,7 +21,7 @@ ADD_LIBRARY (GI STATIC
 			 Texture.hpp)
 
 ADD_DEPENDENCIES(GI
-				 basic
+				 Common
 				 containers
 				 helpers
 				 memory

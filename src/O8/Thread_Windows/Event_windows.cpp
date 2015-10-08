@@ -54,11 +54,11 @@ namespace O8
 				Release();
 				DWORD err = GetLastError();
 				ERRLOG("CreateEvent - err: " << err);
-				return Failure;
+				return Utilities::Failure;
 			}
 
             auto ret = Init_handle(handle);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 CloseHandle(handle);
             }
@@ -95,7 +95,7 @@ namespace O8
 			ResetEvent(handle);
 		}
 
-        Synchronizer::WaitResult Event_windows::Wait(uint32 timeout_ms) const
+		Synchronizer::WaitResult Event_windows::Wait(Platform::uint32 timeout_ms) const
         {
             return Wait_for_single(timeout_ms);
         }

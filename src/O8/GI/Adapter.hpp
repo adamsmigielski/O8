@@ -32,7 +32,7 @@
 #ifndef O8_GI_ADAPTER_HPP
 #define O8_GI_ADAPTER_HPP
 
-#include <O8\Templates\IntrusiveList.hpp>
+#include <Utilities\containers\IntrusiveList.hpp>
 #include "Output.hpp"
 
 namespace O8

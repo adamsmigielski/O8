@@ -209,7 +209,7 @@ int Action_create_archive(int argc, const char * argv[])
     /* Create and load registry */
     O8::Asset::Registry registry;
 
-    if (O8::Success != registry.Load(registry_file_name))
+    if (O8::Utilities::Success != registry.Load(registry_file_name))
     {
         ERRLOG("Assets registry file is not available");
         return -1;
@@ -217,13 +217,13 @@ int Action_create_archive(int argc, const char * argv[])
 
     /* Load asset import manager */
     O8::Asset::Import_manager import_manager;
-    if (O8::Success != import_manager.Load_importers(registry_file_name))
+    if (O8::Utilities::Success != import_manager.Load_importers(registry_file_name))
     {
         ERRLOG("Importers registry file is not available");
         return -1;
     }
 
-    if (O8::Success != import_manager.Load_extensions(extension_file_name))
+    if (O8::Utilities::Success != import_manager.Load_extensions(extension_file_name))
     {
         ERRLOG("Extensions registry file is not available");
         return -1;

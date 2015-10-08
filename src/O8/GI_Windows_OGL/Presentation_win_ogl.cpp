@@ -93,7 +93,7 @@ namespace O8
             }
 
             auto ret = context->Init(hdc, parent_context);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 ASSERT(0);
                 ERRLOG("Failed to initialize context");
@@ -105,7 +105,7 @@ namespace O8
             m_context = context;
             m_hwnd = hwnd;
 
-            return Success;
+            return Utilities::Success;
         }
 
         OpenGL::Context * Presentation_win_ogl::Get_context()

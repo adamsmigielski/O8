@@ -32,8 +32,8 @@
 #ifndef O8_WS_WINDOWS_MANAGER_HPP
 #define O8_WS_WINDOWS_MANAGER_HPP
 
-#include <O8\Templates\IntrusiveList.hpp> /* IntrusiveList::List */
-#include <O8\WS\Manager.hpp>              /* Manager */
+#include <Utilities\containers\IntrusiveList.hpp> /* IntrusiveList::List */
+#include <O8\WS\Manager.hpp>				      /* Manager */
 
 namespace O8
 {
@@ -41,16 +41,16 @@ namespace O8
 	{
         class Window_windows;
 
-		class Manager_windows : public Manager, public IntrusiveList::List<Window_windows>
+		class Manager_windows : public Manager, public Containers::IntrusiveList::List<Window_windows>
 		{
 		public:
             Manager_windows();
             virtual ~Manager_windows();
 
             /* Event processing */
-            virtual int32 Start_event_processing();
-            virtual int32 Stop_event_processing();
-            virtual int32 Process_events();
+            virtual Platform::int32 Start_event_processing();
+            virtual Platform::int32 Stop_event_processing();
+            virtual Platform::int32 Process_events();
 
             /* Window management */
             virtual Window * Create_window();
@@ -75,6 +75,6 @@ namespace O8
 }
 
 /* DL entry points */
-O8_API_DECORATION DLL_EXPORT O8::WS::Manager * O8_API Create_manager();
+UTILITIES_API_DECORATION DLL_EXPORT O8::WS::Manager * UTILITIES_API Create_manager();
 
 #endif /* O8_WS_WINDOWS_MANAGER_HPP */

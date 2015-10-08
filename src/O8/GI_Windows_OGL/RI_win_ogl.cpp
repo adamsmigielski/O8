@@ -104,7 +104,7 @@ namespace O8
             }
 
             auto ret = context->Init(hdc);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 ASSERT(0);
                 ERRLOG("Failed to initialize context");
@@ -123,7 +123,7 @@ namespace O8
             const char * name = (const char *) m_parent_context->Functions().GetString(GL_VERSION);
 
             LOG("OpenGL context created, version string: " << name);
-            return Success;
+            return Utilities::Success;
         }
 
         OpenGL::Context * RI_win_ogl::Get_context()
@@ -147,7 +147,7 @@ namespace O8
             m_parent_context->Make_current();
 
             auto ret = presentation->Init(hwnd, m_parent_context);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 ERRLOG("Failed to create presentation");
                 ASSERT(0);

@@ -66,7 +66,7 @@ namespace O8
 
             loop();
 
-            return Success;
+            return Utilities::Success;
         }
 
         int32 Manager_windows::Stop_event_processing()
@@ -74,7 +74,7 @@ namespace O8
             if (loop_state::Run == m_loop_state)
             {
                 m_loop_state = loop_state::Stoping;
-                return Success;
+                return Utilities::Success;
             }
             else
             {
@@ -92,7 +92,7 @@ namespace O8
                 it->Process_messages();
             }
 
-            return Success;
+            return Utilities::Success;
         }
 
 
@@ -129,7 +129,7 @@ namespace O8
             while (loop_state::Run == m_loop_state)
             {
                 //Update windows
-                if (Success != Process_events())
+                if (Utilities::Success != Process_events())
                 {
                     break;
                 }
@@ -145,7 +145,7 @@ namespace O8
 }
 
 /* DL entry points */
-O8::WS::Manager * O8_API Create_manager()
+O8::WS::Manager * UTILITIES_API Create_manager()
 {
     return new O8::WS::Manager_windows;
 }

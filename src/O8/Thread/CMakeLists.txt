@@ -21,5 +21,4 @@ ADD_LIBRARY (Thread STATIC
 			 Thread.hpp)
 
 TARGET_LINK_LIBRARIES (Thread_Loader
-					   ${DL_IMPL}
-					   ${THREAD_IMPL})
+					   ${DL_IMPL})

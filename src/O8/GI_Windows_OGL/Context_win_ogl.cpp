@@ -127,7 +127,7 @@ namespace O8
             }
 
             ret = LoadWGL();
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 ERRLOG("Cannot load wgl");
                 return Failure;
@@ -147,13 +147,13 @@ namespace O8
                     minor,
                     hglrc);
 
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     DEBUGLOG("Failed");
                 }
                 else
                 {
-                    DEBUGLOG("Success");
+                    DEBUGLOG("Utilities::Success");
 
                     m_hdc = hdc;
                     m_hglrc = hglrc;
@@ -168,13 +168,13 @@ namespace O8
                     gl.GetIntegerv(GL_MAJOR_VERSION, &m_major);
                     gl.GetIntegerv(GL_MINOR_VERSION, &m_minor);
 
-                    DEBUGLOG("Success:" << m_major << "." << m_minor);
+                    DEBUGLOG("Utilities::Success:" << m_major << "." << m_minor);
 
                     break;
                 }
             }
 
-            /* ret == Success when successful */
+            /* ret == Utilities::Success when Utilities::Successful */
             return ret;
         }
 
@@ -201,7 +201,7 @@ namespace O8
             ret = prepare_pixel_format(
                 hdc,
                 pixel_format);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 return ret;
             }
@@ -221,7 +221,7 @@ namespace O8
             }
 
             ret = LoadWGL();
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 ERRLOG("Cannot load wgl");
                 return Failure;
@@ -247,7 +247,7 @@ namespace O8
             }
             else
             {
-                DEBUGLOG("Success");
+                DEBUGLOG("Utilities::Success");
 
                 m_hdc = hdc;
                 m_hglrc = hglrc;
@@ -262,10 +262,10 @@ namespace O8
                 gl.GetIntegerv(GL_MAJOR_VERSION, &m_major);
                 gl.GetIntegerv(GL_MINOR_VERSION, &m_minor);
 
-                DEBUGLOG("Success:" << m_major << "." << m_minor);
+                DEBUGLOG("Utilities::Success:" << m_major << "." << m_minor);
             }
 
-            return Success;
+            return Utilities::Success;
         }
 
         HDC Context_win_ogl::GetDC() const
@@ -333,7 +333,7 @@ namespace O8
                 return O8::Failed_to_load_function;
             }
 
-            return Success;
+            return Utilities::Success;
         }
 
         HGLRC Context_win_ogl::create_extended_context(
@@ -387,7 +387,7 @@ namespace O8
             int32 ret = prepare_pixel_format(
                 hdc,
                 pixel_format);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 return ret;
             }
@@ -426,7 +426,7 @@ namespace O8
             }
 
             out_hglrc = extended_context;
-            return Success;
+            return Utilities::Success;
         }
 
         int32 Context_win_ogl::prepare_pixel_format(
@@ -444,7 +444,7 @@ namespace O8
                 return Failure;
             }
 
-            return Success;
+            return Utilities::Success;
         }
     }
 }

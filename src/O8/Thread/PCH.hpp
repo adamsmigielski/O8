@@ -32,8 +32,8 @@
 #ifndef O8_THREAD_PCH_HPP
 #define O8_THREAD_PCH_HPP
 
-#include <O8\Platform.hpp>
+#include <Utilities\Platform.hpp>
 
-#include <O8\Common\CallConvention.hpp>
+#include <Utilities\basic\CallConvention.hpp>
 
 #endif /* O8_THREAD_PCH_HPP */

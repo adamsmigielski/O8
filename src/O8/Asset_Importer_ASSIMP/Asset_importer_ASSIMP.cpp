@@ -53,7 +53,7 @@ namespace O8
 
         int32 Importer_ASSIMP::Init()
         {
-            return Success;
+            return Utilities::Success;
         }
 
         int32 Importer_ASSIMP::Get_asset(
@@ -84,7 +84,7 @@ namespace O8
 
             model.m_Bones.resize(n_nodes);
 
-            return Success;
+            return Utilities::Success;
         }
 
         size_t Importer_ASSIMP::get_number_of_children(const aiNode * node)

@@ -34,7 +34,7 @@
 
 #include <O8\GI\Buffer.hpp>
 #include <O8\Math\FloatTypes.hpp>
-#include <O8\Templates\IntrusiveList.hpp>
+#include <Utilities\containers\IntrusiveList.hpp>
 #include <O8\Templates\ReferenceCounted.hpp>
 #include <O8\Utility\Binary_data.hpp>
 #include <O8\Utility\Name.hpp>

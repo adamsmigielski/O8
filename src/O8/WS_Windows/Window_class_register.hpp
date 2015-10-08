@@ -32,16 +32,16 @@
 #ifndef O8_WS_WINDOWS_WINDOW_CLASS_REGISTER_HPP
 #define O8_WS_WINDOWS_WINDOW_CLASS_REGISTER_HPP
 
-#include <O8\Templates\Singleton.hpp>
+#include <Utilities\containers\Singleton.hpp>
 
 namespace O8
 {
     namespace WS
     {
-        class Window_class_register : public Templates::Containers::Singleton<Window_class_register>
+        class Window_class_register : public Containers::Singleton<Window_class_register>
         {
             /* Singleton needs access to constructor */
-            friend class Templates::Containers::Singleton<Window_class_register>;
+            friend class Containers::Singleton<Window_class_register>;
 
         public:
             ~Window_class_register();

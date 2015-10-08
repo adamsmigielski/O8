@@ -118,7 +118,7 @@ namespace O8
                 }
             }
 
-            return Success;
+            return Utilities::Success;
         }
 
         int32 Import_manager::Load_formats(const std::string & file_name)
@@ -162,7 +162,7 @@ namespace O8
                 format->m_Importer_library_path(importer_str);
             }
 
-            return Success;
+            return Utilities::Success;
         }
 
         int32 Import_manager::Load_importers(const std::string & file_name)
@@ -217,7 +217,7 @@ namespace O8
                 }
             }
 
-            return Success;
+            return Utilities::Success;
         }
 
         int32 Import_manager::Store_extensions(const std::string & file_name)
@@ -235,7 +235,7 @@ namespace O8
                 file << ext->m_Name() << " " << ext->m_Format_name() << std::endl;
             }
 
-            return Success;
+            return Utilities::Success;
         }
 
         int32 Import_manager::Store_formats(const std::string & file_name)
@@ -253,7 +253,7 @@ namespace O8
                 file << format->m_Importer_library_path() << " " << format->m_Name() << std::endl;
             }
 
-            return Success;
+            return Utilities::Success;
         }
 
         Format * Import_manager::get_format(
@@ -349,7 +349,7 @@ namespace O8
             importer->m_Dl = dl;
 
             auto ret = importer->Init();
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 ERRLOG("Importer initialization failed");
                 ASSERT(0);

@@ -47,13 +47,13 @@ namespace O8
 			Alarm();
 			virtual ~Alarm();
 
-			virtual int32 Init() = 0;
+			virtual Platform::int32 Init() = 0;
 			virtual void Release() = 0;
 
-			virtual int32 Start(float time_s) = 0;
+			virtual Platform::int32 Start(float time_s) = 0;
 		};
 
-        typedef Alarm * (O8_API * PFN_CREATE_ALARM)();
+        typedef Alarm * (UTILITIES_API * PFN_CREATE_ALARM)();
 	}
 }
 

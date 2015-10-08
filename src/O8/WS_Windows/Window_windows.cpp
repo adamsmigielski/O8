@@ -31,7 +31,7 @@
 
 #include "PCH.hpp"
 
-#include <O8\Common\ErrorCodes.hpp>
+#include <Utilities\basic\ErrorCodes.hpp>
 #include <O8\WS\Window_event_handler.hpp> /* Window_event_handler */
 
 #include "Window_windows.hpp"
@@ -53,12 +53,12 @@ namespace O8
 			release();
 		}
 
-		int32 Window_windows::Init(
+		Platform::int32 Window_windows::Init(
 			Window_event_handler * handler,
-			int32 x,
-			int32 y,
-			int32 width,
-			int32 height,
+			Platform::int32 x,
+			Platform::int32 y,
+			Platform::int32 width,
+			Platform::int32 height,
 			const char * title)
 		{
             auto wcs = Window_class_register::Get_singleton();
@@ -81,11 +81,11 @@ namespace O8
             {
                 ASSERT(0);
                 ERRLOG("CreateWindowEx - err: " << GetLastError());
-                return Failure;
+                return Utilities::Failure;
             }
 
             auto ret = Init((Native) &hwnd, handler);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 ASSERT(0);
                 ERRLOG("Failed to initialize window");
@@ -95,20 +95,20 @@ namespace O8
             return ret;
 		}
 
-		int32 Window_windows::Init(
+		Platform::int32 Window_windows::Init(
 			Native native,
 			Window_event_handler * handler)
 		{
             if (NULL != m_native)
             {
                 ASSERT(0);
-                return Invalid_object;
+				return Utilities::Invalid_object;
             }
 
             if (nullptr == native)
             {
                 ASSERT(0);
-                return Invalid_parameter;
+				return Utilities::Invalid_parameter;
             }
 
             HWND * p_hwnd = (HWND *) native;
@@ -118,7 +118,7 @@ namespace O8
             if (NULL == m_native)
             {
                 ASSERT(0);
-                return Invalid_parameter;
+				return Utilities::Invalid_parameter;
             }
 
             if (nullptr != m_handler)
@@ -133,7 +133,7 @@ namespace O8
                         ASSERT(0);
                         ERRLOG("Failed to store this pointer in window object: " << err);
                         m_native = 0;
-                        return Failure;
+						return Utilities::Failure;
                     }
                 }
 
@@ -146,14 +146,14 @@ namespace O8
                         ASSERT(0);
                         ERRLOG("Failed to set window procedure: " << err);
                         m_native = 0;
-                        return Failure;
+						return Utilities::Failure;
                     }
                 }
 
                 m_handler->On_init(this);
             }
 
-            return Success;
+            return Utilities::Success;
 		}
 
 		void Window_windows::Release()
@@ -176,7 +176,7 @@ namespace O8
 			return m_handler;
 		}
 
-		void Window_windows::X(int32 val)
+		void Window_windows::X(Platform::int32 val)
 		{
 			RECT rect;
 			GetWindowRect(m_native, &rect);
@@ -189,15 +189,15 @@ namespace O8
 				false);					/* repaint */
         }
 
-        int32 Window_windows::X() const
+        Platform::int32 Window_windows::X() const
         {
             RECT rect;
             GetWindowRect(m_native, &rect);
 
-            return (uint32) rect.left;
+            return rect.left;
         }
 
-		void Window_windows::Y(int32 val)
+		void Window_windows::Y(Platform::int32 val)
 		{
 			RECT rect;
 			GetWindowRect(m_native, &rect);
@@ -210,15 +210,15 @@ namespace O8
 				false);					/* repaint */
         }
 
-        int32 Window_windows::Y() const
+        Platform::int32 Window_windows::Y() const
         {
             RECT rect;
             GetWindowRect(m_native, &rect);
 
-            return (uint32)rect.top;
+            return rect.top;
         }
 
-        void Window_windows::Width(int32 val)
+        void Window_windows::Width(Platform::int32 val)
         {
             RECT rect;
             GetWindowRect(m_native, &rect);
@@ -235,15 +235,15 @@ namespace O8
                 rect.bottom - rect.top);
         }
 
-        int32 Window_windows::Width() const
+        Platform::int32 Window_windows::Width() const
         {
             RECT rect;
             GetWindowRect(m_native, &rect);
 
-            return (uint32)(rect.right - rect.left);
+            return rect.right - rect.left;
         }
 
-        void Window_windows::Height(int32 val)
+        void Window_windows::Height(Platform::int32 val)
         {
             RECT rect;
             GetWindowRect(m_native, &rect);
@@ -260,15 +260,15 @@ namespace O8
                 val);
         }
 
-        int32 Window_windows::Height() const
+        Platform::int32 Window_windows::Height() const
         {
             RECT rect;
             GetWindowRect(m_native, &rect);
 
-            return (uint32)(rect.bottom - rect.top);
+            return rect.bottom - rect.top;
         }
 
-        void Window_windows::Client_width(int32 val)
+        void Window_windows::Client_width(Platform::int32 val)
         {
             RECT rect;
             WINDOWINFO info;
@@ -295,15 +295,15 @@ namespace O8
                 rect.bottom - rect.top);
         }
 
-        int32 Window_windows::Client_width() const
+        Platform::int32 Window_windows::Client_width() const
         {
             RECT rect;
             GetClientRect(m_native, &rect);
 
-            return (uint32)(rect.right - rect.left);
+            return rect.right - rect.left;
         }
 
-        void Window_windows::Client_height(int32 val)
+        void Window_windows::Client_height(Platform::int32 val)
         {
             RECT rect;
             WINDOWINFO info;
@@ -330,12 +330,12 @@ namespace O8
                 rect.bottom - rect.top);
         }
 
-        int32 Window_windows::Client_height() const
+        Platform::int32 Window_windows::Client_height() const
         {
             RECT rect;
             GetClientRect(m_native, &rect);
 
-            return (uint32)(rect.bottom - rect.top);
+            return rect.bottom - rect.top;
         }
 
         void Window_windows::Get_title(std::string & title) const
@@ -412,7 +412,7 @@ namespace O8
             return ret;
         }
 
-        int32 Window_windows::Process_messages()
+        Platform::int32 Window_windows::Process_messages()
         {
             MSG msg;
             BOOL ret;
@@ -439,7 +439,7 @@ namespace O8
 
             capture_input();
 
-            return Msg_prc_successfull;
+            return Msg_prc_Successfull;
         }
 
         void Window_windows::capture_input(){}
@@ -486,12 +486,12 @@ namespace O8
 
         LRESULT Window_windows::on_wm_command(OS_message & msg)
         {
-            uint16 type;
-            uint16 id;
-            static const uint16 MENU_TYPE = 0;
+            Platform::uint16 type;
+            Platform::uint16 id;
+            static const Platform::uint16 MENU_TYPE = 0;
 
-            type = (uint16)HIWORD(msg.wParam);
-            id = (uint16)LOWORD(msg.wParam);
+			type = (Platform::uint16)HIWORD(msg.wParam);
+			id = (Platform::uint16)LOWORD(msg.wParam);
 
             if (MENU_TYPE == type)
             {
@@ -516,8 +516,8 @@ namespace O8
 
         LRESULT Window_windows::on_wm_move(OS_message & msg)
         {
-            int32 x = (int32)(short)LOWORD(msg.lParam);
-            int32 y = (int32)(short)HIWORD(msg.lParam);
+            Platform::int32 x = (Platform::int32)(short)LOWORD(msg.lParam);
+            Platform::int32 y = (Platform::int32)(short)HIWORD(msg.lParam);
 
             m_handler->On_move(
                 this,
@@ -661,8 +661,8 @@ namespace O8
 
         LRESULT Window_windows::on_wm_size(OS_message & msg)
         {
-            uint32 width = (uint32)(short)LOWORD(msg.lParam);
-            uint32 height = (uint32)(short)HIWORD(msg.lParam);
+            Platform::uint32 width = (Platform::uint32)(short)LOWORD(msg.lParam);
+            Platform::uint32 height = (Platform::uint32)(short)HIWORD(msg.lParam);
 
             switch (msg.wParam)
             {
@@ -746,8 +746,8 @@ namespace O8
         }
 
         void Window_windows::update_input_system(
-            int32 w,
-            int32 h)
+            Platform::int32 w,
+            Platform::int32 h)
         {
         }
 

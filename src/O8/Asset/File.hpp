@@ -34,7 +34,7 @@
 
 #include "Type.hpp"
 
-#include <O8\Templates\IntrusiveList.hpp>
+#include <Utilities\containers\IntrusiveList.hpp>
 #include <O8\Utility\Binary_data.hpp>
 #include <O8\Utility\Name.hpp>
 
@@ -65,7 +65,7 @@ namespace O8
             /* Ctr $ Dtr */
             virtual ~Asset_descriptor() {}
 
-            virtual int32 Get_details(
+            virtual Platform::int32 Get_details(
                 Utility::Binary_data & out_data,
                 Type::Types & out_type) const = 0;
             virtual const std::string & Get_name() const = 0;
@@ -92,10 +92,10 @@ namespace O8
             /* Asset access */
             virtual Utility::Binary_data Get_asset(const File_descriptor & desc) const;
             virtual const File_descriptor * Get_descriptor(const std::string & id) const;
-            virtual int32 Load(const std::string & file_name);
+            virtual Platform::int32 Load(const std::string & file_name);
 
             /* Static routines */
-            static int32 Store_file(
+            static Platform::int32 Store_file(
                 const std::string & file_name,
                 const Asset_descriptor * first,
                 const Asset_descriptor * end);

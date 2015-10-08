@@ -33,7 +33,7 @@
 #define O8_THREAD_THREAD_HPP
 
 #include "Synchronizer.hpp"
-#include <O8\Templates\Task.hpp>
+#include <Utilities\task\Task.hpp>
 
 namespace O8
 {
@@ -56,14 +56,14 @@ namespace O8
             Thread();
             virtual ~Thread();
 
-            virtual int32 Start(Runnable * runnable) = 0;
+			virtual Platform::int32 Start(Runnable * runnable) = 0;
         };
 
-        typedef Thread * (O8_API * PFN_CREATE_THREAD)();
-        typedef void (O8_API * PFN_GIVE_UP)();
+        typedef Thread * (UTILITIES_API * PFN_CREATE_THREAD)();
+        typedef void (UTILITIES_API * PFN_GIVE_UP)();
 
 		template <typename ...TT>
-		int32 Start(Thread * thread, TT... args)
+		Platform::int32 Start(Thread * thread, TT... args)
 		{
 			auto task = Templates::TaskFactory<TT...>::Create(args...);
 

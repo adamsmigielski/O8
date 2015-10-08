@@ -53,12 +53,12 @@ namespace O8
 				Ownership,
 			};
 			
-			static const uint32 Infinite;
+			static const Platform::uint32 Infinite;
 
-			virtual WaitResult Wait(uint32 timeout_ms) const = 0;
+			virtual WaitResult Wait(Platform::uint32 timeout_ms) const = 0;
 		};
 
-        typedef Synchronizer::WaitResult(O8_API * PFN_WAIT_FOR_MULTIPLE)(Synchronizer ** synchronizers, uint32 size);
+		typedef Synchronizer::WaitResult(UTILITIES_API * PFN_WAIT_FOR_MULTIPLE)(Synchronizer ** synchronizers, Platform::uint32 size);
 	}
 }
 

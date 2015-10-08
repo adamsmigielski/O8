@@ -34,7 +34,7 @@
 
 #include <memory>
 
-#include <O8\Templates\IntrusiveList.hpp>
+#include <Utilities\containers\IntrusiveList.hpp>
 #include <O8\Utility\Name.hpp>
 
 #include "Importer.hpp"

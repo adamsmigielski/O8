@@ -73,6 +73,6 @@ namespace O8
     }
 }
 
-O8_API_DECORATION DLL_EXPORT O8::Asset::Importer * O8_API Create_importer();
+UTILITIES_API_DECORATION DLL_EXPORT O8::Asset::Importer * UTILITIES_API Create_importer();
 
 #endif /* O8_ASSET_IMPORTER_ASSIMP_HPP */

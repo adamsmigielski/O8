@@ -4,3 +4,6 @@
 [submodule "src/Unit_Tests"]
 	path = src/Unit_Tests
 	url = https://github.com/adamsmigielski/Unit_Tests.git
+[submodule "Project_configuration"]
+	path = Project_configuration
+	url = https://github.com/adamsmigielski/Project_configuration.git

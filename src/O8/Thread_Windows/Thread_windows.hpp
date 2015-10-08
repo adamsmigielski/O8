@@ -48,15 +48,15 @@ namespace O8
             virtual ~Thread_windows();
 
             /* Thread */
-			virtual int32 Start(Runnable * runnable);
+			virtual Platform::int32 Start(Runnable * runnable);
 
             /* Synchronizer */
-            virtual WaitResult Wait(uint32 timeout_ms) const;
+			virtual WaitResult Wait(Platform::uint32 timeout_ms) const;
 		};
 	}
 }
 
-O8_API_DECORATION DLL_EXPORT O8::Thread::Thread * O8_API Create_thread();
-O8_API_DECORATION DLL_EXPORT void O8_API Give_up();
+UTILITIES_API_DECORATION DLL_EXPORT O8::Thread::Thread * UTILITIES_API Create_thread();
+UTILITIES_API_DECORATION DLL_EXPORT void UTILITIES_API Give_up();
 
 #endif /* O8_THREAD_THREAD_WINDOWS_HPP */

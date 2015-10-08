@@ -31,7 +31,7 @@
 
 #include "PCH.hpp"
 
-#include <O8\Common\ErrorCodes.hpp>
+#include <Utilities\basic\ErrorCodes.hpp>
 
 #include "Window_event_handler.hpp"
 
@@ -60,129 +60,129 @@ namespace O8
 
         }
 
-        int32 Window_event_handler::On_deactivation(
+        Platform::int32 Window_event_handler::On_deactivation(
             Window * window)
         {
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_activation_click(
+        Platform::int32 Window_event_handler::On_activation_click(
             Window * window)
         {
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_activation(
+        Platform::int32 Window_event_handler::On_activation(
             Window * window)
         {
-            return Success;
+            return Utilities::Success;
         }
 
 
-        int32 Window_event_handler::On_close(
+        Platform::int32 Window_event_handler::On_close(
             Window * window,
             bool & should_window_close)
         {
             should_window_close = true;
 
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_quit(
+        Platform::int32 Window_event_handler::On_quit(
             Window * window)
         {
-            return Success;
+            return Utilities::Success;
         }
 
 
-        int32 Window_event_handler::On_power_suspend(
+        Platform::int32 Window_event_handler::On_power_suspend(
             Window * window)
         {
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_power_resume(
+        Platform::int32 Window_event_handler::On_power_resume(
             Window * window)
         {
-            return Success;
+            return Utilities::Success;
         }
 
 
-        int32 Window_event_handler::On_moving(
+        Platform::int32 Window_event_handler::On_moving(
             Window * window,
-            int32 & left,
-            int32 & top,
-            int32 & right,
-            int32 & bottom)
+            Platform::int32 & left,
+            Platform::int32 & top,
+            Platform::int32 & right,
+            Platform::int32 & bottom)
         {
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_move(
+        Platform::int32 Window_event_handler::On_move(
             Window * window,
-            int32 x,
-            int32 y)
+            Platform::int32 x,
+            Platform::int32 y)
         {
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_sizing(
+        Platform::int32 Window_event_handler::On_sizing(
             Window * window,
             Sizing_direction direction,
-            int32 & left,
-            int32 & top,
-            int32 & right,
-            int32 & bottom)
+            Platform::int32 & left,
+            Platform::int32 & top,
+            Platform::int32 & right,
+            Platform::int32 & bottom)
         {
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_size(
+        Platform::int32 Window_event_handler::On_size(
             Window * window,
-            int32 width,
-            int32 height)
+            Platform::int32 width,
+            Platform::int32 height)
 
         {
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_maximization(
+        Platform::int32 Window_event_handler::On_maximization(
             Window * window,
-            int32 width,
-            int32 height)
+            Platform::int32 width,
+            Platform::int32 height)
         {
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_minimization(
+        Platform::int32 Window_event_handler::On_minimization(
             Window * window,
-            int32 width,
-            int32 height)
+            Platform::int32 width,
+            Platform::int32 height)
 
         {
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_other_window_maximized_or_restored(
+        Platform::int32 Window_event_handler::On_other_window_maximized_or_restored(
             Window * window,
-            int32 width,
-            int32 height)
+            Platform::int32 width,
+            Platform::int32 height)
         {
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_paint(
+        Platform::int32 Window_event_handler::On_paint(
             Window * window)
         {
-            return Success;
+            return Utilities::Success;
         }
 
-        int32 Window_event_handler::On_menu(
+        Platform::int32 Window_event_handler::On_menu(
             Window * window,
-            uint16 id)
+			Platform::uint16 id)
 
         {
-            return Success;
+            return Utilities::Success;
         }
 
         ////Keyboard

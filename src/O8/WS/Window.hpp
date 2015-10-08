@@ -47,14 +47,14 @@ namespace O8
 			Window();
 			virtual ~Window();
 
-			virtual int32 Init(
+			virtual Platform::int32 Init(
 				Window_event_handler * handler,
-				int32 x,
-				int32 y,
-				int32 width,
-				int32 height,
+				Platform::int32 x,
+				Platform::int32 y,
+				Platform::int32 width,
+				Platform::int32 height,
 				const char * title) = 0;
-			virtual int32 Init(
+			virtual Platform::int32 Init(
 				Native native,
 				Window_event_handler * handler) = 0;
 			virtual void Release() = 0;
@@ -68,23 +68,23 @@ namespace O8
             void Set_user_data(void * info);
 
 			/* Size and position */
-			virtual void X(int32 val) = 0;
-			virtual void Y(int32 val) = 0;
+			virtual void X(Platform::int32 val) = 0;
+			virtual void Y(Platform::int32 val) = 0;
 
-			virtual int32 X() const = 0;
-			virtual int32 Y() const = 0;
+			virtual Platform::int32 X() const = 0;
+			virtual Platform::int32 Y() const = 0;
 
-			virtual void Width(int32 val) = 0;
-			virtual void Height(int32 val) = 0;
+			virtual void Width(Platform::int32 val) = 0;
+			virtual void Height(Platform::int32 val) = 0;
 
-			virtual int32 Width() const = 0;
-			virtual int32 Height() const = 0;
+			virtual Platform::int32 Width() const = 0;
+			virtual Platform::int32 Height() const = 0;
 
-			virtual void Client_width(int32 width) = 0;
-			virtual void Client_height(int32 height) = 0;
+			virtual void Client_width(Platform::int32 width) = 0;
+			virtual void Client_height(Platform::int32 height) = 0;
 
-			virtual int32 Client_width() const = 0;
-			virtual int32 Client_height() const = 0;
+			virtual Platform::int32 Client_width() const = 0;
+			virtual Platform::int32 Client_height() const = 0;
 
 			/* Title */
 			virtual void Get_title(std::string & title) const = 0;

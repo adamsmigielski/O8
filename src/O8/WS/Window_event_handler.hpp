@@ -63,65 +63,65 @@ namespace O8
                 Window * window);
 
             /* OS */
-            virtual int32 On_deactivation(
+            virtual Platform::int32 On_deactivation(
                 Window * window);
-            virtual int32 On_activation_click(
+            virtual Platform::int32 On_activation_click(
                 Window * window);
-            virtual int32 On_activation(
+            virtual Platform::int32 On_activation(
                 Window * window);
                           
-            virtual int32 On_close(
+            virtual Platform::int32 On_close(
                 Window * window,
                 bool & should_window_close);
-            virtual int32 On_quit(
+            virtual Platform::int32 On_quit(
                 Window * window);
 
-            virtual int32 On_power_suspend(
+            virtual Platform::int32 On_power_suspend(
                 Window * window);
-            virtual int32 On_power_resume(
+            virtual Platform::int32 On_power_resume(
                 Window * window);
                           
-            virtual int32 On_moving(
+            virtual Platform::int32 On_moving(
                 Window * window,
-                int32 & left,
-                int32 & top,
-                int32 & right,
-                int32 & bottom);
-            virtual int32 On_move(
+                Platform::int32 & left,
+                Platform::int32 & top,
+                Platform::int32 & right,
+                Platform::int32 & bottom);
+            virtual Platform::int32 On_move(
                 Window * window,
-                int32 x,
-                int32 y);
+                Platform::int32 x,
+                Platform::int32 y);
 
-            virtual int32 On_sizing(
+            virtual Platform::int32 On_sizing(
                 Window * window,
                 Sizing_direction direction,
-                int32 & left,
-                int32 & top,
-                int32 & right,
-                int32 & bottom);
-            virtual int32 On_size(
+                Platform::int32 & left,
+                Platform::int32 & top,
+                Platform::int32 & right,
+                Platform::int32 & bottom);
+            virtual Platform::int32 On_size(
                 Window * window,
-                int32 width,
-                int32 height);
-            virtual int32 On_maximization(
+                Platform::int32 width,
+                Platform::int32 height);
+            virtual Platform::int32 On_maximization(
                 Window * window,
-                int32 width,
-                int32 height);
-            virtual int32 On_minimization(
+                Platform::int32 width,
+                Platform::int32 height);
+            virtual Platform::int32 On_minimization(
                 Window * window,
-                int32 width,
-                int32 height);
-            virtual int32 On_other_window_maximized_or_restored(
+                Platform::int32 width,
+                Platform::int32 height);
+            virtual Platform::int32 On_other_window_maximized_or_restored(
                 Window * window,
-                int32 width,
-                int32 height);
+                Platform::int32 width,
+                Platform::int32 height);
 
-            virtual int32 On_paint(
+            virtual Platform::int32 On_paint(
                 Window * window);
 
-            virtual int32 On_menu(
+            virtual Platform::int32 On_menu(
                 Window * window,
-                uint16 id);
+				Platform::uint16 id);
 
             ////OIS
             ////Keyboard

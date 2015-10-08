@@ -47,7 +47,7 @@ namespace O8
 			virtual void Unlock() = 0;
 		};
         
-        typedef Blocker * (O8_API * PFN_CREATE_BLOCKER)();*/
+        typedef Blocker * (UTILITIES_API * PFN_CREATE_BLOCKER)();*/
 	}
 }
 

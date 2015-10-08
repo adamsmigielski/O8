@@ -32,7 +32,7 @@
 #ifndef O8_GI_RI_HPP
 #define O8_GI_RI_HPP
 
-#include <O8\Templates\IntrusiveList.hpp>
+#include <Utilities\containers\IntrusiveList.hpp>
 #include "Presentation.hpp"
 #include "Texture.hpp"
 

@@ -38,7 +38,7 @@
 #include "Importer.hpp"
 #include "Import_manager.hpp"
 
-#include <O8\Templates\IntrusiveList.hpp>
+#include <Utilities\containers\IntrusiveList.hpp>
 #include <O8\Utility\Name.hpp>
 
 namespace O8

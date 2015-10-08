@@ -11,7 +11,7 @@ ADD_LIBRARY(RS STATIC
 			RS.hpp)
 
 ADD_DEPENDENCIES(RS
-			     basic
+			     Common
 				 containers
 				 helpers
 				 memory

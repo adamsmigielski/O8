@@ -55,14 +55,14 @@ namespace O8
                     attribute_desc.m_Offset,
                     Type::Get_size(attribute_desc.m_Type) * n_vertices);
 
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     return ret;
                 }
 
                 m_Type = attribute_desc.m_Type;
 
-                return Success;
+                return Utilities::Success;
             }
         }
 
@@ -103,7 +103,7 @@ namespace O8
                         data,
                         mesh_desc.m_n_Vertices);
 
-                    if (Success != ret)
+                    if (Utilities::Success != ret)
                     {
                         return ret;
                     }
@@ -112,7 +112,7 @@ namespace O8
                 /* Set vertex number */
                 m_n_Vertices = mesh_desc.m_n_Vertices;
 
-                return Success;
+                return Utilities::Success;
             }
         }
 
@@ -151,7 +151,7 @@ namespace O8
                 /* Get descriptor */
                 Descriptor desc;
                 ret = MemoryAccess::Read(m_data, s_off_model_descriptor, desc);
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     DEBUGLOG("Failed to load Model::Descriptor");
                     return ret;
@@ -159,26 +159,26 @@ namespace O8
 
                 /* Read attributes */
                 ret = load_attributes_descriptors(desc.m_n_Meshes, desc.m_Offset_attributes);
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     return ret;
                 }
 
                 /* Read bones */
                 ret = load_bone_descriptors(desc.m_n_Bones, desc.m_Offset_bones);
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     return ret;
                 }
 
                 /* Read meshes */
                 ret = load_mesh_descriptors(desc.m_n_Meshes, desc.m_Offset_meshes);
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     return ret;
                 }
 
-                return Success;
+                return Utilities::Success;
             }
 
             int32 Definition::Prepare_definition(Mesh::Setup & setup)
@@ -189,18 +189,18 @@ namespace O8
                 }
 
                 int32 ret = parse_bone_descriptors();
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     return ret;
                 }
 
                 ret = parse_mesh_descriptors(setup);
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     return ret;
                 }
 
-                return Success;
+                return Utilities::Success;
             }
 
             int32 Definition::Prepare_descriptors()
@@ -209,7 +209,7 @@ namespace O8
 
                 /* Bones */
                 auto ret = prepare_bone_descriptors(desc);
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     Drop_descriptors();
                     return ret;
@@ -217,7 +217,7 @@ namespace O8
 
                 /* Meshes */
                 ret = prepare_mesh_descriptors(desc);
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     Drop_descriptors();
                     return ret;
@@ -237,7 +237,7 @@ namespace O8
                     s_off_model_descriptor,
                     desc);
 
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     Drop_descriptors();
                 }
@@ -258,7 +258,7 @@ namespace O8
                     s_off_model_descriptor,
                     desc);
 
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     return ret;
                 }
@@ -268,7 +268,7 @@ namespace O8
                     desc.m_Offset_bones,
                     m_bone_descriptors.data(),
                     m_bone_descriptors.size() * sizeof(Bone::Descriptor));
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     return ret;
                 }
@@ -278,7 +278,7 @@ namespace O8
                     desc.m_Offset_meshes,
                     m_mesh_descriptors.data(),
                     m_mesh_descriptors.size() * sizeof(Mesh::Descriptor));
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     return ret;
                 }
@@ -288,7 +288,7 @@ namespace O8
                     desc.m_Offset_attributes,
                     m_attributes_descriptors.data(),
                     m_attributes_descriptors.size() * sizeof(Vertex::Descriptor));
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     return ret;
                 }
@@ -304,7 +304,7 @@ namespace O8
                         mesh_desc->m_Indices_offset,
                         mesh->m_Indices_data.Data(),
                         mesh->m_Indices_data.Size());
-                    if (Success != ret)
+                    if (Utilities::Success != ret)
                     {
                         return ret;
                     }
@@ -316,14 +316,14 @@ namespace O8
                             attr_desc[i].m_Offset,
                             mesh->m_Attributes[j].m_Data.Data(),
                             mesh->m_Attributes[j].m_Data.Size());
-                        if (Success != ret)
+                        if (Utilities::Success != ret)
                         {
                             return ret;
                         }
                     }
                 }
 
-                return Success;
+                return Utilities::Success;
             }
 
             int32 Definition::Get_buffer_requirements(Requirements & info)
@@ -357,7 +357,7 @@ namespace O8
                     }
                 }
 
-                return Success;
+                return Utilities::Success;
             }
 
             int32 Definition::load_attributes_descriptors(
@@ -381,7 +381,7 @@ namespace O8
                     n_attributes * sizeof(Vertex::Descriptor),
                     m_attributes_descriptors.data());
 
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     DEBUGLOG("Failed to load Vertex::Descriptor[" << n_attributes << "]");
                 }
@@ -408,7 +408,7 @@ namespace O8
                     n_bones * sizeof(Bone::Descriptor),
                     m_bone_descriptors.data());
 
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     DEBUGLOG("Failed to load Bone::Descriptor[" << n_bones << "]");
                 }
@@ -434,7 +434,7 @@ namespace O8
                     offset,
                     n_meshes * sizeof(Mesh::Descriptor),
                     m_mesh_descriptors.data());
-                if (Success != ret)
+                if (Utilities::Success != ret)
                 {
                     DEBUGLOG("Failed to load Mesh::Descriptor[" << n_meshes << "]");
                 }
@@ -467,7 +467,7 @@ namespace O8
                     const auto parent_id = bone_desc.m_Parent_id;
                 }
 
-                return Success;
+                return Utilities::Success;
             }
 
             int32 Definition::parse_mesh_descriptors(Mesh::Setup & setup)
@@ -494,13 +494,13 @@ namespace O8
                         m_data,
                         mesh_desc,
                         setup);
-                    if (Success != ret)
+                    if (Utilities::Success != ret)
                     {
                         return ret;
                     }
                 }
 
-                return Success;
+                return Utilities::Success;
             }
 
             int32 Definition::prepare_bone_descriptors(Descriptor & desc)
@@ -527,7 +527,7 @@ namespace O8
                     m_bone_descriptors[i].m_Parent_id = m_Bones[i].m_Parent_id;
                 }
 
-                return Success;
+                return Utilities::Success;
             }
 
             int32 Definition::prepare_mesh_descriptors(Descriptor & desc)
@@ -587,7 +587,7 @@ namespace O8
 
                 desc.m_Offset_animations = next_offset;
 
-                return Success;
+                return Utilities::Success;
             }
         }
     }

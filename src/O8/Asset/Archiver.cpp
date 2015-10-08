@@ -94,7 +94,7 @@ namespace O8
 
             file.close();
 
-            return Success;
+            return Utilities::Success;
         }
 
         int32 Registry::Store(const std::string & file_name) const
@@ -121,7 +121,7 @@ namespace O8
 
             file.close();
 
-            return Success;
+            return Utilities::Success;
         }
 
         Archiver_descriptor::Archiver_descriptor(

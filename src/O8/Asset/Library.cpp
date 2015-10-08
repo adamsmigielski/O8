@@ -58,7 +58,7 @@ namespace O8
                 id,
                 file_name,
                 entry_name);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 return result;
             }
@@ -101,7 +101,7 @@ namespace O8
 
             file = new File;
             int32 ret = file->Load(file_name);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 ERRLOG("Not ava/ilable file: " << file_name);
                 delete file;
@@ -123,7 +123,7 @@ namespace O8
             out_id.append(":");
             out_id.append(entry_name);
 
-            return Success;
+            return Utilities::Success;
         }
 
         int32 Split_asset_id(
@@ -148,7 +148,7 @@ namespace O8
             out_archive_name = id.substr(0, delim_off);
             out_entry_name = id.substr(entry_name_offset, entry_name_length);
 
-            return Success;
+            return Utilities::Success;
         }
     }
 }

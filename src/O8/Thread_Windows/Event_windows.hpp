@@ -55,11 +55,11 @@ namespace O8
 			virtual void Reset();
 
             /* Synchronizer */
-            virtual WaitResult Wait(uint32 timeout_ms) const;
+			virtual WaitResult Wait(Platform::uint32 timeout_ms) const;
 		};
 	}
 }
 
-O8_API_DECORATION DLL_EXPORT O8::Thread::Event * O8_API Create_event();
+UTILITIES_API_DECORATION DLL_EXPORT O8::Thread::Event * UTILITIES_API Create_event();
 
 #endif /* O8_THREAD_EVENT_WINDOWS_HPP */

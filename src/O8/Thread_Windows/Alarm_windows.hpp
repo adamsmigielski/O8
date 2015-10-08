@@ -48,17 +48,17 @@ namespace O8
             virtual ~Alarm_windows();
 
             /* Alarm */
-			virtual int32 Init();
+			virtual Platform::int32 Init();
 			virtual void Release();
 
-			virtual int32 Start(float time_s);
+			virtual Platform::int32 Start(float time_s);
 
             /* Synchronizer */
-            virtual WaitResult Wait(uint32 timeout_ms) const;
+			virtual WaitResult Wait(Platform::uint32 timeout_ms) const;
 		};
 	}
 }
 
-O8_API_DECORATION DLL_EXPORT O8::Thread::Alarm * O8_API Create_alarm();
+UTILITIES_API_DECORATION DLL_EXPORT O8::Thread::Alarm * UTILITIES_API Create_alarm();
 
 #endif /* O8_THREAD_WINDOWS_ALARM_WINDOWS_HPP */

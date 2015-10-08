@@ -31,12 +31,14 @@
 
 #include "PCH.hpp"
 
-#include <O8\Common\ErrorCodes.hpp>
-#include "Loader.hpp"
-#include "ErrorCodes.hpp"
+#include <Utilities\basic\ErrorCodes.hpp>
 
+#include <O8\Common\ErrorCodes.hpp>
 #include <O8\DL\DL.hpp>
 #include <O8\Thread\Loader.hpp>
+
+#include "Loader.hpp"
+#include "ErrorCodes.hpp"
 
 namespace O8
 {
@@ -83,7 +85,7 @@ namespace O8
             g_ws_library = dl;
 
             /* Done */
-            return Success;
+            return Utilities::Success;
         }
 
         void UnloadDL()

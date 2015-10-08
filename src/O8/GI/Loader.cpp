@@ -33,7 +33,7 @@
 
 #include "Loader.hpp"
 
-#include <O8\Common\ErrorCodes.hpp>
+#include <Utilities\basic\Common\ErrorCodes.hpp>
 #include <O8\DL\DL.hpp>
 
 namespace O8
@@ -73,7 +73,7 @@ namespace O8
             g_gi_library = dl;
 
             /* Done */
-            return Success;
+            return Utilities::Success;
         }
 
         void UnloadDL()

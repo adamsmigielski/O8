@@ -33,7 +33,7 @@
 
 #include "Synchronizer_windows.hpp"
 
-#include <O8\Common\ErrorCodes.hpp>
+#include <Utilities\basic\ErrorCodes.hpp>
 
 namespace O8
 {
@@ -50,17 +50,17 @@ namespace O8
             Release_handle();
         }
 
-        int32 Synchronizer_windows::Init_handle(HANDLE handle)
+        Platform::int32 Synchronizer_windows::Init_handle(HANDLE handle)
         {
             if (INVALID_HANDLE_VALUE != m_handle)
             {
                 ASSERT(0);
-                return Invalid_object;
+				return Utilities::Invalid_object;
             }
             else
             {
                 m_handle = handle;
-                return Success;
+                return Utilities::Success;
             }
         }
 
@@ -78,7 +78,7 @@ namespace O8
             return m_handle;
         }
 
-        Synchronizer::WaitResult Synchronizer_windows::Wait_for_single(uint32 timeout_ms) const
+		Synchronizer::WaitResult Synchronizer_windows::Wait_for_single(Platform::uint32 timeout_ms) const
         {
             if (INVALID_HANDLE_VALUE != m_handle)
             {
@@ -103,7 +103,7 @@ namespace O8
 	}
 }
 
-O8::Thread::Synchronizer::WaitResult Wait_for_multiple(O8::Thread::Synchronizer ** synchronizers, O8::uint32 number)
+O8::Thread::Synchronizer::WaitResult Wait_for_multiple(O8::Thread::Synchronizer ** synchronizers, Platform::uint32 number)
 {
     ASSERT(0);
 

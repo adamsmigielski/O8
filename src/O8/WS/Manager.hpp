@@ -45,9 +45,9 @@ namespace O8
 			virtual ~Manager();
 
             /* Event processing */
-            virtual int32 Start_event_processing() = 0;
-            virtual int32 Stop_event_processing() = 0;
-            virtual int32 Process_events() = 0;
+            virtual Platform::int32 Start_event_processing() = 0;
+            virtual Platform::int32 Stop_event_processing() = 0;
+            virtual Platform::int32 Process_events() = 0;
 
             /* Window management */
             virtual Window * Create_window() = 0;
@@ -56,7 +56,7 @@ namespace O8
             Manager();
 		};
 
-        typedef Manager * (O8_API * PFN_CREATE_MANAGER)();
+        typedef Manager * (UTILITIES_API * PFN_CREATE_MANAGER)();
 	}
 }
 

@@ -35,10 +35,10 @@
 #include <iostream>
 #include <string>
 
-#include <O8\Platform.hpp>
+#include <Utilities\Platform.hpp>
 
-#include <O8\Common\Assert.hpp>
-#include <O8\Common\BreakToDebug.hpp>
-#include <O8\Common\Log.hpp>
+#include <Utilities\basic\Assert.hpp>
+#include <Utilities\basic\BreakToDebug.hpp>
+#include <Utilities\basic\Log.hpp>
 
 #endif /* O8_DL_WINDOWS_PCH_HPP */

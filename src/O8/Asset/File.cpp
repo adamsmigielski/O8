@@ -139,7 +139,7 @@ namespace O8
             }
             data.Reset(ptr, desc.m_Size);
 
-            if (Success != MemoryAccess::Read(
+            if (Utilities::Success != MemoryAccess::Read(
                 file,
                 desc.m_Offset,
                 desc.m_Size,
@@ -189,14 +189,14 @@ namespace O8
             }
 
             swap_endianess = check_endianess(file);
-            if (Success != get_version(file, swap_endianess, version))
+            if (Utilities::Success != get_version(file, swap_endianess, version))
             {
                 ERRLOG("Failed to get file version. File corrupted");
                 ASSERT(0);
                 return Failure;
             }
 
-            if (Success != MemoryAccess::Read(
+            if (Utilities::Success != MemoryAccess::Read(
                 file,
                 preamble_size,
                 swap_endianess,
@@ -222,7 +222,7 @@ namespace O8
                     sizeof(n_descriptors) +
                     desc_size * i;
 
-                if (Success != get_descriptor(
+                if (Utilities::Success != get_descriptor(
                     file,
                     offset,
                     swap_endianess,
@@ -241,7 +241,7 @@ namespace O8
 
             m_file_name = file_name;
 
-            return Success;
+            return Utilities::Success;
         }
 
 
@@ -282,12 +282,12 @@ namespace O8
                 Type::Types type;
                 
                 const std::string & name = it->Get_name();
-                if (O8::Success != it->Get_details(data, type))
+                if (O8::Utilities::Success != it->Get_details(data, type))
                 {
                     ERRLOG("Failed to import asset: " << name);
                 }
 
-                if (O8::Success != O8::Asset::write_descriptor(
+                if (O8::Utilities::Success != O8::Asset::write_descriptor(
                     file,
                     off_desc,
                     name,
@@ -309,7 +309,7 @@ namespace O8
 
             file.close();
 
-            return O8::Success;
+            return O8::Utilities::Success;
         }
 
         bool check_endianess(
@@ -317,7 +317,7 @@ namespace O8
         {
             uint32 endianess = 0;
 
-            if (Success != MemoryAccess::Read(
+            if (Utilities::Success != MemoryAccess::Read(
                 file,
                 magic_size,
                 endianess))
@@ -370,7 +370,7 @@ namespace O8
             uint32 type_id;
             std::string id;
 
-            if (Success != MemoryAccess::Read(
+            if (Utilities::Success != MemoryAccess::Read(
                 file,
                 offset + 0 * sizeof(uint64),
                 swap_endianess,
@@ -381,7 +381,7 @@ namespace O8
                 return Failure;
             }
 
-            if (Success != MemoryAccess::Read(
+            if (Utilities::Success != MemoryAccess::Read(
                 file,
                 offset + 1 * sizeof(uint64),
                 swap_endianess,
@@ -392,7 +392,7 @@ namespace O8
                 return Failure;
             }
 
-            if (Success != MemoryAccess::Read(
+            if (Utilities::Success != MemoryAccess::Read(
                 file,
                 offset + 2 * sizeof(uint64),
                 swap_endianess,
@@ -403,7 +403,7 @@ namespace O8
                 return Failure;
             }
 
-            if (Success != MemoryAccess::Read(
+            if (Utilities::Success != MemoryAccess::Read(
                 file,
                 offset + 3 * sizeof(uint64),
                 swap_endianess,
@@ -416,7 +416,7 @@ namespace O8
 
             out_desc.m_Type = Type::Get_by_id(type_id);
 
-            if (Success != MemoryAccess::Read(
+            if (Utilities::Success != MemoryAccess::Read(
                 file,
                 id_offset,
                 swap_endianess,
@@ -429,7 +429,7 @@ namespace O8
 
             out_desc.m_Name(id);
 
-            return Success;
+            return Utilities::Success;
         }
 
         int32 write_descriptor(
@@ -444,7 +444,7 @@ namespace O8
         {
             uint32 type_id = Type::Get_id(type);
 
-            if (Success != MemoryAccess::Write(
+            if (Utilities::Success != MemoryAccess::Write(
                 file,
                 off_desc + 0 * sizeof(uint64),
                 off_id))
@@ -454,7 +454,7 @@ namespace O8
                 return Failure;
             }
 
-            if (Success != MemoryAccess::Write(
+            if (Utilities::Success != MemoryAccess::Write(
                 file,
                 off_desc + 1 * sizeof(uint64),
                 off_data))
@@ -464,7 +464,7 @@ namespace O8
                 return Failure;
             }
 
-            if (Success != MemoryAccess::Write(
+            if (Utilities::Success != MemoryAccess::Write(
                 file,
                 off_desc + 2 * sizeof(uint64),
                 data_size))
@@ -474,7 +474,7 @@ namespace O8
                 return Failure;
             }
 
-            if (Success != MemoryAccess::Write(
+            if (Utilities::Success != MemoryAccess::Write(
                 file,
                 off_desc + 3 * sizeof(uint64),
                 type_id))
@@ -484,7 +484,7 @@ namespace O8
                 return Failure;
             }
 
-            if (Success != MemoryAccess::Write(
+            if (Utilities::Success != MemoryAccess::Write(
                 file,
                 off_id,
                 id))
@@ -494,7 +494,7 @@ namespace O8
                 return Failure;
             }
 
-            if (Success != MemoryAccess::Write(
+            if (Utilities::Success != MemoryAccess::Write(
                 file,
                 off_data,
                 data_ptr,
@@ -505,7 +505,7 @@ namespace O8
                 return Failure;
             }
 
-            return Success;
+            return Utilities::Success;
         }
     }
 }

@@ -35,7 +35,7 @@
 #include "Loader.hpp"
 
 /* DL entry points */
-O8_API_DECORATION DLL_EXPORT void O8_API Link_thread(
+UTILITIES_API_DECORATION DLL_EXPORT void UTILITIES_API Link_thread(
     O8::Thread::PFN_CREATE_ALARM create_alarm,
     /*O8::Thread::PFN_CREATE_BLOCKER create_blocker,*/
     O8::Thread::PFN_CREATE_EVENT create_event,

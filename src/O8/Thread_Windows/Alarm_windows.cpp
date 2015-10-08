@@ -46,7 +46,7 @@ namespace O8
 		{
 		}
 
-        int32 Alarm_windows::Init()
+		Platform::int32 Alarm_windows::Init()
 		{
 			auto handle = CreateWaitableTimer(0, TRUE, nullptr);
             if (INVALID_HANDLE_VALUE == handle)
@@ -55,11 +55,11 @@ namespace O8
 				Release();
 				DWORD err = GetLastError();
 				ERRLOG("CreateWaitableTimer - err:" << err);
-				return Failure;
+				return Utilities::Failure;
 			}
 
             auto ret = Init_handle(handle);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 CloseHandle(handle);
             }
@@ -72,14 +72,14 @@ namespace O8
             Release_handle();
 		}
 
-        int32 Alarm_windows::Start(float time_s)
+		Platform::int32 Alarm_windows::Start(float time_s)
 		{
             auto handle = Get_handle();
 
             if (INVALID_HANDLE_VALUE == handle)
 			{
 				ASSERT(0);
-                return Invalid_object;
+				return Utilities::Invalid_object;
 			}
 
 			long long time = (long long)(time_s * -10000000.0f);
@@ -95,13 +95,13 @@ namespace O8
 			{
 				DWORD err = GetLastError();
 				ERRLOG("SetWaitableTimer - err: " << err);
-				return Failure;
+				return Utilities::Failure;
 			}
 
-			return Success;
+			return Utilities::Success;
 		}
 
-        Synchronizer::WaitResult Alarm_windows::Wait(uint32 timeout_ms) const
+        Synchronizer::WaitResult Alarm_windows::Wait(Platform::uint32 timeout_ms) const
         {
             return Wait_for_single(timeout_ms);
         }

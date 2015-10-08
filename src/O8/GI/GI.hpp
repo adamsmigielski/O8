@@ -32,7 +32,7 @@
 #ifndef O8_GI_GI_HPP
 #define O8_GI_GI_HPP
 
-#include <O8\Templates\IntrusiveList.hpp>
+#include <Utilities\containers\IntrusiveList.hpp>
 #include "Adapter.hpp"
 
 namespace O8
@@ -56,7 +56,7 @@ namespace O8
             GI();
         };
 
-        typedef GI * (O8_API *PFN_CREATE_GI)();
+        typedef GI * (UTILITIES_API *PFN_CREATE_GI)();
     }
 }
 

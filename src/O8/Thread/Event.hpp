@@ -54,7 +54,7 @@ namespace O8
 			virtual void Reset() = 0;
 		};
 
-        typedef Event * (O8_API *PFN_CREATE_EVENT)();
+        typedef Event * (UTILITIES_API *PFN_CREATE_EVENT)();
 	}
 }
 

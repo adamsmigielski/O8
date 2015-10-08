@@ -45,11 +45,11 @@ namespace O8
             Synchronizer_windows();
             virtual ~Synchronizer_windows();
 
-            int32 Init_handle(HANDLE handle);
+            Platform::int32 Init_handle(HANDLE handle);
             void Release_handle();
 
             HANDLE Get_handle();
-            WaitResult Wait_for_single(uint32 timeout_ms) const;
+			WaitResult Wait_for_single(Platform::uint32 timeout_ms) const;
 
         private:
             HANDLE m_handle;
@@ -57,8 +57,8 @@ namespace O8
 	}
 }
 
-O8_API_DECORATION DLL_EXPORT O8::Thread::Synchronizer::WaitResult O8_API Wait_for_multiple(
+UTILITIES_API_DECORATION DLL_EXPORT O8::Thread::Synchronizer::WaitResult UTILITIES_API Wait_for_multiple(
     O8::Thread::Synchronizer ** synchronizers,
-    O8::uint32 number);
+	Platform::uint32 number);
 
 #endif /* O8_THREAD_SYNCHRONIZER_WINDOWS_HPP */

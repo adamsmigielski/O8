@@ -32,28 +32,28 @@
 #ifndef O8_WS_WINDOWS_WINDOW__WINDOW_HPP
 #define O8_WS_WINDOWS_WINDOW__WINDOW_HPP
 
-#include <O8\WS\Window.hpp>                 /* Window */
-#include <O8\Templates\IntrusiveList.hpp>   /* Intrusive::Node */
+#include <O8\WS\Window.hpp>						  /* Window */
+#include <Utilities\containers\IntrusiveList.hpp> /* Intrusive::Node */
 
 namespace O8
 {
 	namespace WS
 	{
-		class Window_windows : public Window, public IntrusiveList::Node<Window_windows>
+		class Window_windows : public Window, public Containers::IntrusiveList::Node<Window_windows>
 		{
 		public:
 			/* Creation and initialization */
 			Window_windows();
 			virtual ~Window_windows();
 
-			virtual int32 Init(
+			virtual Platform::int32 Init(
 				Window_event_handler * handler,
-				int32 x,
-				int32 y,
-				int32 width,
-				int32 height,
+				Platform::int32 x,
+				Platform::int32 y,
+				Platform::int32 width,
+				Platform::int32 height,
 				const char * title);
-			virtual int32 Init(
+			virtual Platform::int32 Init(
 				Native native,
 				Window_event_handler * handler);
 			virtual void Release();
@@ -66,23 +66,23 @@ namespace O8
 			virtual Window_event_handler * Get_event_handler();
 
 			/* Size and position */
-			virtual void X(int32 val);
-			virtual void Y(int32 val);
+			virtual void X(Platform::int32 val);
+			virtual void Y(Platform::int32 val);
 
-			virtual int32 X() const;
-			virtual int32 Y() const;
+			virtual Platform::int32 X() const;
+			virtual Platform::int32 Y() const;
 
-			virtual void Width(int32 val);
-			virtual void Height(int32 val);
+			virtual void Width(Platform::int32 val);
+			virtual void Height(Platform::int32 val);
 
-			virtual int32 Width() const;
-			virtual int32 Height() const;
+			virtual Platform::int32 Width() const;
+			virtual Platform::int32 Height() const;
 
-			virtual void Client_width(int32 width);
-			virtual void Client_height(int32 height);
+			virtual void Client_width(Platform::int32 width);
+			virtual void Client_height(Platform::int32 height);
 
-			virtual int32 Client_width() const;
-			virtual int32 Client_height() const;
+			virtual Platform::int32 Client_width() const;
+			virtual Platform::int32 Client_height() const;
 
 			/* Title */
 			virtual void Get_title(std::string & title) const;
@@ -90,7 +90,7 @@ namespace O8
 
             /* Message processing */
             enum Message_processing_status {
-                Msg_prc_successfull,
+                Msg_prc_Successfull,
                 Msg_prc_error,
                 Msg_prc_quit,
             };
@@ -104,7 +104,7 @@ namespace O8
             };
 
             LRESULT Handle_event(OS_message & msg);
-            int32 Process_messages();
+            Platform::int32 Process_messages();
 
 		private:
             void capture_input();
@@ -123,8 +123,8 @@ namespace O8
             LRESULT on_wm_size(OS_message & msg);
             void release();
             void update_input_system(
-                int32 w,
-                int32 h);
+                Platform::int32 w,
+                Platform::int32 h);
             static LRESULT CALLBACK window_procedure(
                 HWND hwnd,
                 UINT msg,

@@ -32,7 +32,7 @@
 #ifndef O8_RS_MATERIAL_HPP
 #define O8_RS_MATERIAL_HPP
 
-#include <O8\Templates\IntrusiveList.hpp>
+#include <Utilities\containers\IntrusiveList.hpp>
 #include <O8\Templates\ReferenceCounted.hpp>
 #include <O8\GI\Texture.hpp>
 #include <O8\Utility\Name.hpp>

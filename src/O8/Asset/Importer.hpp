@@ -33,7 +33,7 @@
 #define O8_ASSET_IMPORTER_HPP
 
 
-#include <O8\Templates\IntrusiveList.hpp>
+#include <Utilities\containers\IntrusiveList.hpp>
 #include <O8\Utility\Binary_data.hpp>
 
 #include"Type.hpp"
@@ -63,7 +63,7 @@ namespace O8
             DL::DL * m_Dl;
         };
 
-        typedef Importer * (O8_API * PFN_CREATE_IMPORTER)();
+        typedef Importer * (UTILITIES_API * PFN_CREATE_IMPORTER)();
     }
 }
 

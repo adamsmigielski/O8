@@ -31,7 +31,7 @@
 
 #include "PCH.hpp"
 
-#include <O8\Common\ErrorCodes.hpp>
+#include <Utilities\basic\Common\ErrorCodes.hpp>
 #include <O8\Thread\Loader.hpp>
 #include <O8\WS\Loader.hpp>
 #include <O8\WS\ErrorCodes.hpp>
@@ -75,9 +75,9 @@ int main()
 
     O8_TEST_INIT("gi_test.txt");
 
-    O8_TEST_ASSERT((O8::Success == O8::Thread::LoadDL("Thread_Windows.dll")), "O8::Thread::LoadDL");
-    O8_TEST_ASSERT((O8::Success == O8::WS::LoadDL("WS_Windows.dll")), "O8::WS::LoadDL");
-    O8_TEST_ASSERT((O8::Success == O8::GI::LoadDL("GI_Windows_OGL.dll")), "O8::GI::LoadDL");
+    O8_TEST_ASSERT((O8::Utilities::Success == O8::Thread::LoadDL("Thread_Windows.dll")), "O8::Thread::LoadDL");
+    O8_TEST_ASSERT((O8::Utilities::Success == O8::WS::LoadDL("WS_Windows.dll")), "O8::WS::LoadDL");
+    O8_TEST_ASSERT((O8::Utilities::Success == O8::GI::LoadDL("GI_Windows_OGL.dll")), "O8::GI::LoadDL");
 
     auto ws_manager = O8::WS::Create_manager();
     handler.Init(ws_manager);

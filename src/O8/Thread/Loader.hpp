@@ -40,7 +40,7 @@ namespace O8
     namespace Thread
     {
         /* Cross DLL entry points */
-        typedef void (O8_API * PFN_LINK_THREAD)(
+        typedef void (UTILITIES_API * PFN_LINK_THREAD)(
             O8::Thread::PFN_CREATE_ALARM create_alarm,
             /*O8::Thread::PFN_CREATE_BLOCKER create_blocker,*/
             O8::Thread::PFN_CREATE_EVENT create_event,

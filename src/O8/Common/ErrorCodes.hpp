@@ -36,22 +36,9 @@ namespace O8
 {
     enum Error_codes
     {
-        /* Generic */
-        Success = 0,
-        Failure = -1,
-        Failed_to_allocate_memory = -32,
-
         /* DL loader */
         Failed_to_load_library = -64,
         Failed_to_load_function,
-
-        /* File access */
-        Failed_to_open_file = -128,
-        Failed_to_load_model,
-
-        /* Invalid params */
-        Invalid_object = -512,
-        Invalid_parameter,
     };
 }
 

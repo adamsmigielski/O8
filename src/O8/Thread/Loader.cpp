@@ -33,6 +33,7 @@
 
 #include "Loader.hpp"
 
+#include <Utilities\basic\ErrorCodes.hpp>
 #include <O8\Common\ErrorCodes.hpp>
 #include <O8\DL\DL.hpp>
 
@@ -87,7 +88,7 @@ namespace O8
             g_thread_library = dl;
 
             /* Done */
-            return Success;
+            return Utilities::Success;
         }
 
         void UnloadDL()

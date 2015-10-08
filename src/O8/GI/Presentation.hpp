@@ -32,7 +32,7 @@
 #ifndef O8_GI_PRESENTATION_HPP
 #define O8_GI_PRESENTATION_HPP
 
-#include <O8\Templates\IntrusiveList.hpp>
+#include <Utilities\containers\IntrusiveList.hpp>
 
 namespace O8
 {

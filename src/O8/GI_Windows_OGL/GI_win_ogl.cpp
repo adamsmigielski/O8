@@ -178,7 +178,7 @@ namespace O8
             auto ri = new RI_win_ogl;
 
             auto ret = ri->Init(output);
-            if (Success != ret)
+            if (Utilities::Success != ret)
             {
                 delete ri;
                 return nullptr;
@@ -290,7 +290,7 @@ namespace O8
                 device_index += 1;
             }
 
-            return Success;
+            return Utilities::Success;
         }
     }
 }
