@@ -60,29 +60,29 @@ def convertType( type ) :
 	result = str();
 	
 	if "GLenum" == type :
-		result = "uint32";
+		result = "Platform::uint32";
 	elif "GLboolean" == type :
-		result = "uint8";
+		result = "Platform::uint8";
 	elif "GLbitfield" == type :
-		result = "uint32";
+		result = "Platform::uint32";
 	elif "GLvoid" == type :
 		result = "void";
 	elif "GLbyte" == type :
-		result = "int8";
+		result = "Platform::int8";
 	elif "GLshort" == type :
-		result = "int16";
+		result = "Platform::int16";
 	elif "GLint" == type :
-		result = "int32";
+		result = "Platform::int32";
 	elif "GLclampx" == type :
-		result = "int32";
+		result = "Platform::int32";
 	elif "GLubyte" == type :
-		result = "uint8";
+		result = "Platform::uint8";
 	elif "GLushort" == type :
-		result = "uint16";
+		result = "Platform::uint16";
 	elif "GLuint" == type :
-		result = "uint32";
+		result = "Platform::uint32";
 	elif "GLsizei" == type :
-		result = "int32";
+		result = "Platform::int32";
 	elif "GLfloat" == type :
 		result = "float";
 	elif "GLclampf" == type :
@@ -100,29 +100,29 @@ def convertType( type ) :
 	elif "GLhandleARB" == type :
 		result = "void *";
 	elif "GLhalfARB" == type :
-		result = "uint16";
+		result = "Platform::uint16";
 	elif "GLhalf" == type :
-		result = "uint16";
+		result = "Platform::uint16";
 	elif "GLhalfNV" == type :
-		result = "uint16";
+		result = "Platform::uint16";
 	elif "GLfixed" == type :
-		result = "int32";
+		result = "Platform::int32";
 	elif "GLintptr" == type :
 		result = "ptrdiff_t";
 	elif "GLsizeiptr" == type :
 		result = "ptrdiff_t";
 	elif "GLint64" == type :
-		result = "int64";
+		result = "Platform::int64";
 	elif "GLuint64" == type :
-		result = "uint64";
+		result = "Platform::uint64";
 	elif "GLintptrARB" == type :
 		result = "ptrdiff_t";
 	elif "GLsizeiptrARB" == type :
 		result = "ptrdiff_t";
 	elif "GLint64EXT" == type :
-		result = "int64";
+		result = "Platform::int64";
 	elif "GLuint64EXT" == type :
-		result = "uint64";
+		result = "Platform::uint64";
 	elif "GLsync" == type :
 		result = "void *";
 	elif "_cl_context" == type :
@@ -130,14 +130,14 @@ def convertType( type ) :
 	elif "_cl_event" == type :
 		result = "void";
 	elif "GLvdpauSurfaceNV" == type :
-		result = "int32 *";
+		result = "Platform::int32 *";
 	else :
 		if (("void" != type) and
 			("GLDEBUGPROC" != type) and
 			("GLDEBUGPROCARB" != type) and
 			("GLDEBUGPROCKHR" != type) and
 			("GLDEBUGPROCAMD" != type)) :
-			print 'Convert warning: |{}|'.format( type_str );
+			print ('Convert warning: |{}|'.format( type_str ));
 		result = type;
 		
 	return result;

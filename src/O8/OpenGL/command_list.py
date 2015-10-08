@@ -26,12 +26,12 @@ for feature in gl.features :
 	if number < feature.number :
 		continue;
 		
-	print 'Add lvl: {}'.format( feature.name );
+	print ('Add lvl: {}'.format( feature.name ));
 	feature.add( commands_list, enums_list );
 	
 for extension in gl.extensions :
 	if extension.name in names_of_extensions :
-		print 'Add ext: {}'.format( extension.name );
+		print ('Add ext: {}'.format( extension.name ));
 		extension.add( commands_list, enums_list );
 	
 commands_list.sort();

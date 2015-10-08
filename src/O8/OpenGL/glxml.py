@@ -26,8 +26,8 @@ class GLXML :
 				elif "ptype" == child.nodeName :
 					type += child.childNodes[0].nodeValue;
 				else :
-					print "Not implemented: parseParamNode:"
-					print child.nodeName;
+					print ("Not implemented: parseParamNode:")
+					print (child.nodeName);
 			if xml.dom.Node.TEXT_NODE == child.nodeType :
 				type += child.nodeValue;
 		
@@ -47,8 +47,8 @@ class GLXML :
 				elif "ptype" == child.nodeName :
 					ret_type += child.childNodes[0].nodeValue;
 				else :
-					print "Not implemented: parseProtoNode:"
-					print child.nodeName;
+					print ("Not implemented: parseProtoNode:")
+					print (child.nodeName);
 			elif xml.dom.Node.TEXT_NODE == child.nodeType :
 				ret_type += child.nodeValue;
 				
