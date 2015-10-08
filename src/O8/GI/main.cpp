@@ -31,7 +31,7 @@
 
 #include "PCH.hpp"
 
-#include <Utilities\basic\Common\ErrorCodes.hpp>
+#include <Utilities\basic\ErrorCodes.hpp>
 #include <O8\Thread\Loader.hpp>
 #include <O8\WS\Loader.hpp>
 #include <O8\WS\ErrorCodes.hpp>

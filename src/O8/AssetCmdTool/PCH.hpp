@@ -37,14 +37,14 @@
 #include <Utilities\basic\Assert.hpp>
 #include <Utilities\basic\BreakToDebug.hpp>
 #include <Utilities\basic\CallConvention.hpp>
-#include <Utilities\basic\Common\ErrorCodes.hpp>
-#include <Utilities\basic\Common\Log.hpp>
+#include <Utilities\basic\ErrorCodes.hpp>
+#include <Utilities\basic\Log.hpp>
 
 #include <fstream>
 #include <iostream>
 #include <string>
 
-#include <O8\Utility\Name.hpp>
-#include <O8\Utility\Hash_string.hpp>
+#include <Utilities\helpers\Name.hpp>
+#include <Utilities\helpers\Hash_string.hpp>
 
 #endif O8_ASSETCMDTOOL_PCH_HPP

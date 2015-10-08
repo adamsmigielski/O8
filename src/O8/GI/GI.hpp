@@ -41,12 +41,12 @@ namespace O8
     {
         class RI;
 
-        class GI : public IntrusiveList::List<Adapter>
+        class GI : public Containers::IntrusiveList::List<Adapter>
         {
         public:
             virtual ~GI();
 
-            virtual int32 Init() = 0;
+            virtual Platform::int32 Init() = 0;
             virtual void Release() = 0;
 
             virtual RI * Create_rendering_interface(

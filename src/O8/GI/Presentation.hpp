@@ -40,7 +40,7 @@ namespace O8
     {
         class RI;
 
-        class Presentation : public IntrusiveList::Node < Presentation >
+        class Presentation : public Containers::IntrusiveList::Node < Presentation >
         {
         public:
             typedef void * Native;

@@ -35,14 +35,14 @@
 #include "Type.hpp"
 
 #include <Utilities\containers\IntrusiveList.hpp>
-#include <O8\Utility\Binary_data.hpp>
-#include <O8\Utility\Name.hpp>
+#include <Utilities\helpers\Name.hpp>
+#include <Utilities\memory\Binary_data.hpp>
 
 namespace O8
 {
     namespace Asset
     {
-        class File_descriptor : public IntrusiveList::Node<File_descriptor>
+        class File_descriptor : public Containers::IntrusiveList::Node<File_descriptor>
         {
         public:
             typedef IntrusiveList::List<File_descriptor> List;
@@ -56,7 +56,7 @@ namespace O8
             Type::Types m_Type;
         };
 
-        class Asset_descriptor : public IntrusiveList::Node<Asset_descriptor>
+        class Asset_descriptor : public Containers::IntrusiveList::Node<Asset_descriptor>
         {
         public:
             /*Types */
@@ -76,7 +76,7 @@ namespace O8
 
         class File
             : public File_descriptor::List
-            , public IntrusiveList::Node<File>
+            , public Containers::IntrusiveList::Node<File>
         {
         public:
             /* Types */

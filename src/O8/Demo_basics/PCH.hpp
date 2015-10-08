@@ -39,7 +39,7 @@
 #include <Utilities\basic\Assert.hpp>
 #include <Utilities\basic\BreakToDebug.hpp>
 #include <Utilities\basic\CallConvention.hpp>
-#include <Utilities\basic\Common\ErrorCodes.hpp>
+#include <Utilities\basic\ErrorCodes.hpp>
 
 #include <O8\GI\Loader.hpp>
 #include <O8\GI\Presentation.hpp>

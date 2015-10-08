@@ -38,7 +38,7 @@ namespace O8
 {
     namespace GI
     {
-        class Mode : public IntrusiveList::Node < Mode >
+        class Mode : public Containers::IntrusiveList::Node < Mode >
         {
         public:
             virtual ~Mode();

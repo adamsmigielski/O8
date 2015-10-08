@@ -39,13 +39,13 @@
 #include "Import_manager.hpp"
 
 #include <Utilities\containers\IntrusiveList.hpp>
-#include <O8\Utility\Name.hpp>
+#include <Utilities\helpers\Name.hpp>
 
 namespace O8
 {
     namespace Asset
     {
-        class Registry_entry : public IntrusiveList::Node<Registry_entry>
+        class Registry_entry : public Containers::IntrusiveList::Node<Registry_entry>
         {
         public:
             /* Types */

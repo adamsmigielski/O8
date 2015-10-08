@@ -33,9 +33,9 @@
 #define O8_RS_MATERIAL_HPP
 
 #include <Utilities\containers\IntrusiveList.hpp>
-#include <O8\Templates\ReferenceCounted.hpp>
+#include <Utilities\containers\ReferenceCounted.hpp>
+#include <Utilities\helpers\Name.hpp>
 #include <O8\GI\Texture.hpp>
-#include <O8\Utility\Name.hpp>
 
 namespace O8
 {
@@ -52,13 +52,13 @@ namespace O8
         };
 
         class Material
-            : public IntrusiveList::Node<Material>
-            , public ReferenceCounted::Resource
+            : public Containers::IntrusiveList::Node<Material>
+            , public Containers::ReferenceCounted::Resource
         {
         public:
             /* Types */
-            typedef IntrusiveList::List<Material> List;
-            typedef ReferenceCounted::Reference<Material> Reference;
+            typedef Containers::IntrusiveList::List<Material> List;
+            typedef Containers::ReferenceCounted::Reference<Material> Reference;
 
             /* Ctr & Dtr */
             Material();

@@ -33,19 +33,19 @@
 #define O8_GI_BUFFER_HPP
 
 #include <Utilities\containers\IntrusiveList.hpp>
-#include <O8\Templates\ReferenceCounted.hpp>
+#include <Utilities\containers\ReferenceCounted.hpp>
 
 namespace O8
 {
     namespace GI
     {
         class Buffer
-            : public IntrusiveList::Node < Buffer >
-            , public ReferenceCounted::Resource
+            : public Containers::IntrusiveList::Node < Buffer >
+            , public Containers::ReferenceCounted::Resource
         {
         public:
             /* Types */
-            typedef ReferenceCounted::Reference<Buffer> Reference;
+            typedef Containers::ReferenceCounted::Reference<Buffer> Reference;
 
             /* Enums */
 
@@ -53,7 +53,7 @@ namespace O8
             virtual ~Buffer();
 
             /*  */
-            virtual int32 Update_data(
+            virtual Platform::int32 Update_data(
                 size_t offset,
                 size_t size,
                 void * data) = 0;

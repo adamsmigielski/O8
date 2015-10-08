@@ -39,8 +39,8 @@ namespace O8
 {
     namespace GI
     {
-        class Output : public IntrusiveList::Node < Output >
-                     , public IntrusiveList::List < Mode >
+        class Output : public Containers::IntrusiveList::Node < Output >
+                     , public Containers::IntrusiveList::List < Mode >
         {
         public:
             virtual ~Output();
@@ -49,10 +49,10 @@ namespace O8
 
             virtual std::string Name() const = 0;
 
-            virtual int32 Left() const = 0;
-            virtual int32 Right() const = 0;
-            virtual int32 Top() const = 0;
-            virtual int32 Bottom() const = 0;
+            virtual Platform::int32 Left() const = 0;
+            virtual Platform::int32 Right() const = 0;
+            virtual Platform::int32 Top() const = 0;
+            virtual Platform::int32 Bottom() const = 0;
 
         protected:
             Output();

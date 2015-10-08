@@ -37,8 +37,8 @@
 #include <Utilities\basic\Assert.hpp>
 #include <Utilities\basic\BreakToDebug.hpp>
 #include <Utilities\basic\CallConvention.hpp>
-#include <Utilities\basic\Common\ErrorCodes.hpp>
-#include <Utilities\basic\Common\Log.hpp>
+#include <Utilities\basic\ErrorCodes.hpp>
+#include <Utilities\basic\Log.hpp>
 
 #include <string>
 #include <iostream>

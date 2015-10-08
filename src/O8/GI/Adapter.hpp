@@ -39,8 +39,8 @@ namespace O8
 {
     namespace GI
     {
-        class Adapter : public IntrusiveList::Node < Adapter >
-                      , public IntrusiveList::List < Output >
+        class Adapter : public Containers::IntrusiveList::Node < Adapter >
+                      , public Containers::IntrusiveList::List < Output >
         {
         public:
             Adapter();

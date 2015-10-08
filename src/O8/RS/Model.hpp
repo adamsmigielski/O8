@@ -35,9 +35,9 @@
 #include <O8\GI\Buffer.hpp>
 #include <O8\Math\FloatTypes.hpp>
 #include <Utilities\containers\IntrusiveList.hpp>
-#include <O8\Templates\ReferenceCounted.hpp>
-#include <O8\Utility\Binary_data.hpp>
-#include <O8\Utility\Name.hpp>
+#include <Utilities\containers\ReferenceCounted.hpp>
+#include <Utilities\helpers\Name.hpp>
+#include <Utilities\memory\Binary_data.hpp>
 
 #include "Material.hpp"
 #include "Type.hpp"
@@ -208,7 +208,7 @@ namespace O8
             };
 
             class Definition
-                : public IntrusiveList::Node < Definition >
+                : public Containers::IntrusiveList::Node < Definition >
                 , ReferenceCounted::Resource
             {
             public:

@@ -43,8 +43,8 @@ namespace O8
         class RI
         {
         public:
-            typedef IntrusiveList::List < Presentation > Presentation_list;
-            typedef IntrusiveList::List < Texture > Texture_list;
+            typedef Containers::IntrusiveList::List < Presentation > Presentation_list;
+            typedef Containers::IntrusiveList::List < Texture > Texture_list;
 
             virtual ~RI();
 
