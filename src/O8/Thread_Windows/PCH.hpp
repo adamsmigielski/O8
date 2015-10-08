@@ -32,7 +32,7 @@
 #ifndef O8_THREAD_WINDOWS_PCH_HPP
 #define O8_THREAD_WINDOWS_PCH_HPP
 
-#include <Utilities\Platform.hpp>
+#include <Platform\Platform.hpp>
 
 #include <Utilities\basic\Assert.hpp>
 #include <Utilities\basic\BreakToDebug.hpp>

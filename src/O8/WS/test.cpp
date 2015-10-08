@@ -32,21 +32,21 @@
 #include "PCH.hpp"
 
 #include <Utilities\basic\Assert.hpp>
-#include <Utilities\basic\Common\ErrorCodes.hpp>
+#include <Utilities\basic\ErrorCodes.hpp>
 #include <O8\Thread\Loader.hpp>
 #include <O8\WS\Loader.hpp>
 #include <O8\WS\ErrorCodes.hpp>
 #include <O8\WS\Window.hpp>
 #include <O8\WS\Window_event_handler.hpp>
-#include <O8\Unit_Tests\UnitTests.hpp>
+#include <Unit_Tests\UnitTests.hpp>
 
-class WS_test_enviroment : public O8::UnitTests::EnviromentBase
+class WS_test_enviroment : public UnitTests::EnviromentBase
 {
 public:
     WS_test_enviroment()
     {
-        ASSERT(O8::Utilities::Success == O8::Thread::LoadDL(THREAD_IMPL));
-        ASSERT(O8::Utilities::Success == O8::WS::LoadDL(WS_IMPL));
+        ASSERT(Utilities::Success == O8::Thread::LoadDL(THREAD_IMPL));
+        ASSERT(Utilities::Success == O8::WS::LoadDL(WS_IMPL));
     }
 
     virtual ~WS_test_enviroment()
@@ -70,19 +70,22 @@ public:
         m_release = 0;
     }
 
-    O8::uint32 GetClose()
+    Platform::uint32 GetClose()
     {
         return m_close;
     }
 
-    O8::uint32 GetRelease()
+	Platform::uint32 GetRelease()
     {
         return m_release;
     }
 
-    virtual O8::int32 On_init
+	virtual void On_init(
+		O8::WS::Window * window)
+	{
+	}
 
-    virtual O8::int32 On_close(
+	virtual Platform::int32 On_close(
         O8::WS::Window * window,
         bool & should_window_close)
     {
@@ -103,8 +106,8 @@ public:
 
 private:
     O8::WS::Manager * m_manager;
-    O8::uint32 m_close;
-    O8::uint32 m_release;
+	Platform::uint32 m_close;
+	Platform::uint32 m_release;
 };
 
 WS_test_enviroment WS_test_enviroment::s_ws_test_enviroment;
@@ -120,7 +123,7 @@ UNIT_TEST(ws_creation_and_closing)
     auto ws_window = ws_manager->Create_window();
     TEST_ASSERT((nullptr != ws_window), "O8::WS::Manager::Create_window");
 
-    TEST_ASSERT((O8::Utilities::Success == ws_window->Init(&handler, 16, 16, 64, 64, "WS_Test")), "O8::WS::Window::Init");
+    TEST_ASSERT((Utilities::Success == ws_window->Init(&handler, 16, 16, 64, 64, "WS_Test")), "O8::WS::Window::Init");
 
     ws_manager->Process_events();
     TEST_ASSERT((1 <= handler.GetClose()), "O8::WS::Manager::Start/Stop_event_processing - close >= 1");
@@ -131,5 +134,5 @@ UNIT_TEST(ws_creation_and_closing)
     delete ws_window;
     delete ws_manager;
 
-    return O8::UnitTests::Passed;
+    return UnitTests::Passed;
 }

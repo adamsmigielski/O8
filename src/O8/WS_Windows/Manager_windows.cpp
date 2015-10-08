@@ -54,14 +54,14 @@ namespace O8
 			destroy_windows();
 		}
 
-        int32 Manager_windows::Start_event_processing()
+        Platform::int32 Manager_windows::Start_event_processing()
         {
             if (loop_state::Halt != m_loop_state)
             {
                 ASSERT(0);
 
                 ERRLOG("Event processing already started");
-                return Invalid_object;
+				return Utilities::Invalid_object;
             }
 
             loop();
@@ -69,7 +69,7 @@ namespace O8
             return Utilities::Success;
         }
 
-        int32 Manager_windows::Stop_event_processing()
+		Platform::int32 Manager_windows::Stop_event_processing()
         {
             if (loop_state::Run == m_loop_state)
             {
@@ -79,11 +79,11 @@ namespace O8
             else
             {
                 ERRLOG("Event processing not started");
-                return Invalid_object;
+				return Utilities::Invalid_object;
             }
         }
 
-        int32 Manager_windows::Process_events()
+		Platform::int32 Manager_windows::Process_events()
         {
             for (auto it = First();
                 nullptr != it;
