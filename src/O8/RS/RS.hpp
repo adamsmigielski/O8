@@ -37,13 +37,25 @@
 
 namespace O8
 {
+    namespace GI
+    {
+        class Presentation;
+        class RI;
+    }
+
     namespace RS
     {
+        class Renderer;
+
         class RS
         {
         public:
             RS();
             ~RS();
+
+            Platform::int32 Init(
+                GI::RI * ri);
+            void Release();
 
             const Material::List & Get_material_list() const;
             //const Mesh::List & Get_mesh_list() const;
@@ -54,9 +66,13 @@ namespace O8
             //Model * Create_model();
 
         private:
+            void release();
+
             Material::List m_materials;
             //Mesh::List m_meshes;
             //Model::List m_models;
+
+            GI::RI * m_ri;
         };
     }
 }

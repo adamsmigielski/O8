@@ -51,7 +51,10 @@ namespace O8
             virtual OpenGL::Context * Get_context() = 0;
             virtual Native Get_native() = 0;
             virtual void Make_current() = 0;
-            virtual void Present() = 0;
+            virtual Platform::int32 Present() = 0;
+            virtual Platform::int32 Resize(
+                Platform::uint32 width,
+                Platform::uint32 height) = 0;
 
         protected:
             Presentation_ogl();

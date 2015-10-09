@@ -59,7 +59,7 @@ namespace O8
             HDC GetDC() const;
 
             virtual void Make_current();
-            virtual void Swap();
+            virtual BOOL Swap();
 
             virtual void * Get_proc_address(const char * name);
 

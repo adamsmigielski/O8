@@ -31,12 +31,54 @@
 
 #include "PCH.hpp"
 
+#include <O8/GI/GI.hpp>
+#include <O8/GI/RI.hpp>
+
 #include "RS.hpp"
 
 namespace O8
 {
     namespace RS
     {
+        RS::RS()
+            : m_ri(nullptr)
+        {
+        }
 
+        RS::~RS()
+        {
+            release();
+        }
+
+        Platform::int32 RS::Init(
+            GI::RI * ri)
+        {
+            if (nullptr != m_ri)
+            {
+                ERRLOG("RS already initialized");
+                ASSERT(0);
+                return Utilities::Invalid_object;
+            }
+
+            if (nullptr == ri)
+            {
+                ASSERT(0);
+                return Utilities::Invalid_parameter;
+            }
+
+            m_ri = ri;
+
+            return Utilities::Success;
+        }
+
+        void RS::Release()
+        {
+            release();
+        }
+
+        void RS::release()
+        {
+            m_ri = nullptr;
+        }
     }
 }

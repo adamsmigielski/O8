@@ -279,11 +279,11 @@ namespace O8
             m_make_current(m_hdc, m_hglrc);
         }
 
-        void Context_win_ogl::Swap()
+        BOOL Context_win_ogl::Swap()
         {
             ASSERT(nullptr != m_swap_buffers);
 
-            m_swap_buffers(m_hdc);
+            return m_swap_buffers(m_hdc);
         }
 
         void * Context_win_ogl::Get_proc_address(const char * name)

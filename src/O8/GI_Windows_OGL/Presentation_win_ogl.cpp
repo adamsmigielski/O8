@@ -125,11 +125,19 @@ namespace O8
             m_context->Make_current();
         }
 
-        void Presentation_win_ogl::Present()
+        Platform::int32 Presentation_win_ogl::Present()
         {
             ASSERT(m_context);
 
-            m_context->Swap();
+            return (FALSE != m_context->Swap()) ? Utilities::Success
+                                                : Utilities::Failure; 
+        }
+
+        Platform::int32 Presentation_win_ogl::Resize(
+            Platform::uint32 width,
+            Platform::uint32 height)
+        {
+            return Utilities::Success;
         }
     }
 }
