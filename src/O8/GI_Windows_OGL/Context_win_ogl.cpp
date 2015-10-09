@@ -126,7 +126,7 @@ namespace O8
                 return Utilities::Invalid_object;
             }
 
-            ret = LoadWGL();
+            ret = load_wgl();
             if (Utilities::Success != ret)
             {
                 ERRLOG("Cannot load wgl");
@@ -153,7 +153,7 @@ namespace O8
                 }
                 else
                 {
-                    DEBUGLOG("Utilities::Success");
+                    DEBUGLOG("Success");
 
                     m_hdc = hdc;
                     m_hglrc = hglrc;
@@ -168,7 +168,7 @@ namespace O8
                     gl.GetIntegerv(GL_MAJOR_VERSION, &m_major);
                     gl.GetIntegerv(GL_MINOR_VERSION, &m_minor);
 
-                    DEBUGLOG("Utilities::Success:" << m_major << "." << m_minor);
+                    DEBUGLOG("Success:" << m_major << "." << m_minor);
 
                     break;
                 }
@@ -220,7 +220,7 @@ namespace O8
                 return Utilities::Invalid_object;
             }
 
-            ret = LoadWGL();
+            ret = load_wgl(parent_context);
             if (Utilities::Success != ret)
             {
                 ERRLOG("Cannot load wgl");
@@ -294,7 +294,7 @@ namespace O8
             return m_get_proc_address(name);
         }
 
-        Platform::int32 Context_win_ogl::LoadWGL()
+        Platform::int32 Context_win_ogl::load_wgl()
         {
             if (nullptr == s_opengl_dl)
             {
@@ -321,6 +321,28 @@ namespace O8
             m_get_proc_address = (PFNWGLGETPROCADDRESS) s_opengl_dl->GetFunctionAddress("wglGetProcAddress");
             m_make_current     = (PFNWGLMAKECURRENT)    s_opengl_dl->GetFunctionAddress("wglMakeCurrent");
             m_swap_buffers     = (PFNSWAPBUFFERS)       s_gdi_dl->GetFunctionAddress("SwapBuffers");
+
+            if ((nullptr == m_create_context) ||
+                (nullptr == m_delete_context) ||
+                (nullptr == m_get_proc_address) ||
+                (nullptr == m_make_current) ||
+                (nullptr == m_swap_buffers))
+            {
+                ASSERT(0);
+                ERRLOG("Failed to load wgl functions");
+                return O8::Failed_to_load_function;
+            }
+
+            return Utilities::Success;
+        }
+
+        Platform::int32 Context_win_ogl::load_wgl(Context_win_ogl * parent_context)
+        {
+            m_create_context   = parent_context->m_create_context;
+            m_delete_context   = parent_context->m_delete_context;
+            m_get_proc_address = parent_context->m_get_proc_address;
+            m_make_current     = parent_context->m_make_current;
+            m_swap_buffers     = parent_context->m_swap_buffers;
 
             if ((nullptr == m_create_context) ||
                 (nullptr == m_delete_context) ||

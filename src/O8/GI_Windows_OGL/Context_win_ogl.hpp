@@ -58,7 +58,6 @@ namespace O8
                 HDC hdc,
                 Context_win_ogl * parent_context);
             HDC GetDC() const;
-            Platform::int32 LoadWGL();
 
             virtual void Make_current();
             virtual void Swap();
@@ -79,6 +78,8 @@ namespace O8
                 Platform::int32 major,
                 Platform::int32 minor,
                 HGLRC & out_hglrc);
+            Platform::int32 load_wgl();
+            Platform::int32 load_wgl(Context_win_ogl * parent_context);
             Platform::int32 prepare_pixel_format(
                 HDC hdc,
                 PIXELFORMATDESCRIPTOR & pixel_format);
