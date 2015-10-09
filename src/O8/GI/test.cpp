@@ -40,7 +40,28 @@
 #include <O8\GI\Loader.hpp>
 #include <O8\GI\Presentation.hpp>
 #include <O8\GI\RI.hpp>
-#include <O8\Test\Test.hpp>
+#include <Unit_Tests\UnitTests.hpp>
+
+class GI_test_enviroment : public UnitTests::EnviromentBase
+{
+public:
+    GI_test_enviroment()
+    {
+        ASSERT(Utilities::Success == O8::Thread::LoadDL(THREAD_IMPL));
+        ASSERT(Utilities::Success == O8::WS::LoadDL(WS_IMPL));
+        ASSERT(Utilities::Success == O8::GI::LoadDL(GI_IMPL));
+    }
+
+    virtual ~GI_test_enviroment()
+    {
+        O8::GI::UnloadDL();
+        O8::WS::UnloadDL();
+        O8::Thread::UnloadDL();
+    }
+
+private:
+    static GI_test_enviroment s_gi_test_enviroment;
+};
 
 class Event_handler : public O8::WS::Window_event_handler
 {
@@ -50,7 +71,7 @@ public:
         m_manager = manager;
     }
 
-    virtual O8::int32 On_close(
+    virtual Platform::int32 On_close(
         O8::WS::Window * window,
         bool & should_window_close)
     {
@@ -69,30 +90,32 @@ private:
     O8::WS::Manager * m_manager;
 };
 
-int main()
+GI_test_enviroment GI_test_enviroment::s_gi_test_enviroment;
+
+UNIT_TEST(gi_creation_and_closing)
 {
     Event_handler handler;
 
-    O8_TEST_INIT("gi_test.txt");
-
-    O8_TEST_ASSERT((O8::Utilities::Success == O8::Thread::LoadDL("Thread_Windows.dll")), "O8::Thread::LoadDL");
-    O8_TEST_ASSERT((O8::Utilities::Success == O8::WS::LoadDL("WS_Windows.dll")), "O8::WS::LoadDL");
-    O8_TEST_ASSERT((O8::Utilities::Success == O8::GI::LoadDL("GI_Windows_OGL.dll")), "O8::GI::LoadDL");
-
     auto ws_manager = O8::WS::Create_manager();
+    TEST_ASSERT((nullptr != ws_manager), "O8::WS::Create_manager");
     handler.Init(ws_manager);
+
     auto ws_window = ws_manager->Create_window();
-    ws_window->Init(&handler, 16, 16, 128, 128, "GI_Test");
+    TEST_ASSERT((nullptr != ws_window), "O8::WS::Manager::Create_window");
+
+    TEST_ASSERT((Utilities::Success == ws_window->Init(&handler, 16, 16, 64, 64, "GI_Test")), "O8::WS::Window::Init");
 
     O8::GI::GI * gi = O8::GI::Create_GI();
-    gi->Init();
+    TEST_ASSERT((nullptr != gi), "O8::GI::Create_GI");
+
+    TEST_ASSERT((Utilities::Success == gi->Init()), "O8::GI::GI::Init");
 
     auto ri = gi->Create_rendering_interface(gi->First());
     
     auto presentation = ri->Create_presentation_for_window(ws_window->Get_native());
     ws_window->Set_user_data(presentation);
 
-    ws_manager->Start_event_processing();
+    TEST_ASSERT((presentation == ws_window->Get_user_data()), "O8::WS::Window::Get_user_data");
 
     delete presentation;
     delete ri;
@@ -101,11 +124,7 @@ int main()
     delete ws_window;
     delete ws_manager;
 
-    O8::GI::UnloadDL();
-    O8::WS::UnloadDL();
-    O8::Thread::UnloadDL();
-
-    return 0;
+    return UnitTests::Passed;
 }
 
 
