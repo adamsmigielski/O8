@@ -33,9 +33,8 @@
 #define O8_GI_CONTEXT_WIN_OGL_HPP
 
 #undef MemoryBarrier
-#include <O8\OpenGL\Context.hpp>
+#include <OpenGL\Context.hpp>
 #include <Windows.h>
-//#include "wglext.h"
 
 namespace O8
 {

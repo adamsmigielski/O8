@@ -34,7 +34,6 @@
 #include "Context_win_ogl.hpp"
 
 #include <O8\DL\DL.hpp>
-#include <O8\OpenGL\GL_loader.hpp>
 
 #define WGL_CONTEXT_MAJOR_VERSION_ARB          0x2091
 #define WGL_CONTEXT_MINOR_VERSION_ARB          0x2092

@@ -34,13 +34,13 @@
 
 #include <O8\GI\Presentation.hpp>
 
+namespace OpenGL
+{
+    class Context;
+}
+
 namespace O8
 {
-    namespace OpenGL
-    {
-        class Context;
-    }
-
     namespace GI
     {
         class Presentation_ogl : public Presentation

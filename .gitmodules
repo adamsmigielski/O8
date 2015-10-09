@@ -7,3 +7,6 @@
 [submodule "Project_configuration"]
 	path = Project_configuration
 	url = https://github.com/adamsmigielski/Project_configuration.git
+[submodule "src/OpenGL"]
+	path = src/OpenGL
+	url = https://github.com/adamsmigielski/OpenGL.git

@@ -34,13 +34,13 @@
 
 #include <O8\GI\RI.hpp>
 
+namespace OpenGL
+{
+    class Context;
+}
+
 namespace O8
 {
-    namespace OpenGL
-    {
-        class Context;
-    }
-
     namespace GI
     {
         class RI_ogl : public RI
