@@ -32,6 +32,7 @@
 #ifndef O8_RS_RENDERER_HPP
 #define O8_RS_RENDERER_HPP
 
+#include <Utilities\containers\IntrusiveList.hpp>
 #include <Utilities\math\FloatTypes.hpp>
 
 namespace O8
@@ -44,19 +45,97 @@ namespace O8
 
     namespace RS
     {
+        class Material;
+        class Model;
         class POV;
         class RS;
 
         struct Entity
         {
+            enum Type
+            {
+                UNKNOWN,
+                RENDERABLE,
+                LIGHT_SHADOWS,
+                LIGHT_NO_SHADOWS,
+            };
+
             Math::float4 m_Position;
             Math::float4 m_Orientation;
         };
+
+        struct Renderable
+        {
+            Material * m_material;
+            Model * m_model;
+        };
+
+        struct Light
+        {
+            
+        };
+
+        namespace Renderer_data
+        {
+            class Change : public Containers::IntrusiveList::Node< Change >
+            {
+            public:
+                enum Type
+                {
+                    UNKNOWN,
+                    ADD,
+                    REMOVE,
+                };
+
+                Change();
+                Change(
+                    Type change_type,
+                    Entity::Type entity_type, 
+                    Entity * entity);
+
+                Type m_change_type;
+                Entity::Type m_entity_type;
+                Entity * m_entity;
+            };
+
+            class Renderable_change : public Change
+            {
+            public:
+                Renderable_change();
+                Renderable_change(
+                    Type change_type,
+                    Entity * entity,
+                    Material * material,
+                    Model * model);
+
+                Material * m_material;
+                Model * m_model;
+            };
+
+            class Light_shadows_change : public Change
+            {
+            public:
+                Light_shadows_change();
+                Light_shadows_change(
+                    );
+
+
+            };
+        }
 
         class Renderer_data
         {
         public:
             virtual ~Renderer_data();
+
+            virtual Platform::int32 Add_renderable(Entity & entity) = 0;
+            virtual Platform::int32 Remove_renderable(Entity & entity) = 0;
+
+            virtual Platform::int32 Add_(Entity & entity) = 0;
+            virtual Platform::int32 Remove(Entity & entity) = 0;
+
+            virtual Platform::int32 Add(Entity & entity) = 0;
+            virtual Platform::int32 Remove(Entity & entity) = 0;
 
         protected:
             Renderer_data();
@@ -68,7 +147,6 @@ namespace O8
             virtual ~Renderer();
 
             virtual Platform::int32 Init(
-                RS * rs,
                 GI::RI * ri);
 
             virtual Renderer_data * Create_renderer_data() = 0;
@@ -81,7 +159,7 @@ namespace O8
         protected:
             Renderer();
 
-            GI::Presentation * m_presentation;
+            GI::RI * m_ri;
         };
     }
 }

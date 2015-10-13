@@ -26,7 +26,7 @@
 
 /**
 * @author Adam Œmigielski
-* @file ColorFormat.hpp
+* @file Color_format.hpp
 **/
 
 #ifndef O8_IMAGE_COLOR_FORMAT_HPP
@@ -60,6 +60,14 @@ namespace O8
                 TYPE_SINT32,
                 TYPE_UINT64,
                 TYPE_SINT64,
+                TYPE_NORM_UINT8,
+                TYPE_NORM_SINT8,
+                TYPE_NORM_UINT16,
+                TYPE_NORM_SINT16,
+                TYPE_NORM_UINT32,
+                TYPE_NORM_SINT32,
+                TYPE_NORM_UINT64,
+                TYPE_NORM_SINT64,
                 TYPE_HALF,
                 TYPE_FLOAT,
                 TYPE_DOUBLE,
@@ -75,15 +83,30 @@ namespace O8
             CHANNEL m_Channel;
             TYPE m_Type;
 
-            uint32 Get_bits_per_pixel() const;
-            uint32 Get_bytes_per_pixel() const;
+            void Extract(
+                const void * src,
+                double out_values[4]) const;
+            void Store(
+                void * dst,
+                const double in_values[4]) const;
+
+            Platform::uint32 Get_bits_per_pixel() const;
+            Platform::uint32 Get_bytes_per_pixel() const;
+            bool Is_normalized() const;
 
             /* Static routines */
-            static uint32 Get_number_of_channels(CHANNEL channel);
-            static uint32 Get_type_bits(TYPE type);
-            static uint32 Get_type_bytes(TYPE type);
+            static void Convert(
+                const void * src,
+                const Color_format & src_format,
+                void * dst,
+                const Color_format & dst_format);
+            static Platform::uint32 Get_number_of_channels(CHANNEL channel);
+            static Platform::uint32 Get_type_bits(TYPE type);
+            static Platform::uint32 Get_type_bytes(TYPE type);
+            static bool Is_type_normalized(TYPE type);
 
-        private:
+            /* Constants */
+            static const Color_format s_Light_format;
         };
     }
 }
