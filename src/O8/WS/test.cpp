@@ -40,6 +40,8 @@
 #include <O8\WS\Window_event_handler.hpp>
 #include <Unit_Tests\UnitTests.hpp>
 
+#include <iostream>
+
 class WS_test_enviroment : public UnitTests::EnviromentBase
 {
 public:
@@ -63,16 +65,26 @@ private:
 class WS_test_event_handler : public O8::WS::Window_event_handler
 {
 public:
+    WS_test_event_handler()
+        : m_close  (0)
+        , m_init   (0)
+        , m_release(0)
+    {
+
+    }
     void Init(O8::WS::Manager * manager)
     {
         m_manager = manager;
-        m_close = 0;
-        m_release = 0;
     }
 
     Platform::uint32 GetClose()
     {
         return m_close;
+    }
+
+    Platform::uint32 GetInit()
+    {
+        return m_init;
     }
 
 	Platform::uint32 GetRelease()
@@ -83,7 +95,10 @@ public:
 	virtual void On_init(
 		O8::WS::Window * window)
 	{
-	}
+        window->Show();
+
+        m_init += 1;
+    }
 
 	virtual Platform::int32 On_close(
         O8::WS::Window * window,
@@ -106,7 +121,8 @@ public:
 
 private:
     O8::WS::Manager * m_manager;
-	Platform::uint32 m_close;
+    Platform::uint32 m_close;
+    Platform::uint32 m_init;
 	Platform::uint32 m_release;
 };
 
@@ -116,20 +132,21 @@ UNIT_TEST(ws_creation_and_closing)
 {
     WS_test_event_handler handler;
 
-	auto ws_manager = O8::WS::Create_manager();
-	TEST_ASSERT((nullptr != ws_manager), "O8::WS::Create_manager");
+	O8::WS::Manager * ws_manager = O8::WS::Create_manager();
+    TEST_ASSERT_NOT_EQUAL((O8::WS::Manager * )nullptr, ws_manager);
     handler.Init(ws_manager);
 
-    auto ws_window = ws_manager->Create_window();
-    TEST_ASSERT((nullptr != ws_window), "O8::WS::Manager::Create_window");
+    O8::WS::Window * ws_window = ws_manager->Create_window();
+    TEST_ASSERT_NOT_EQUAL((O8::WS::Window *)nullptr, ws_window);
 
-    TEST_ASSERT((Utilities::Success == ws_window->Init(&handler, 16, 16, 64, 64, "WS_Test")), "O8::WS::Window::Init");
+    TEST_ASSERT(Utilities::Success, ws_window->Init(&handler, 64, 64, 256, 256, "WS_Test"));
 
+    ws_window->Close();
     ws_manager->Process_events();
-    TEST_ASSERT((1 <= handler.GetClose()), "O8::WS::Manager::Start/Stop_event_processing - close >= 1");
-    TEST_ASSERT((1 <= handler.GetRelease()), "O8::WS::Manager::Start/Stop_event_processing - release >= 1");
-    TEST_ASSERT((1 == handler.GetClose()), "O8::WS::Manager::Start/Stop_event_processing - close == 1");
-    TEST_ASSERT((1 == handler.GetRelease()), "O8::WS::Manager::Start/Stop_event_processing - release == 1");
+
+    TEST_ASSERT(1, handler.GetInit());
+    TEST_ASSERT(1, handler.GetClose());
+    TEST_ASSERT(1, handler.GetRelease());
 
     delete ws_window;
     delete ws_manager;

@@ -56,6 +56,7 @@ namespace O8
 			virtual Platform::int32 Init(
 				Native native,
 				Window_event_handler * handler);
+            virtual void Close();
 			virtual void Release();
 
 			/* Native */
@@ -87,6 +88,8 @@ namespace O8
 			/* Title */
 			virtual void Get_title(std::string & title) const;
 			virtual void Set_title(const std::string & title);
+
+            virtual Platform::int32 Show();
 
             /* Message processing */
             enum Message_processing_status {

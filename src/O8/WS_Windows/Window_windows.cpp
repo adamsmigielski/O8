@@ -67,7 +67,7 @@ namespace O8
                 WS_EX_TOPMOST,
                 wcs->Get_class_name(),
                 title,
-                WS_VISIBLE | WS_POPUP,
+                WS_VISIBLE | WS_OVERLAPPEDWINDOW,
                 x,
                 y,
                 width,
@@ -155,6 +155,15 @@ namespace O8
 
             return Utilities::Success;
 		}
+
+        void Window_windows::Close()
+        {
+            SendMessage(
+                m_native,
+                WM_CLOSE,
+                0,
+                0);
+        }
 
 		void Window_windows::Release()
 		{
@@ -349,6 +358,13 @@ namespace O8
         void Window_windows::Set_title(const std::string & title)
         {
             SetWindowText(m_native, title.c_str());
+        }
+
+        Platform::int32 Window_windows::Show()
+        {
+            ShowWindow(m_native, SW_SHOW);
+
+            return Utilities::Success;
         }
 
         LRESULT Window_windows::Handle_event(OS_message & msg)

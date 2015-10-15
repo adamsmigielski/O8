@@ -57,6 +57,7 @@ namespace O8
 			virtual Platform::int32 Init(
 				Native native,
 				Window_event_handler * handler) = 0;
+            virtual void Close() = 0;
 			virtual void Release() = 0;
 
 			/* Native */
@@ -85,6 +86,8 @@ namespace O8
 
 			virtual Platform::int32 Client_width() const = 0;
 			virtual Platform::int32 Client_height() const = 0;
+
+            virtual Platform::int32 Show() = 0;
 
 			/* Title */
 			virtual void Get_title(std::string & title) const = 0;
