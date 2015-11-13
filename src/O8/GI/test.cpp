@@ -97,25 +97,25 @@ UNIT_TEST(gi_creation_and_closing)
     Event_handler handler;
 
     auto ws_manager = O8::WS::Create_manager();
-    TEST_ASSERT((nullptr != ws_manager), "O8::WS::Create_manager");
+    TEST_ASSERT_NOT_EQUAL((O8::WS::Manager *)nullptr, ws_manager);
     handler.Init(ws_manager);
 
     auto ws_window = ws_manager->Create_window();
-    TEST_ASSERT((nullptr != ws_window), "O8::WS::Manager::Create_window");
+    TEST_ASSERT_NOT_EQUAL((O8::WS::Window *)nullptr, ws_window);
 
-    TEST_ASSERT((Utilities::Success == ws_window->Init(&handler, 16, 16, 64, 64, "GI_Test")), "O8::WS::Window::Init");
+    TEST_ASSERT(Utilities::Success, ws_window->Init(&handler, 16, 16, 64, 64, "GI_Test"));
 
     O8::GI::GI * gi = O8::GI::Create_GI();
-    TEST_ASSERT((nullptr != gi), "O8::GI::Create_GI");
+    TEST_ASSERT_NOT_EQUAL((O8::GI::GI *)nullptr, gi);
 
-    TEST_ASSERT((Utilities::Success == gi->Init()), "O8::GI::GI::Init");
+    TEST_ASSERT(Utilities::Success, gi->Init());
 
-    auto ri = gi->Create_rendering_interface(gi->First());
+    O8::GI::RI * ri = gi->Create_rendering_interface(gi->First());
     
     auto presentation = ri->Create_presentation_for_window(ws_window->Get_native());
     ws_window->Set_user_data(presentation);
 
-    TEST_ASSERT((presentation == ws_window->Get_user_data()), "O8::WS::Window::Get_user_data");
+    TEST_ASSERT(presentation, ws_window->Get_user_data());
 
     delete presentation;
     delete ri;

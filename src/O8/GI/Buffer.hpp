@@ -41,12 +41,9 @@ namespace O8
     {
         class Buffer
             : public Containers::IntrusiveList::Node < Buffer >
-            , public Containers::ReferenceCounted::Resource
+            , public Containers::ReferenceCounted::Resource< Buffer >
         {
         public:
-            /* Types */
-            typedef Containers::ReferenceCounted::Reference<Buffer> Reference;
-
             /* Enums */
 
             /* Ctr & Dtr */

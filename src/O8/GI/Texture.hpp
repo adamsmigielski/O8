@@ -41,12 +41,9 @@ namespace O8
     {
         class Texture
             : public Containers::IntrusiveList::Node < Texture >
-            , public Containers::ReferenceCounted::Resource
+            , public Containers::ReferenceCounted::Resource < Texture >
         {
         public:
-            /* Types */
-            typedef Containers::ReferenceCounted::Reference<Texture> Reference;
-
             /* Enums */
             enum MODEL
             {
