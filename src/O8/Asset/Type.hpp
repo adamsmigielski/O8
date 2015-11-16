@@ -42,6 +42,8 @@ namespace O8
             enum Types
             {
                 Unknown,
+                Font,
+
                 Bitmap,
                 Shader,
                 Material,
@@ -50,9 +52,9 @@ namespace O8
                 Model,
             };
 
-            static Types Get_by_id(uint32 id);
+            static Types Get_by_id(Platform::uint32 id);
             static Types Get_by_name(const std::string & name);
-            static uint32 Get_id(const Types & type);
+            static Platform::uint32 Get_id(const Types & type);
             static std::string Get_name(const Types & type);
         };
     }

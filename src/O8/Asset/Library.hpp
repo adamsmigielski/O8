@@ -39,22 +39,24 @@ namespace O8
 {
     namespace Asset
     {
-        class Library : public File::List
+        class Library : public File::Node<File>::List
         {
         public:
             Library();
             virtual ~Library();
 
-            virtual Utility::Binary_data Get_asset(const std::string & id);
+            virtual Memory::Binary_data Get_asset(
+                const std::string & id,
+                bool is_endianess_swapped);
             virtual File * Get_file(const std::string & file_name);
         };
 
-        int32 Merge_asset_id(
+        Platform::int32 Merge_asset_id(
             const std::string & archive_name,
             const std::string & entry_name,
             std::string & out_id);
 
-        int32 Split_asset_id(
+        Platform::int32 Split_asset_id(
             const std::string & id,
             std::string & out_archive_name,
             std::string & out_entry_name);

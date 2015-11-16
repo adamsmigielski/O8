@@ -45,28 +45,23 @@ namespace O8
         class File_descriptor : public Containers::IntrusiveList::Node<File_descriptor>
         {
         public:
-            typedef IntrusiveList::List<File_descriptor> List;
-
             File_descriptor();
             virtual ~File_descriptor();
 
-            Utility::Name m_Name;
-            uint64 m_Offset;
-            uint64 m_Size;
+            Helpers::Name m_Name;
+            Platform::uint64 m_Offset;
+            Platform::uint64 m_Size;
             Type::Types m_Type;
         };
 
         class Asset_descriptor : public Containers::IntrusiveList::Node<Asset_descriptor>
         {
         public:
-            /*Types */
-            typedef IntrusiveList::List<Asset_descriptor> List;
-
             /* Ctr $ Dtr */
             virtual ~Asset_descriptor() {}
 
             virtual Platform::int32 Get_details(
-                Utility::Binary_data & out_data,
+                Memory::Binary_data & out_data,
                 Type::Types & out_type) const = 0;
             virtual const std::string & Get_name() const = 0;
 
@@ -79,20 +74,20 @@ namespace O8
             , public Containers::IntrusiveList::Node<File>
         {
         public:
-            /* Types */
-            typedef IntrusiveList::List<File> List;
-
             /* Ctr & Dtr */
-            File();
-            virtual ~File();
+            File() = default;
+            virtual ~File() = default;
 
             /* Name */
-            Utility::Name m_Name;
+            Helpers::Name m_Name;
 
             /* Asset access */
-            virtual Utility::Binary_data Get_asset(const File_descriptor & desc) const;
+            virtual Memory::Binary_data Get_asset(const File_descriptor & desc) const;
             virtual const File_descriptor * Get_descriptor(const std::string & id) const;
             virtual Platform::int32 Load(const std::string & file_name);
+
+            /* Endianess */
+            virtual bool Is_endianess_swapped() const;
 
             /* Static routines */
             static Platform::int32 Store_file(
@@ -102,6 +97,7 @@ namespace O8
 
         private:
             std::string m_file_name;
+            bool m_is_endianess_swapped = false;
         };
     }
 }

@@ -44,6 +44,6 @@
 #include <string>
 #include <fstream>
 
-#include <O8\Utility\Hash_string.hpp>
+#include <Utilities\helpers\Hash_string.hpp>
 
 #endif O8_ASSET_PCH_HPP

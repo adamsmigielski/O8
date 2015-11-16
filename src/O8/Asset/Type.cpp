@@ -37,26 +37,28 @@ namespace O8
 {
     namespace Asset
     {
-        static const uint32 g_id_bitmap   = -1;
-        static const uint32 g_id_shader   = -2;
-        static const uint32 g_id_material = -3;
-        static const uint32 g_id_geometry = -4;
-        static const uint32 g_id_skeleton = -5;
-        static const uint32 g_id_model    = -6;
+        static const Platform::uint32 g_id_bitmap   = -1;
+        static const Platform::uint32 g_id_shader   = -2;
+        static const Platform::uint32 g_id_material = -3;
+        static const Platform::uint32 g_id_geometry = -4;
+        static const Platform::uint32 g_id_skeleton = -5;
+        static const Platform::uint32 g_id_model    = -6;
+        static const Platform::uint32 g_id_font     = -7;
 
-        Type::Types Type::Get_by_id(uint32 id)
+        Type::Types Type::Get_by_id(Platform::uint32 id)
         {
             Types type = Type::Unknown;
 
             switch (id)
             {
-            case g_id_bitmap: type = Type::Bitmap; break;
-            case g_id_shader: type = Type::Shader; break;
+            case g_id_bitmap:   type = Type::Bitmap;   break;
+            case g_id_font:     type = Type::Font;     break;
+            case g_id_shader:   type = Type::Shader;   break;
             case g_id_material: type = Type::Material; break;
             case g_id_geometry: type = Type::Geometry; break;
             case g_id_skeleton: type = Type::Skeleton; break;
-            case g_id_model: type = Type::Model; break;
-            default: type = Type::Unknown; break;
+            case g_id_model:    type = Type::Model;    break;
+            default:            type = Type::Unknown;  break;
             }
 
             return type;
@@ -69,6 +71,10 @@ namespace O8
             if (0 == name.compare("Bitmap"))
             {
                 type = Type::Bitmap;
+            }
+            else if (0 == name.compare("Font"))
+            {
+                type = Type::Font;
             }
             else if (0 == name.compare("Shader"))
             {
@@ -94,19 +100,20 @@ namespace O8
             return type;
         }
 
-        uint32 Type::Get_id(const Types & type)
+        Platform::uint32 Type::Get_id(const Types & type)
         {
-            uint32 id = 0;
+            Platform::uint32 id = 0;
 
             switch (type)
             {
-            case Type::Bitmap:   id = g_id_bitmap; break;
-            case Type::Shader:   id = g_id_shader; break;
+            case Type::Bitmap:   id = g_id_bitmap;   break;
+            case Type::Font:     id = g_id_font;     break;
+            case Type::Shader:   id = g_id_shader;   break;
             case Type::Material: id = g_id_material; break;
             case Type::Geometry: id = g_id_geometry; break;
             case Type::Skeleton: id = g_id_skeleton; break;
-            case Type::Model:    id = g_id_model; break;
-            default:             id = 0; break;
+            case Type::Model:    id = g_id_model;    break;
+            default:             id = 0;             break;
             }
 
             return id;
@@ -118,13 +125,14 @@ namespace O8
 
             switch (type)
             {
-            case Type::Bitmap: name = "Bitmap"; break;
-            case Type::Shader: name = "Shader"; break;
+            case Type::Bitmap:   name = "Bitmap";   break;
+            case Type::Font:     name = "Font";     break;
+            case Type::Shader:   name = "Shader";   break;
             case Type::Material: name = "Material"; break;
             case Type::Geometry: name = "Geometry"; break;
             case Type::Skeleton: name = "Skeleton"; break;
-            case Type::Model: name = "Model"; break;
-            default: name = "Unknown"; break;
+            case Type::Model:    name = "Model";    break;
+            default:             name = "Unknown";  break;
             }
 
             return name;

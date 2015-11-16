@@ -32,7 +32,7 @@
 #include "PCH.hpp"
 
 #include "Library.hpp"
-#include <O8\Utility\Hash_string.hpp>
+#include <Utilities\helpers\Hash_string.hpp>
 
 namespace O8
 {
@@ -48,13 +48,15 @@ namespace O8
             /* Nothing to be done here */
         }
 
-        Utility::Binary_data Library::Get_asset(const std::string & id)
+        Memory::Binary_data Library::Get_asset(
+            const std::string & id,
+            bool is_endianess_swapped)
         {
             std::string file_name;
             std::string entry_name;
-            Utility::Binary_data result;
+            Memory::Binary_data result;
 
-            int32 ret = Split_asset_id(
+            Platform::int32 ret = Split_asset_id(
                 id,
                 file_name,
                 entry_name);
@@ -87,12 +89,14 @@ namespace O8
                 result.Release();
             }
 
+            is_endianess_swapped = file->Is_endianess_swapped();
+
             return result;
         }
 
         File * Library::Get_file(const std::string & file_name)
         {
-            auto file = Search(Utility::Name_predicate<File>(file_name));
+            auto file = Search(Helpers::Name_predicate<File>(file_name));
 
             if (nullptr != file)
             {
@@ -100,7 +104,7 @@ namespace O8
             }
 
             file = new File;
-            int32 ret = file->Load(file_name);
+            Platform::int32 ret = file->Load(file_name);
             if (Utilities::Success != ret)
             {
                 ERRLOG("Not ava/ilable file: " << file_name);
@@ -114,7 +118,7 @@ namespace O8
             return file;
         }
 
-        int32 Merge_asset_id(
+        Platform::int32 Merge_asset_id(
             const std::string & archive_name,
             const std::string & entry_name,
             std::string & out_id)
@@ -126,7 +130,7 @@ namespace O8
             return Utilities::Success;
         }
 
-        int32 Split_asset_id(
+        Platform::int32 Split_asset_id(
             const std::string & id,
             std::string & out_archive_name,
             std::string & out_entry_name)
@@ -138,7 +142,7 @@ namespace O8
                 (0 == delim_off) ||
                 (str_length <= delim_off + 2))
             {
-                return Invalid_parameter;
+                return Utilities::Invalid_parameter;
             }
 
             const size_t archive_name_length = delim_off;
