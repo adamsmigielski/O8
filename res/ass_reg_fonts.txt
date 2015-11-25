@@ -1,0 +1,1 @@
+Arial Arial.ttf|char_set.txt|100|100

@@ -15,11 +15,11 @@ IF (BUILD_ASSET_ARCHIVE)
 				PCH.cpp
 				PCH.hpp)
 
-	TARGET_LINK_LIBRARIES(Asset_Archive
-						  Asset
-						  Common
-						  Templates
-						  Utility)
+	ADD_DEPENDENCIES(Asset_Archive
+					 containers
+				     helpers
+					 memory
+					 Asset)
 ENDIF (BUILD_ASSET_ARCHIVE)
 
 IF (BUILD_ASSET_REGISTRY)
@@ -29,11 +29,8 @@ IF (BUILD_ASSET_REGISTRY)
 				Archiver.cpp
 				Archiver.hpp)
 
-	TARGET_LINK_LIBRARIES(Asset_Archiver
-						  Asset
-						  Common
-						  Templates
-						  Utility)
+	ADD_DEPENDENCIES(Asset_Archiver
+					 Asset_Archive)
 ENDIF (BUILD_ASSET_REGISTRY)
 
 IF (BUILD_ASSET_IMPORT)
@@ -43,17 +40,20 @@ IF (BUILD_ASSET_IMPORT)
 				PCH.cpp
 				PCH.hpp)
 
+	ADD_DEPENDENCIES(Asset_Importer
+					 Asset
+					 DL)
+
 	ADD_LIBRARY(Asset_Import_Manager STATIC
 				import_manager.cpp
 				import_manager.hpp
 				PCH.cpp
 				PCH.hpp)
 
-	TARGET_LINK_LIBRARIES(Asset_Importer
-						  ${DL_IMPL})
-
-	TARGET_LINK_LIBRARIES(Asset_Import_Manager
-						  ${DL_IMPL})
+	ADD_DEPENDENCIES(Asset_Import_Manager
+					 containers
+				     helpers
+					 Asset_Importer)
 ENDIF (BUILD_ASSET_IMPORT)
 
 

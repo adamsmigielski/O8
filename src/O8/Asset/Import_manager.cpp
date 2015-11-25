@@ -59,23 +59,31 @@ namespace O8
             m_Format = nullptr;
         }
 
+        
+        Importer_owner::Importer_owner()
+            : m_Importer(nullptr, O8::Asset::Importer::Deleter)
+        {
+            /* Nothing to be done */
+        }
+
+
         Importer * Import_manager::Get_importer_by_extension(
             const std::string & extension)
         {
             DEBUGLOG("Accessing importer for extension: " << extension);
 
-            auto ext = m_Extensions.Search(Utility::Name_predicate<File_extension>(extension));
+            auto ext = m_Extensions.Search(Helpers::Name_predicate<File_extension>(extension));
 
             return get_importer(ext);
         }
 
-        int32 Import_manager::Load_extensions(const std::string & file_name)
+        Platform::int32 Import_manager::Load_extensions(const std::string & file_name)
         {
             std::fstream file;
             file.open(file_name, std::fstream::in);
             if (false == file.is_open())
             {
-                return Failed_to_open_file;
+                return Utilities::Failed_to_open_file;
             }
 
             while (1)
@@ -99,7 +107,7 @@ namespace O8
                 }
 
                 auto ext = m_Extensions.Search(
-                    Utility::Name_predicate
+                    Helpers::Name_predicate
                         <File_extension>
                         (ext_str));
 
@@ -108,7 +116,7 @@ namespace O8
                     LOG("Loaded entry: " << ext_str << " " << format_str);
 
                     ext = new File_extension;
-                    ext->m_Name(format_str);
+                    ext->m_Name(ext_str);
                     ext->m_Format_name(format_str);
                     m_Extensions.Attach(ext);
                 }
@@ -121,13 +129,13 @@ namespace O8
             return Utilities::Success;
         }
 
-        int32 Import_manager::Load_formats(const std::string & file_name)
+        Platform::int32 Import_manager::Load_formats(const std::string & file_name)
         {
             std::fstream file;
             file.open(file_name, std::fstream::in);
             if (false == file.is_open())
             {
-                return Failed_to_open_file;
+                return Utilities::Failed_to_open_file;
             }
 
             while (1)
@@ -151,7 +159,7 @@ namespace O8
                 }
 
                 auto format = m_Formats.Search(
-                    O8::Utility::Name_predicate<Format>(format_str));
+                    Helpers::Name_predicate<Format>(format_str));
                 if (nullptr == format)
                 {
                     format = new Format;
@@ -165,13 +173,13 @@ namespace O8
             return Utilities::Success;
         }
 
-        int32 Import_manager::Load_importers(const std::string & file_name)
+        Platform::int32 Import_manager::Load_importers(const std::string & file_name)
         {
             std::fstream file;
             file.open(file_name, std::fstream::in);
             if (false == file.is_open())
             {
-                return Failed_to_open_file;
+                return Utilities::Failed_to_open_file;
             }
 
             while (1)
@@ -195,7 +203,7 @@ namespace O8
                 }
 
                 auto format = m_Formats.Search(
-                    O8::Utility::Name_predicate<Format>(format_str));
+                    Helpers::Name_predicate<Format>(format_str));
                 if (nullptr == format)
                 {
                     format = new Format;
@@ -220,14 +228,14 @@ namespace O8
             return Utilities::Success;
         }
 
-        int32 Import_manager::Store_extensions(const std::string & file_name)
+        Platform::int32 Import_manager::Store_extensions(const std::string & file_name)
         {
             std::fstream file;
             file.open(file_name, std::fstream::out | std::fstream::trunc);
             if (false == file.is_open())
             {
                 ERRLOG("Failed to open file: " << file_name);
-                return Failed_to_open_file;
+                return Utilities::Failed_to_open_file;
             }
 
             for (auto ext = m_Extensions.First(); nullptr != ext; ext = ext->Next())
@@ -238,14 +246,14 @@ namespace O8
             return Utilities::Success;
         }
 
-        int32 Import_manager::Store_formats(const std::string & file_name)
+        Platform::int32 Import_manager::Store_formats(const std::string & file_name)
         {
             std::fstream file;
             file.open(file_name, std::fstream::out | std::fstream::trunc);
             if (false == file.is_open())
             {
                 ERRLOG("Failed to open file: " << file_name);
-                return Failed_to_open_file;
+                return Utilities::Failed_to_open_file;
             }
 
             for (auto format = m_Formats.First(); nullptr != format; format = format->Next())
@@ -260,7 +268,7 @@ namespace O8
             const std::string & format_name)
         {
             return m_Formats.Search(
-                Utility::Name_predicate<Format>(
+                Helpers::Name_predicate<Format>(
                 format_name));
         }
 
@@ -328,7 +336,7 @@ namespace O8
                 return nullptr;
             }
 
-            auto create = (PFN_CREATE_IMPORTER) dl->GetFunctionAddress("Create_imoprter");
+            auto create = (PFN_CREATE_IMPORTER) dl->GetFunctionAddress("Create_importer");
             if (nullptr == create)
             {
                 ERRLOG("Failed to get \"Create_importer\" function");
@@ -353,7 +361,7 @@ namespace O8
             {
                 ERRLOG("Importer initialization failed");
                 ASSERT(0);
-                delete importer;
+                O8::Asset::Importer::Deleter(importer);
                 return nullptr;
             }
 

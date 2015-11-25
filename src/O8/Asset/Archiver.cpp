@@ -60,7 +60,7 @@ namespace O8
             /* Nothing to be done here */
         }
 
-        int32 Registry::Load(const std::string & file_name)
+        Platform::int32 Registry::Load(const std::string & file_name)
         {
             std::fstream file;
 
@@ -69,7 +69,7 @@ namespace O8
             if (false == file.is_open())
             {
                 DEBUGLOG("Failed to open file: " << file_name);
-                return Failed_to_open_file;
+                return Utilities::Failed_to_open_file;
             }
 
             while (1)
@@ -97,7 +97,7 @@ namespace O8
             return Utilities::Success;
         }
 
-        int32 Registry::Store(const std::string & file_name) const
+        Platform::int32 Registry::Store(const std::string & file_name) const
         {
             std::fstream file;
 
@@ -107,12 +107,11 @@ namespace O8
             {
                 ERRLOG("Failed to open file: " << file_name);
                 ASSERT(0);
-                return Failure;
+                return Utilities::Failure;
             }
 
             for (auto it = First(); nullptr != it; it = it->Next())
             {
-                file << " ";
                 file << it->m_Name();
                 file << " ";
                 file << it->m_Path;
@@ -139,8 +138,8 @@ namespace O8
             m_importer = nullptr;
         }
 
-        int32 Archiver_descriptor::Get_details(
-            Utility::Binary_data & out_data,
+        Platform::int32 Archiver_descriptor::Get_details(
+            Memory::Binary_data & out_data,
             Type::Types & out_type) const
         {
             return m_importer->Get_asset(
@@ -164,7 +163,12 @@ namespace O8
                 nullptr != entry;
                 entry = entry->Next())
             {
-                size_t last_dot = entry->m_Name().rfind('.');
+                size_t last_dot = std::string::npos;
+                size_t delim = entry->m_Path.find('|');
+                last_dot = entry->m_Path.rfind('.', delim);
+                const size_t length = (std::string::npos == delim)
+                                    ? entry->m_Path.length() - 1
+                                    : delim - last_dot - 1;
 
                 if (std::string::npos == last_dot)
                 {
@@ -172,7 +176,7 @@ namespace O8
                     continue;
                 }
 
-                const std::string & extension_str = entry->m_Name().substr(last_dot + 1);
+                const std::string & extension_str = entry->m_Path.substr(last_dot + 1, length);
 
                 auto importer = import_manager.Get_importer_by_extension(extension_str);
 

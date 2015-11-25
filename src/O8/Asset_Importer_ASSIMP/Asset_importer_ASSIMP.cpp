@@ -51,14 +51,14 @@ namespace O8
         {
         }
 
-        int32 Importer_ASSIMP::Init()
+        Platform::int32 Importer_ASSIMP::Init()
         {
             return Utilities::Success;
         }
 
-        int32 Importer_ASSIMP::Get_asset(
+        Platform::int32 Importer_ASSIMP::Get_asset(
             const std::string & file_path,
-            Utility::Binary_data & out_data,
+            Memory::Binary_data & out_data,
             Type::Types & out_type)
         {
             Assimp::Importer importer;

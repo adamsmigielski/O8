@@ -47,10 +47,25 @@ namespace O8
 
         Importer::~Importer()
         {
-            if (nullptr != m_Dl)
+            m_Dl = nullptr;
+
+        }
+
+        void Importer::Deleter(Importer * importer)
+        {
+            if (nullptr == importer)
             {
-                delete m_Dl;
-                m_Dl = nullptr;
+                ASSERT(0);
+                return;
+            }
+
+            DL::DL * dl = importer->m_Dl;
+
+            delete importer;
+
+            if (nullptr != dl)
+            {
+                delete dl;
             }
         }
     }

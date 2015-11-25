@@ -61,7 +61,7 @@ namespace O8
             std::fstream & file);
         Platform::int32 write_version(
             std::fstream & file,
-            Platform::uint32 & out_version);
+            const Platform::uint32 version);
         Platform::int32 write_descriptor(
             std::fstream & file,
             size_t off_desc,
@@ -248,6 +248,7 @@ namespace O8
             std::fstream file;
             Platform::uint64 mem_req_for_descriptors = 0;
             Platform::uint64 mem_req_for_ids = 0;
+            Platform::uint32 n_descriptors = 0;
             Platform::uint64 off_desc = O8::Asset::preamble_size;
             Platform::uint64 off_id = 0;
             Platform::uint64 off_data = 0;
@@ -265,10 +266,41 @@ namespace O8
             {
                 mem_req_for_descriptors += O8::Asset::desc_size;
                 mem_req_for_ids += it->Get_name().length() + sizeof(Platform::uint32);
+                n_descriptors += 1;
             }
 
             off_id = off_desc + mem_req_for_descriptors;
             off_data = off_id + mem_req_for_ids;
+
+            auto ret = write_magic(file);
+            if (Utilities::Success != ret)
+            {
+                ASSERT(0);
+                return ret;
+            }
+
+            ret = write_endianess(file);
+            if (Utilities::Success != ret)
+            {
+                ASSERT(0);
+                return ret;
+            }
+
+            ret = write_version(file, ver_1);
+            if (Utilities::Success != ret)
+            {
+                ASSERT(0);
+                return ret;
+            }
+
+            if (Utilities::Success != Memory::Access::Write(
+                file,
+                preamble_size,
+                n_descriptors))
+            {
+                ASSERT(0);
+                return Utilities::Failure;
+            }
 
             for (auto it = first; end != it; it = it->Next())
             {
@@ -323,6 +355,15 @@ namespace O8
             return (endianess_magic != endianess);
         }
 
+        Platform::int32 write_endianess(
+            std::fstream & file)
+        {
+            return Memory::Access::Write(
+                file,
+                magic_size,
+                endianess_magic);
+        }
+
         bool check_magic(
             std::fstream & file)
         {
@@ -333,13 +374,29 @@ namespace O8
 
             if (false == file.good())
             {
-                ERRLOG("File corrupted");
                 ASSERT(0);
             }
 
             buffer[magic_size] = 0;
 
             return (0 == strcmp(magic, buffer));
+        }
+
+        Platform::int32 write_magic(
+            std::fstream & file)
+        {
+            char buffer[16];
+
+            file.seekp(0, std::fstream::beg);
+            file.write(magic, magic_size);
+
+            if (false == file.good())
+            {
+                ASSERT(0);
+                return Utilities::Failure;
+            }
+
+            return Utilities::Success;
         }
 
         Platform::int32 get_version(
@@ -352,6 +409,16 @@ namespace O8
                 magic_size + endianess_size,
                 swap_endianess,
                 out_version);
+        }
+
+        Platform::int32 write_version(
+            std::fstream & file,
+            const Platform::uint32 version)
+        {
+            return Memory::Access::Write(
+                file,
+                magic_size + endianess_size,
+                version);
         }
         
         Platform::int32 get_descriptor(

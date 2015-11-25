@@ -116,7 +116,7 @@ namespace O8
             }
 
             auto module = LoadLibrary(file_path);
-            if (nullptr == module)
+            if (NULL == module)
             {
                 DWORD err = GetLastError();
                 ERRLOG("Failed to load library: " << err);

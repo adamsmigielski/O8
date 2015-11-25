@@ -60,15 +60,15 @@ namespace O8
             Importer_ASSIMP();
             virtual ~Importer_ASSIMP();
 
-            virtual int32 Init();
+            virtual Platform::int32 Init();
 
-            virtual int32 Get_asset(
+            virtual Platform::int32 Get_asset(
                 const std::string & file_path,
-                Utility::Binary_data & out_data,
+                Memory::Binary_data & out_data,
                 Type::Types & out_type);
 
             private:
-                size_t get_number_of_children(const aiNode * node);
+                size_t get_number_of_children(const Assimp::aiNode * node);
         };
     }
 }

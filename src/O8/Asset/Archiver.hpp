@@ -48,14 +48,11 @@ namespace O8
         class Registry_entry : public Containers::IntrusiveList::Node<Registry_entry>
         {
         public:
-            /* Types */
-            typedef IntrusiveList::List<Registry_entry> List;
-
             /* Ctr & Dtr */
             Registry_entry();
             virtual ~Registry_entry();
 
-            Utility::Name m_Name;
+            Helpers::Name m_Name;
             std::string m_Path;
         };
 
@@ -68,24 +65,21 @@ namespace O8
 
             virtual ~Registry();
 
-            virtual int32 Load(const std::string & file_name);
-            virtual int32 Store(const std::string & file_name) const;
+            virtual Platform::int32 Load(const std::string & file_name);
+            virtual Platform::int32 Store(const std::string & file_name) const;
         };
 
         class Archiver_descriptor : public Asset_descriptor
         {
         public:
-            /*Types */
-            typedef IntrusiveList::List<Archiver_descriptor> List;
-
             /* Ctr $ Dtr */
             Archiver_descriptor(
                 const Registry_entry * entry,
                 Importer * importer);
             virtual ~Archiver_descriptor();
 
-            virtual int32 Get_details(
-                Utility::Binary_data & out_data,
+            virtual Platform::int32 Get_details(
+                Memory::Binary_data & out_data,
                 Type::Types & out_type) const;
             virtual const std::string & Get_name() const;
 

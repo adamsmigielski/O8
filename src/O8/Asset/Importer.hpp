@@ -34,7 +34,7 @@
 
 
 #include <Utilities\containers\IntrusiveList.hpp>
-#include <O8\Utility\Binary_data.hpp>
+#include <Utilities\memory\Binary_data.hpp>
 
 #include"Type.hpp"
 
@@ -51,16 +51,20 @@ namespace O8
         {
         public:
             Importer();
-            virtual ~Importer();
 
-            virtual int32 Init() = 0;
+            virtual Platform::int32 Init() = 0;
 
-            virtual int32 Get_asset(
+            virtual Platform::int32 Get_asset(
                 const std::string & file_path,
-                Utility::Binary_data & out_data,
+                Memory::Binary_data & out_data,
                 Type::Types & out_type) = 0;
 
+            static void Deleter(Importer * importer);
+
             DL::DL * m_Dl;
+
+        protected:
+            virtual ~Importer();
         };
 
         typedef Importer * (UTILITIES_API * PFN_CREATE_IMPORTER)();

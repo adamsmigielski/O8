@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="Memory::Binary_data">
+    <DisplayString>Binary_data</DisplayString>
+	<Expand>
+	  <ArrayItem>
+		<Size>m_size</Size>
+		<ValuePointer>m_data</ValuePointer>
+	  </ArrayItem>
+	</Expand>
+  </Type>
+</AutoVisualizer>

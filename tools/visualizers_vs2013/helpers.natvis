@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="Helpers::Name">
+    <DisplayString>{m_name,na}</DisplayString>
+	<Expand>
+	  <Item Name="Name">m_name</Item>
+	  <Item Name="Hash">m_hash</Item>
+	</Expand>
+  </Type>
+</AutoVisualizer>

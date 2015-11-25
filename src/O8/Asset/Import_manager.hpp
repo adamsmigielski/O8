@@ -43,44 +43,38 @@ namespace O8
 {
     namespace Asset
     {
-        class Format : public O8::IntrusiveList::Node<Format>
+        class Format : public Containers::IntrusiveList::Node<Format>
         {
         public:
-            /* Types */
-            typedef O8::IntrusiveList::List<Format> List;
-
             /* Ctr & Dtr */
             Format();
             virtual ~Format();
 
             Importer * m_Importer;
-            Utility::Name m_Importer_library_path;
-            Utility::Name m_Name;
+            Helpers::Name m_Importer_library_path;
+            Helpers::Name m_Name;
         };
 
-        class File_extension : public O8::IntrusiveList::Node < File_extension >
+        class File_extension : public Containers::IntrusiveList::Node < File_extension >
         {
         public:
-            /* Types */
-            typedef O8::IntrusiveList::List<File_extension> List;
-
             /* Ctr & Dtr */
             File_extension();
             ~File_extension();
 
             Format * m_Format;
-            Utility::Name m_Format_name;
-            Utility::Name m_Name;
+            Helpers::Name m_Format_name;
+            Helpers::Name m_Name;
         };
 
-        class Importer_owner : public O8::IntrusiveList::Node<Importer_owner>
+        class Importer_owner : public Containers::IntrusiveList::Node<Importer_owner>
         {
         public:
-            /* Types */
-            typedef O8::IntrusiveList::List<Importer_owner> List;
+            Importer_owner();
+            ~Importer_owner() = default;
 
-            std::unique_ptr<Importer> m_Importer;
-            Utility::Name m_Importer_library_path;
+            std::unique_ptr<Importer, void(*)(O8::Asset::Importer *)> m_Importer;
+            Helpers::Name m_Importer_library_path;
         };
 
         class Import_manager
@@ -89,11 +83,11 @@ namespace O8
             virtual Importer * Get_importer_by_extension(
                 const std::string & extension);
 
-            int32 Load_extensions(const std::string & file_name);
-            int32 Load_formats(const std::string & file_name);
-            int32 Load_importers(const std::string & file_name);
-            int32 Store_extensions(const std::string & file_name);
-            int32 Store_formats(const std::string & file_name);
+            Platform::int32 Load_extensions(const std::string & file_name);
+            Platform::int32 Load_formats(const std::string & file_name);
+            Platform::int32 Load_importers(const std::string & file_name);
+            Platform::int32 Store_extensions(const std::string & file_name);
+            Platform::int32 Store_formats(const std::string & file_name);
 
             File_extension::List m_Extensions;
             Format::List m_Formats;
@@ -117,7 +111,7 @@ namespace O8
         {
         public:
             Importer_library_path_predicate(const std::string & name)
-                : m_hash(Utility::Hash_string(name))
+                : m_hash(Helpers::Hash_string(name))
             {
                 /* Nothing to be done here */
             }
