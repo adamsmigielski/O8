@@ -53,7 +53,7 @@ namespace O8
 
         class Material
             : public Containers::IntrusiveList::Node<Material>
-            , public Containers::ReferenceCounted::Resource
+            , public Containers::ReferenceCounted::Resource<Material>
         {
         public:
             /* Types */
@@ -65,7 +65,7 @@ namespace O8
             virtual ~Material();
 
             /* Name */
-            Utility::Name m_Name;
+            Helpers::Name m_Name;
 
             Material_descriptor m_Descriptor;
             GI::Texture::Reference m_Diffuse_map;
@@ -73,4 +73,4 @@ namespace O8
     }
 }
 
-#endif O8_RS_MATERIAL_HPP
+#endif /* O8_RS_MATERIAL_HPP */

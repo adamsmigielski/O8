@@ -46,4 +46,4 @@
 
 #include <Utilities\helpers\Hash_string.hpp>
 
-#endif O8_ASSET_PCH_HPP
+#endif /* O8_ASSET_PCH_HPP */

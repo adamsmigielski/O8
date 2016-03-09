@@ -34,12 +34,6 @@
 
 #include <O8\Asset\Importer.hpp>
 
-namespace Assimp
-{
-    struct aiScene;
-    struct aiNode;
-}
-
 namespace O8
 {
     namespace Asset
@@ -66,9 +60,6 @@ namespace O8
                 const std::string & file_path,
                 Memory::Binary_data & out_data,
                 Type::Types & out_type);
-
-            private:
-                size_t get_number_of_children(const Assimp::aiNode * node);
         };
     }
 }

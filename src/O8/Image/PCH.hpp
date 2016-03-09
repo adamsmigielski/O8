@@ -43,4 +43,4 @@
 #include <iostream>
 #include <string>
 
-#endif O8_IMAGE_PCH_HPP
+#endif /* O8_IMAGE_PCH_HPP */

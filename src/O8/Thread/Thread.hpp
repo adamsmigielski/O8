@@ -65,7 +65,7 @@ namespace O8
 		template <typename ...TT>
 		Platform::int32 Start(Thread * thread, TT... args)
 		{
-			auto task = Templates::TaskFactory<TT...>::Create(args...);
+			auto task = Task::TaskFactory<TT...>::Create(args...);
 
             return thread->Start(task);
 		}

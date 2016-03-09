@@ -32,6 +32,7 @@
 #include "PCH.hpp"
 
 #include "Asset_importer_FreeType.hpp"
+#include <O8/Asset/Enums.hpp>
 
 #include <Utilities\text\Font.hpp>
 
@@ -80,7 +81,7 @@ namespace O8
             {
                 ERRLOG("Failed to load glyph: " << glyph_index);
                 ASSERT(0);
-                return Utilities::Failed_to_load_model;
+                return Failed_to_load_model;
             }
 
             err = FT_Render_Glyph(
@@ -162,7 +163,7 @@ namespace O8
                 for (size_t i = 0; i < 3; ++i,++pos)
                 {
                     pos = file_path.find('|', pos);
-                            
+
                     if (pos == std::string::npos)
                     {
                         ERRLOG("Font resource must contain font_path:char_set_path:dpiX:dpiY. Got " << file_path);

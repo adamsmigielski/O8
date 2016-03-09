@@ -60,4 +60,4 @@ namespace O8
     }
 }
 
-#endif O8_ASSET_TYPE_HPP
+#endif /* O8_ASSET_TYPE_HPP */

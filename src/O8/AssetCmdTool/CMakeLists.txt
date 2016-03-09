@@ -6,16 +6,17 @@ ADD_EXECUTABLE(AssetCmdTool
 			   PCH.hpp)
 
 TARGET_LINK_LIBRARIES(AssetCmdTool
+					  Asset_Import_Manager
+					  Asset_Importer
+					  Asset_Archiver
+					  Asset_Archive
+					  Asset
 					  basic
 					  containers
 					  helpers
 					  memory
 					  ${DL_IMPL}
-					  Asset
-					  Asset_Archive
-					  Asset_Archiver
-					  Asset_Importer
-					  Asset_Import_Manager)
+					  DL)
 
 IF(BUILD_ASSET_IMPORTER_ASSIMP)
 	ADD_DEPENDENCIES(AssetCmdTool

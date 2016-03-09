@@ -149,7 +149,7 @@ namespace O8
             const size_t entry_name_offset = delim_off + 1;
             const size_t entry_name_length = str_length - entry_name_offset;
 
-            out_archive_name = id.substr(0, delim_off);
+            out_archive_name = id.substr(0, archive_name_length);
             out_entry_name = id.substr(entry_name_offset, entry_name_length);
 
             return Utilities::Success;

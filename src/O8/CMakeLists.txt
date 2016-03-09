@@ -18,19 +18,6 @@ SET( BUILD_ASSET_IMPORTER_FREETYPE ON CACHE BOOL "Build asset importer based on 
 SET( BUILD_OPENGL ON CACHE BOOL "Build OpenGL libraries")
 SET( BUILD_ENGINE ON CACHE BOOL "Build engine")
 
-# Paths
-set(GLM_INCLUDE_DIR "../Dependencies/glm" CACHE STRING "Path to GLM include directory")
-
-IF(BUILD_ASSET_IMPORTER_ASSIMP)
-	SET(ASSIMP_INCLUDE_DIR "${CMAKE_BINARY_DIR}/../Dependencies/assimp/include" CACHE STRING "Path to ASSIMP include directory")
-	SET(ASSIMP_LIB_DIR "${CMAKE_BINARY_DIR}/../Dependencies/assimp/code/Release" CACHE STRING "Path to ASSIMP lib directory")
-ENDIF(BUILD_ASSET_IMPORTER_ASSIMP)
-
-IF(BUILD_ASSET_IMPORTER_FREETYPE)
-	SET(FREE_TYPE_INCLUDE_DIR "${CMAKE_BINARY_DIR}/../Dependencies/freetype2/include" CACHE STRING "Path to FreeType 2 include directory")
-	SET(FREE_TYPE_LIB_DIR "${CMAKE_BINARY_DIR}/../Dependencies/freetype2/Release" CACHE STRING "Path to FreeType 2 lib directory")
-ENDIF(BUILD_ASSET_IMPORTER_FREETYPE)
-
 # Configuration
 IF(WIN32)
 	# Lib names

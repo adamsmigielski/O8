@@ -31,6 +31,7 @@
 
 #include "PCH.hpp"
 
+#include <O8/Asset/Enums.hpp>
 #include "Asset_importer_ASSIMP.hpp"
 
 #include <assimp/Importer.hpp>      // C++ importer interface
@@ -43,6 +44,8 @@ namespace O8
 {
     namespace Asset
     {
+        size_t get_number_of_children(const aiNode * node);
+
         Importer_ASSIMP::Importer_ASSIMP()
         {
         }
@@ -64,7 +67,7 @@ namespace O8
             Assimp::Importer importer;
 
             // And have it read the given file with some example postprocessing
-            // Usually - if speed is not the most important aspect for you - you'll 
+            // Usually - if speed is not the most important aspect for you - you'll
             // propably to request more postprocessing than we do in this example.
             const aiScene* scene = importer.ReadFile(file_path,
                 aiProcess_CalcTangentSpace |
@@ -87,7 +90,7 @@ namespace O8
             return Utilities::Success;
         }
 
-        size_t Importer_ASSIMP::get_number_of_children(const aiNode * node)
+        size_t get_number_of_children(const aiNode * node)
         {
             const size_t n_children = node->mNumChildren;
             size_t sum = 0;

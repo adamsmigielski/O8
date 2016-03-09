@@ -33,7 +33,7 @@
 #define O8_RS_MODEL_HPP
 
 #include <O8\GI\Buffer.hpp>
-#include <O8\Math\FloatTypes.hpp>
+#include <Utilities\math\FloatTypes.hpp>
 #include <Utilities\containers\IntrusiveList.hpp>
 #include <Utilities\containers\ReferenceCounted.hpp>
 #include <Utilities\helpers\Name.hpp>
@@ -60,8 +60,8 @@ namespace O8
             {
             public:
                 GI::Buffer::Reference m_Buffer;
-                uint64 m_Offset;
-                uint64 m_Stride;
+                Platform::uint64 m_Offset;
+                Platform::uint64 m_Stride;
             };
         }
 
@@ -84,7 +84,7 @@ namespace O8
             {
             public:
                 Frame * m_Frames;
-                uint32 m_n_Frames;
+                Platform::uint32 m_n_Frames;
                 float m_FPS;
             };
         }
@@ -94,13 +94,13 @@ namespace O8
             class Descriptor
             {
             public:
-                uint32 m_Parent_id;
+            	Platform::uint32 m_Parent_id;
             };
 
             class Definition
             {
             public:
-                uint32 m_Parent_id;
+            	Platform::uint32 m_Parent_id;
             };
         }
 
@@ -121,7 +121,7 @@ namespace O8
             {
             public:
                 Attribute m_Attribute;
-                uint64 m_Offset;
+                Platform::uint64 m_Offset;
                 Type m_Type;
             };
 
@@ -131,15 +131,15 @@ namespace O8
                 Definition();
                 virtual ~Definition();
 
-                int32 Prepare(
+                Platform::int32 Prepare(
                     Descriptor & attribute_desc,
                     Buffer::Descriptor & buffer_desc,
-                    Utility::Binary_data & data,
-                    uint32 n_vertices);
+                    Memory::Binary_data & data,
+                    Platform::uint32 n_vertices);
 
                 Attribute m_Attribute;
                 Buffer::Descriptor m_Buffer;
-                Utility::Binary_data m_Data;
+                Memory::Binary_data m_Data;
                 Type m_Type;
             };
         }
@@ -156,9 +156,9 @@ namespace O8
             class Descriptor
             {
             public:
-                uint64 m_Indices_offset;
-                uint32 m_n_Indices;
-                uint32 m_n_Vertices;
+            	Platform::uint64 m_Indices_offset;
+            	Platform::uint32 m_n_Indices;
+            	Platform::uint32 m_n_Vertices;
             };
 
             class Definition
@@ -169,17 +169,17 @@ namespace O8
                 virtual ~Definition();
 
                 void Drop_data();
-                int32 Prepare(
+                Platform::int32 Prepare(
                     Vertex::Descriptor * attributes_desc,
-                    Utility::Binary_data & data,
+                    Memory::Binary_data & data,
                     Mesh::Descriptor & mesh_desc,
                     Setup & setup);
 
                 Vertex::Definition m_Attributes[Vertex::n_Attributes];
                 Buffer::Descriptor m_Indices;
-                Utility::Binary_data m_Indices_data;
-                uint32 m_n_Indices;
-                uint32 m_n_Vertices;
+                Memory::Binary_data m_Indices_data;
+                Platform::uint32 m_n_Indices;
+                Platform::uint32 m_n_Vertices;
                 GI::Vertex_attributes * m_Vertex_attributes;
             };
         }
@@ -198,71 +198,67 @@ namespace O8
             class Descriptor
             {
             public:
-                uint32 m_n_Animations;
-                uint32 m_n_Bones;
-                uint32 m_n_Meshes;
-                uint64 m_Offset_animations;
-                uint64 m_Offset_attributes;
-                uint64 m_Offset_bones;
-                uint64 m_Offset_meshes;
+                Platform::uint32 m_n_Animations;
+                Platform::uint32 m_n_Bones;
+                Platform::uint32 m_n_Meshes;
+                Platform::uint64 m_Offset_animations;
+                Platform::uint64 m_Offset_attributes;
+                Platform::uint64 m_Offset_bones;
+                Platform::uint64 m_Offset_meshes;
             };
 
             class Definition
                 : public Containers::IntrusiveList::Node < Definition >
-                , ReferenceCounted::Resource
+                , Containers::ReferenceCounted::Resource < Definition >
             {
             public:
-                /* Types */
-                typedef IntrusiveList::List<Definition> List;
-                typedef ReferenceCounted::Reference<Definition> Reference;
-
                 /* Ctr & Dtr */
 
                 /* Init */
                 void Drop_data();
                 void Drop_descriptors();
-                int32 Load_descriptors(Utility::Binary_data && data);
-                int32 Prepare_definition(Mesh::Setup & setup);
-                int32 Prepare_descriptors();
+                Platform::int32 Load_descriptors(Memory::Binary_data && data);
+                Platform::int32 Prepare_definition(Mesh::Setup & setup);
+                Platform::int32 Prepare_descriptors();
                 void Release();
-                int32 Store_descriptors();
+                Platform::int32 Store_descriptors();
 
                 /*  */
-                int32 Get_buffer_requirements(Requirements & info);
+                Platform::int32 Get_buffer_requirements(Requirements & info);
 
                 std::vector<Bone::Definition> m_Bones;
                 std::vector<Mesh::Definition> m_Meshes;
-                Utility::Name m_Name;
+                Helpers::Name m_Name;
 
             private:
-                /* Methods */ 
-                int32 load_attributes_descriptors(
-                    uint32 n_meshes,
-                    uint64 offset);
-                int32 load_bone_descriptors(
-                    uint32 n_bones,
-                    uint64 offset);
-                int32 load_mesh_descriptors(
-                    uint32 n_meshes,
-                    uint64 offset);
-                int32 parse_bone_descriptors();
-                int32 parse_mesh_descriptors(Mesh::Setup & setup);
-                int32 prepare_bone_descriptors(Descriptor & desc);
-                int32 prepare_mesh_descriptors(Descriptor & desc);
+                /* Methods */
+                Platform::int32 load_attributes_descriptors(
+                    Platform::uint32 n_meshes,
+                    Platform::uint64 offset);
+                Platform::int32 load_bone_descriptors(
+                    Platform::uint32 n_bones,
+                    Platform::uint64 offset);
+                Platform::int32 load_mesh_descriptors(
+                    Platform::uint32 n_meshes,
+                    Platform::uint64 offset);
+                Platform::int32 parse_bone_descriptors();
+                Platform::int32 parse_mesh_descriptors(Mesh::Setup & setup);
+                Platform::int32 prepare_bone_descriptors(Descriptor & desc);
+                Platform::int32 prepare_mesh_descriptors(Descriptor & desc);
 
                 /* Attributes */
                 std::vector<Vertex::Descriptor> m_attributes_descriptors;
                 std::vector<Bone::Descriptor> m_bone_descriptors;
-                Utility::Binary_data m_data;
+                Memory::Binary_data m_data;
                 std::vector<Mesh::Descriptor> m_mesh_descriptors;
 
                 /* Constants */
                 static const size_t s_off_model_descriptor;
 
-                static const uint32 s_root_parent_id;
+                static const Platform::uint32 s_root_parent_id;
             };
         }
     }
 }
 
-#endif O8_RS_MODEL_HPP
+#endif /* O8_RS_MODEL_HPP */

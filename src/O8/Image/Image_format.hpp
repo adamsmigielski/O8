@@ -58,4 +58,4 @@ namespace O8
     }
 }
 
-#endif O8_IMAGE_IMAGE_FORMAT_HPP
+#endif /* O8_IMAGE_IMAGE_FORMAT_HPP */

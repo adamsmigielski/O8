@@ -64,7 +64,6 @@ namespace O8
         RI * GI_win_ogl::Create_rendering_interface(
             Adapter * adapter)
         {
-            Context_win_ogl * context = nullptr;
             Output_win_ogl * output = nullptr;
             RI_win_ogl * ri = nullptr;
 
@@ -254,7 +253,7 @@ namespace O8
 
                 /* Same adapter might be enumerated multiple times */
                 Adapter_win_ogl * adapter = nullptr;
-                
+
                 for (auto it = First();
                     nullptr != it;
                     it = it->Next())

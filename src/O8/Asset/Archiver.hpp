@@ -98,4 +98,4 @@ namespace O8
     }
 }
 
-#endif O8_ASSET_ARCHIVER_HPP
+#endif /* O8_ASSET_ARCHIVER_HPP */

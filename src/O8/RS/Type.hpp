@@ -50,8 +50,8 @@ namespace O8
 
             /* Attributes */
             Basic_type m_Basic_type;
-            uint32 m_N_columns;
-            uint32 m_N_rows;
+            Platform::uint32 m_N_columns;
+            Platform::uint32 m_N_rows;
 
             /* Static routines */
             static size_t Get_size(const Type & type);
@@ -82,4 +82,4 @@ namespace O8
     }
 }
 
-#endif O8_RS_TYPE_HPP
+#endif /* O8_RS_TYPE_HPP */

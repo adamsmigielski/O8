@@ -53,4 +53,4 @@ namespace O8
     }
 }
 
-#endif O8_GI_TEXTURE_OGL_HPP
+#endif /* O8_GI_TEXTURE_OGL_HPP */

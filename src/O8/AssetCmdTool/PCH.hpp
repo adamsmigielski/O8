@@ -40,6 +40,7 @@
 #include <Utilities\basic\ErrorCodes.hpp>
 #include <Utilities\basic\Log.hpp>
 
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -47,4 +48,4 @@
 #include <Utilities\helpers\Name.hpp>
 #include <Utilities\helpers\Hash_string.hpp>
 
-#endif O8_ASSETCMDTOOL_PCH_HPP
+#endif /* O8_ASSETCMDTOOL_PCH_HPP */

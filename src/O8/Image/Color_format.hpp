@@ -73,7 +73,7 @@ namespace O8
                 TYPE_DOUBLE,
             };
 
-            /* Routines */ 
+            /* Routines */
             Color_format();
             Color_format(const Color_format & color_format);
             Color_format(
@@ -111,4 +111,4 @@ namespace O8
     }
 }
 
-#endif O8_IMAGE_COLOR_FORMAT_HPP
+#endif /* O8_IMAGE_COLOR_FORMAT_HPP */

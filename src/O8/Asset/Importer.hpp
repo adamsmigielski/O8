@@ -36,7 +36,7 @@
 #include <Utilities\containers\IntrusiveList.hpp>
 #include <Utilities\memory\Binary_data.hpp>
 
-#include"Type.hpp"
+#include "Type.hpp"
 
 namespace O8
 {

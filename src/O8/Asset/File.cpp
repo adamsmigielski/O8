@@ -33,6 +33,7 @@
 
 #include "File.hpp"
 
+#include <cstring>
 #include <fstream>
 
 #include <Utilities\helpers\Hash_string.hpp>
@@ -306,7 +307,7 @@ namespace O8
             {
                 Memory::Binary_data data;
                 Type::Types type;
-                
+
                 const std::string & name = it->Get_name();
                 if (Utilities::Success != it->Get_details(data, type))
                 {
@@ -375,6 +376,7 @@ namespace O8
             if (false == file.good())
             {
                 ASSERT(0);
+                return false;
             }
 
             buffer[magic_size] = 0;
@@ -385,8 +387,6 @@ namespace O8
         Platform::int32 write_magic(
             std::fstream & file)
         {
-            char buffer[16];
-
             file.seekp(0, std::fstream::beg);
             file.write(magic, magic_size);
 
@@ -420,7 +420,7 @@ namespace O8
                 magic_size + endianess_size,
                 version);
         }
-        
+
         Platform::int32 get_descriptor(
             std::fstream & file,
             Platform::uint64 offset,

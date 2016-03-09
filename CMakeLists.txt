@@ -13,9 +13,7 @@ INCLUDE(${PROJECT_CONFIGURATION}/configuration.cmake)
 
 
 # Include source and external libraries
-INCLUDE_DIRECTORIES (include)
 INCLUDE_DIRECTORIES (src)
-INCLUDE_DIRECTORIES (${GLM_INCLUDE_DIR})
 
 
 # Add source directory

@@ -61,7 +61,7 @@ namespace O8
             virtual void Make_current();
             virtual BOOL Swap();
 
-            virtual void * Get_proc_address(const char * name);
+            virtual OpenGL::Context::proc_t Get_proc_address(const char * name);
 
 
         private:

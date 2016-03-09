@@ -102,4 +102,4 @@ namespace O8
     }
 }
 
-#endif O8_ASSET_FILE_HPP
+#endif /* O8_ASSET_FILE_HPP */

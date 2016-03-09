@@ -55,20 +55,3 @@ IF (BUILD_ASSET_IMPORT)
 				     helpers
 					 Asset_Importer)
 ENDIF (BUILD_ASSET_IMPORT)
-
-
-
-
-IF (BUILD_TESTS)
-	ADD_EXECUTABLE(Asset_Test
-				   main.cpp
-				   PCH.cpp
-				   PCH.hpp)
-
-	TARGET_LINK_LIBRARIES(Asset_Test
-						  DL)
-
-	ADD_DEPENDENCIES(Asset_Test
-					 Asset)
-ENDIF (BUILD_TESTS)
-

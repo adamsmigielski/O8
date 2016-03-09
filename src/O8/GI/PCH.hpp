@@ -37,7 +37,9 @@
 #include <Utilities\basic\Assert.hpp>
 #include <Utilities\basic\BreakToDebug.hpp>
 #include <Utilities\basic\CallConvention.hpp>
+#include <Utilities\basic\Log.hpp>
 
 #include <string>
+#include <iostream>
 
 #endif /* O8_GI_PCH_HPP */

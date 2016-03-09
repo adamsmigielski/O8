@@ -36,17 +36,11 @@ namespace O8
 {
     namespace Asset
     {
-        enum class Type
-        {
-            Unknown,
-            Bitmap,
-            Shader,
-            Material,
-            Geometry,
-            Skeleton,
-            Model,
-        };
+        enum Error_codes
+		{
+        	Failed_to_load_model = -4096,
+		};
     }
 }
 
-#endif O8_ASSET_ENUMS_HPP
+#endif /* O8_ASSET_ENUMS_HPP */
