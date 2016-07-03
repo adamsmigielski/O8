@@ -1,23 +1,3 @@
-# General executables to build
-SET( BUILD_TESTS ON CACHE BOOL "Build test executables")
-SET( BUILD_TOOLS ON CACHE BOOL "Build tools executables")
-SET( BUILD_DEMO ON CACHE BOOL "Build demo executables")
-
-# Modules to build
-SET( BUILD_ASSET ON CACHE BOOL "Build asset libraries")
-SET( BUILD_ASSET_ARCHIVE ON CACHE BOOL "Build asset archive libraries")
-SET( BUILD_ASSET_IMPORT ON CACHE BOOL "Build asset import libraries")
-SET( BUILD_ASSET_REGISTRY ON CACHE BOOL "Build asset registry libraries")
-SET( BUILD_GI ON CACHE BOOL "Build graphics interface libraries")
-SET( BUILD_RS ON CACHE BOOL "Build rendering system libraries")
-SET( BUILD_WS ON CACHE BOOL "Build window management libraries")
-
-# Dependant modules to build
-SET( BUILD_ASSET_IMPORTER_ASSIMP ON CACHE BOOL "Build asset importer based on ASSIMP")
-SET( BUILD_ASSET_IMPORTER_FREETYPE ON CACHE BOOL "Build asset importer based on FreeType 2")
-SET( BUILD_OPENGL ON CACHE BOOL "Build OpenGL libraries")
-SET( BUILD_ENGINE ON CACHE BOOL "Build engine")
-
 # Configuration
 IF(WIN32)
 	# Lib names
@@ -56,19 +36,6 @@ ADD_SUBDIRECTORY(${THREAD_IMPL_DIR})
 #Asset
 IF (BUILD_ASSET)
 	ADD_SUBDIRECTORY(Asset)
-
-	IF (BUILD_TOOLS AND BUILD_ASSET_IMPORT AND BUILD_ASSET_ARCHIVE AND BUILD_ASSET_REGISTRY)
-		ADD_SUBDIRECTORY(AssetCmdTool)
-	ENDIF (BUILD_TOOLS AND BUILD_ASSET_IMPORT AND BUILD_ASSET_ARCHIVE AND BUILD_ASSET_REGISTRY)
-
-	IF (BUILD_ASSET_IMPORT)
-		IF (BUILD_ASSET_IMPORTER_ASSIMP)
-			ADD_SUBDIRECTORY(Asset_Importer_ASSIMP)
-		ENDIF (BUILD_ASSET_IMPORTER_ASSIMP)
-		IF(BUILD_ASSET_IMPORTER_FREETYPE)
-			ADD_SUBDIRECTORY(Asset_Importer_FreeType)
-		ENDIF(BUILD_ASSET_IMPORTER_FREETYPE)
-	ENDIF (BUILD_ASSET_IMPORT)
 ENDIF (BUILD_ASSET)
 
 #GI
