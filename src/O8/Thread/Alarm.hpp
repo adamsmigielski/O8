@@ -52,8 +52,6 @@ namespace O8
 
 			virtual Platform::int32 Start(float time_s) = 0;
 		};
-
-        typedef Alarm * (UTILITIES_API * PFN_CREATE_ALARM)();
 	}
 }
 

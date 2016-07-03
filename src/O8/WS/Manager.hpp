@@ -55,8 +55,6 @@ namespace O8
         protected:
             Manager();
 		};
-
-        typedef Manager * (UTILITIES_API * PFN_CREATE_MANAGER)();
 	}
 }
 

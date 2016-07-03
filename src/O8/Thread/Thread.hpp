@@ -59,9 +59,6 @@ namespace O8
 			virtual Platform::int32 Start(Runnable * runnable) = 0;
         };
 
-        typedef Thread * (UTILITIES_API * PFN_CREATE_THREAD)();
-        typedef void (UTILITIES_API * PFN_GIVE_UP)();
-
 		template <typename ...TT>
 		Platform::int32 Start(Thread * thread, TT... args)
 		{

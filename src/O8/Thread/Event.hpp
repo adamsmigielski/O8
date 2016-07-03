@@ -53,8 +53,6 @@ namespace O8
 			virtual void Signal() = 0;
 			virtual void Reset() = 0;
 		};
-
-        typedef Event * (UTILITIES_API *PFN_CREATE_EVENT)();
 	}
 }
 

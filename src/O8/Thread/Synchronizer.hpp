@@ -57,8 +57,6 @@ namespace O8
 
 			virtual WaitResult Wait(Platform::uint32 timeout_ms) const = 0;
 		};
-
-		typedef Synchronizer::WaitResult(UTILITIES_API * PFN_WAIT_FOR_MULTIPLE)(Synchronizer ** synchronizers, Platform::uint32 size);
 	}
 }
 
