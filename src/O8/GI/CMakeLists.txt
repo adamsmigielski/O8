@@ -67,11 +67,10 @@ IF (BUILD_TESTS)
 						  Unit_Tests
 						  Thread_Loader
 						  WS
-						  WS_Loader
+						  ${WS_IMPL}
 						  GI_UT
 						  GI_Loader)
 
 	ADD_DEPENDENCIES(GI_Test
-					 ${GI_GL_IMPL}
-					 ${WS_IMPL})
+					 ${GI_GL_IMPL})
 ENDIF (BUILD_TESTS)
