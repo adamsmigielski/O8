@@ -6,7 +6,6 @@ ADD_EXECUTABLE(Demo_basics
 			   PCH.hpp)
 			   
 TARGET_LINK_LIBRARIES(Demo_basics
-					  Common
 					  DL
 					  GI
 					  GI_Loader

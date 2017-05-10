@@ -54,6 +54,7 @@ namespace O8
             virtual Texture * Create_texture() = 0;
             virtual Texture_list * Get_texture_list() = 0;
 
+
         protected:
             RI();
         };

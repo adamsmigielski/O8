@@ -286,11 +286,17 @@ namespace O8
             return m_swap_buffers(m_hdc);
         }
 
-        OpenGL::Context::proc_t Context_win_ogl::Get_proc_address(const char * name)
+        Platform::proc_t Context_win_ogl::Get_proc_address(const char * name)
         {
             ASSERT(nullptr != m_get_proc_address);
 
-            return proc_t(m_get_proc_address(name));
+            Platform::proc_t ptr = Platform::proc_t(m_get_proc_address(name));
+            if (nullptr == ptr)
+            {
+                ptr = Platform::proc_t(s_opengl_dl->GetFunctionAddress(name));
+            }
+
+            return ptr;
         }
 
         Platform::int32 Context_win_ogl::load_wgl()

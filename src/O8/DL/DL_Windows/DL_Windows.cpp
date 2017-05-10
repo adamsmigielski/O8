@@ -68,7 +68,7 @@ namespace O8
             m_name = name;
 		}
 
-        void * DL_Windows::GetFunctionAddress(const char * function_name)
+        Platform::proc_t DL_Windows::GetFunctionAddress(const char * function_name)
 		{
 			FARPROC function;
 
@@ -101,7 +101,7 @@ namespace O8
 
 			LOG("Function: " << function_name << " loaded");
 
-			return (void *) function;
+			return (Platform::proc_t) function;
         }
 
         DL * Load(const char * file_path)

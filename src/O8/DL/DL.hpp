@@ -43,7 +43,7 @@ namespace O8
 			DL();
 			virtual ~DL();
 
-			virtual void * GetFunctionAddress(const char * function_name) = 0;
+			virtual Platform::proc_t GetFunctionAddress(const char * function_name) = 0;
 		};
 
 		DL * Load(const char * file_path);

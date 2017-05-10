@@ -34,7 +34,6 @@
 #include "Loader.hpp"
 
 #include <Utilities\basic\ErrorCodes.hpp>
-#include <O8\Common\ErrorCodes.hpp>
 #include <O8\DL\DL.hpp>
 
 namespace O8
@@ -57,7 +56,7 @@ namespace O8
 
             if (nullptr == dl)
             {
-                return Failed_to_load_library;
+                return Utilities::Failed_to_load_library;
             }
 
             /* Load functions */
@@ -67,7 +66,7 @@ namespace O8
             if (nullptr == Create_GI)
             {
                 delete dl;
-                return Failed_to_load_function;
+                return Utilities::Failed_to_load_function;
             }
 
             /* Save DL */

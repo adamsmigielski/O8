@@ -47,7 +47,7 @@ namespace O8
             virtual ~DL_Windows();
 
             void Init(HMODULE module, const char * name);
-			virtual void * GetFunctionAddress(const char * function_name);
+			virtual Platform::proc_t GetFunctionAddress(const char * function_name);
 
 
 		private:

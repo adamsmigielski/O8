@@ -28,3 +28,6 @@
 * @author Adam Œmigielski
 * @file PCH.hpp
 **/
+
+#include <Platform\Platform.hpp>
+

@@ -39,7 +39,7 @@ public:
         m_manager = manager;
     }
 
-    virtual O8::int32 On_close(
+    virtual Platform::int32 On_close(
         O8::WS::Window * window,
         bool & should_window_close)
     {

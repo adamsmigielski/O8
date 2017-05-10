@@ -32,9 +32,9 @@
 #ifndef O8_ENGINE_ACTOR_HPP
 #define O8_ENGINE_ACTOR_HPP
 
-#include <O8\Math\FloatTypes.hpp>
+#include <Utilities\math\FloatTypes.hpp>
 #include <O8\RS\Model.hpp>
-#include <O8\Utility\Binary_data.hpp>
+#include <Utilities\memory\Binary_data.hpp>
 
 namespace O8
 {

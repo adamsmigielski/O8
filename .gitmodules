@@ -10,3 +10,6 @@
 [submodule "src/OpenGL"]
 	path = src/OpenGL
 	url = https://github.com/adamsmigielski/OpenGL.git
+[submodule "src/Vulkan"]
+	path = src/Vulkan
+	url = git@github.com:adamsmigielski/Vulkan.git

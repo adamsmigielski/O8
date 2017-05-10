@@ -464,17 +464,20 @@ namespace O8
 
         LRESULT Window_windows::on_wm_activate(OS_message & msg)
         {
-            switch (msg.wParam)
+            if (nullptr != m_handler)
             {
-            case WA_INACTIVE:
-                m_handler->On_deactivation(this);
-                break;
-            case WA_CLICKACTIVE:
-                m_handler->On_activation_click(this);
-                break;
-            case WA_ACTIVE:
-                m_handler->On_activation(this);
-                break;
+                switch (msg.wParam)
+                {
+                case WA_INACTIVE:
+                    m_handler->On_deactivation(this);
+                    break;
+                case WA_CLICKACTIVE:
+                    m_handler->On_activation_click(this);
+                    break;
+                case WA_ACTIVE:
+                    m_handler->On_activation(this);
+                    break;
+                }
             }
             
             return DefWindowProc(
@@ -488,9 +491,12 @@ namespace O8
         {
             bool close_window = true;
 
-            m_handler->On_close(
-                this,
-                close_window);
+            if (nullptr != m_handler)
+            {
+                m_handler->On_close(
+                    this,
+                    close_window);
+            }
 
             if (true == close_window)
             {
@@ -511,9 +517,12 @@ namespace O8
 
             if (MENU_TYPE == type)
             {
-                m_handler->On_menu(
-                    this,
-                    id);
+                if (nullptr != m_handler)
+                {
+                    m_handler->On_menu(
+                        this,
+                        id);
+                }
             }
 
             return DefWindowProc(
@@ -535,10 +544,13 @@ namespace O8
             Platform::int32 x = (Platform::int32)(short)LOWORD(msg.lParam);
             Platform::int32 y = (Platform::int32)(short)HIWORD(msg.lParam);
 
-            m_handler->On_move(
-                this,
-                x,
-                y);
+            if (nullptr != m_handler)
+            {
+                m_handler->On_move(
+                    this,
+                    x,
+                    y);
+            }
 
             return DefWindowProc(
                 msg.hwnd,
@@ -555,12 +567,15 @@ namespace O8
             int top = rect->top;
             int bottom = rect->bottom;
 
-            m_handler->On_moving(
-                this,
-                left,
-                top,
-                right,
-                bottom);
+            if (nullptr != m_handler)
+            {
+                m_handler->On_moving(
+                    this,
+                    left,
+                    top,
+                    right,
+                    bottom);
+            }
 
             rect->left = left;
             rect->right = right;
@@ -580,11 +595,17 @@ namespace O8
             {
             case PBT_APMSUSPEND:
                 LOG("Going to sleep mode");
-                m_handler->On_power_suspend(this);
+                if (nullptr != m_handler)
+                {
+                    m_handler->On_power_suspend(this);
+                }
                 break;
             case PBT_APMRESUMESUSPEND:
                 LOG("Resuming from sleep mode");
-                m_handler->On_power_resume(this);
+                if (nullptr != m_handler)
+                {
+                    m_handler->On_power_resume(this);
+                }
                 break;
             }
 
@@ -597,7 +618,10 @@ namespace O8
 
         LRESULT Window_windows::on_wm_paint(OS_message & msg)
         {
-            m_handler->On_paint(this);
+            if (nullptr != m_handler)
+            {
+                m_handler->On_paint(this);
+            }
 
             return DefWindowProc(
                 msg.hwnd,
@@ -608,7 +632,10 @@ namespace O8
 
         LRESULT Window_windows::on_wm_quit(OS_message & msg)
         {
-            m_handler->On_quit(this);
+            if (nullptr != m_handler)
+            {
+                m_handler->On_quit(this);
+            }
 
             return DefWindowProc(
                 msg.hwnd,
@@ -654,13 +681,16 @@ namespace O8
                 break;
             }
 
-            m_handler->On_sizing(
-                this,
-                direction,
-                left,
-                top,
-                right,
-                bottom);
+            if (nullptr != m_handler)
+            {
+                m_handler->On_sizing(
+                    this,
+                    direction,
+                    left,
+                    top,
+                    right,
+                    bottom);
+            }
 
 
             rect->left = left;
@@ -687,18 +717,24 @@ namespace O8
                     width,
                     height);
 
-                m_handler->On_size(
-                    this,
-                    width,
-                    height);
+                if (nullptr != m_handler)
+                {
+                    m_handler->On_size(
+                        this,
+                        width,
+                        height);
+                }
                 break;
             case SIZE_MINIMIZED:
                 disable_input_system();
 
-                m_handler->On_minimization(
-                    this,
-                    width,
-                    height);
+                if (nullptr != m_handler)
+                {
+                    m_handler->On_minimization(
+                        this,
+                        width,
+                        height);
+                }
                 break;
             case SIZE_MAXIMIZED:
                 enable_input_system();
@@ -707,18 +743,24 @@ namespace O8
                     width,
                     height);
 
-                m_handler->On_maximization(
-                    this,
-                    width,
-                    height);
+                if (nullptr != m_handler)
+                {
+                    m_handler->On_maximization(
+                        this,
+                        width,
+                        height);
+                }
                 break;
             case SIZE_MAXHIDE:
                 disable_input_system();
 
-                m_handler->On_other_window_maximized_or_restored(
-                    this,
-                    width,
-                    height);
+                if (nullptr != m_handler)
+                {
+                    m_handler->On_other_window_maximized_or_restored(
+                        this,
+                        width,
+                        height);
+                }
                 break;
             case SIZE_MAXSHOW:
                 enable_input_system();
@@ -727,10 +769,13 @@ namespace O8
                     width,
                     height);
 
-                m_handler->On_other_window_maximized_or_restored(
-                    this,
-                    width,
-                    height);
+                if (nullptr != m_handler)
+                {
+                    m_handler->On_other_window_maximized_or_restored(
+                        this,
+                        width,
+                        height);
+                }
                 break;
             }
 
