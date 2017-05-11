@@ -9,13 +9,12 @@ ADD_EXECUTABLE(Demo_vulkan
 			   PCH.hpp)
 			   
 TARGET_LINK_LIBRARIES(Demo_vulkan
-					  Common
 					  DL
 					  GI
 					  GI_Loader
 					  Thread
-					  Thread_Loader
+					  ${THREAD_IMPL}
 					  WS
-					  WS_Loader
+					  ${WS_IMPL}
 					  Vulkan)
 

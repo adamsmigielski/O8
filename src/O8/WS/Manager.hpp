@@ -34,6 +34,11 @@
 
 namespace O8
 {
+    namespace Thread
+    {
+        class Factory;
+    }
+
 	namespace WS
 	{
         class Window;
@@ -55,7 +60,10 @@ namespace O8
         protected:
             Manager();
 		};
-	}
+
+
+        extern Manager * Create_manager(O8::Thread::Factory * thread_factory);
+    }
 }
 
 #endif /* O8_WS_MANAGER_HPP */

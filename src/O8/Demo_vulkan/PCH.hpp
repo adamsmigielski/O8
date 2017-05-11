@@ -32,29 +32,7 @@
 #ifndef O8_DEMO_BASICS_PCH_HPP
 #define O8_DEMO_BASICS_PCH_HPP
 
-#include <string>
-#include <iostream>
-#include <vector>
 
-#include <Platform\Platform.hpp>
-
-#include <Utilities\basic\Assert.hpp>
-#include <Utilities\basic\BreakToDebug.hpp>
-#include <Utilities\basic\CallConvention.hpp>
-#include <Utilities\basic\ErrorCodes.hpp>
-#include <Utilities\basic\Log.hpp>
-
-#include <O8\GI\Loader.hpp>
-#include <O8\GI\Presentation.hpp>
-#include <O8\GI\RI.hpp>
-
-#include <O8\Thread\Loader.hpp>
-#include <O8\WS\Loader.hpp>
-#include <O8\WS\ErrorCodes.hpp>
-#include <O8\WS\Window.hpp>
-#include <O8\WS\Window_event_handler.hpp>
-
-#include <vulkan\vulkan.h>
 
 
 #endif O8_DEMO_BASICS_PCH_HPP

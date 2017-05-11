@@ -42,6 +42,11 @@ namespace O8
 {
     namespace Thread
     {
+        Factory * Create_factory()
+        {
+            return new Factory_windows;
+        }   
+
         Factory_windows::Factory_windows()
         {
             /* Nothing to be done here */

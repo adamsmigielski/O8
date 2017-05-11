@@ -40,6 +40,11 @@ namespace O8
 {
     namespace WS
     {
+        Manager * Create_manager(O8::Thread::Factory * thread_factory)
+        {
+            return new Manager_windows(thread_factory);
+        }
+
         Manager_windows::Manager_windows(O8::Thread::Factory * thread_factory)
 			: m_loop_state(loop_state::Halt)
             , m_thread_factory(thread_factory)

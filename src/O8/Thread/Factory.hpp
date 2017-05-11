@@ -32,7 +32,6 @@
 #ifndef O8_THREAD_FACTORY_HPP
 #define O8_THREAD_FACTORY_HPP
 
-#include <Utilities\containers\Singleton.hpp>
 #include "Synchronizer.hpp"
 
 namespace O8
@@ -44,7 +43,7 @@ namespace O8
         class Event;
         class Thread;
 
-        class Factory : Containers::Singleton<Factory>
+        class Factory
         {
         public:
             virtual ~Factory();
@@ -62,6 +61,8 @@ namespace O8
         protected:
             Factory();
         };
+
+        extern Factory * Create_factory();
     }
 }
 

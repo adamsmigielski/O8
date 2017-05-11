@@ -38,7 +38,7 @@ namespace O8
 {
     namespace Thread
     {
-        class Factory_windows : Factory
+        class Factory_windows : public Factory
         {
         public:
             Factory_windows();

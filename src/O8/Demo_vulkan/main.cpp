@@ -31,8 +31,35 @@
 
 #include "PCH.hpp"
 
+#include <string>
+#include <iostream>
+#include <vector>
+
+#include <Platform\Platform.hpp>
+
+#include <Utilities\basic\Assert.hpp>
+#include <Utilities\basic\BreakToDebug.hpp>
+#include <Utilities\basic\CallConvention.hpp>
+#include <Utilities\basic\ErrorCodes.hpp>
+#include <Utilities\basic\Log.hpp>
+
+//#include <O8\GI\Loader.hpp>
+//#include <O8\GI\Presentation.hpp>
+//#include <O8\GI\RI.hpp>
+
+#include <O8\Thread\Factory.hpp>
+
+#include <O8\WS\ErrorCodes.hpp>
+#include <O8\WS\Manager.hpp>
+#include <O8\WS\Window.hpp>
+#include <O8\WS\Window_event_handler.hpp>
+
+#include <vulkan\vulkan.h>
+
 #include <O8\DL\DL.hpp>
 #include <Vulkan\Loader.hpp>
+#include <Vulkan\Implementation.hpp>
+#include <Vulkan\Instance.hpp>
 
 class Event_handler : public O8::WS::Window_event_handler
 {
@@ -61,77 +88,13 @@ private:
     O8::WS::Manager * m_manager;
 };
 
-class VulkanLoader;
-
-class Vulkan_instance
-{
-public:
-    Vulkan_instance()
-        : Instance_functions(&m_instance_functions)
-        , m_instance(VK_NULL_HANDLE)
-    {
-
-    }
-
-    virtual ~Vulkan_instance()
-    {
-        Release();
-    }
-
-    Platform::int32 Init(
-              VkInstance       instance,
-        const VulkanLoader & loader)
-    {
-        if (VK_NULL_HANDLE == instance)
-        {
-            ASSERT(0);
-            return Utilities::Invalid_parameter;
-        }
-
-        if (VK_NULL_HANDLE != m_instance)
-        {
-            ASSERT(0);
-            return Utilities::Invalid_object;
-        }
-
-        Platform::int32 result = loader.Load_instance_functions(
-            m_instance,
-            *loader.Entry_functions,
-            m_instance_functions);
-
-        ASSERT(0 != result);
-        return result;
-    }
-
-    void Release()
-    {
-        if (VK_NULL_HANDLE != m_instance)
-        {
-            m_instance_functions.DestroyInstance(
-                m_instance /* VkInstance                   instance*/,
-                nullptr    /* const VkAllocationCallbacks* pAllocator */);
-        }
-    }
-
-
-    const Vulkan::Instance_functions * Instance_functions;
-
-private:
-    VkInstance                 m_instance;
-    Vulkan::Instance_functions m_instance_functions;
-};
 
 class VulkanLoader : public Vulkan::Loader
 {
 public:
-    virtual Platform::proc_t Get_proc_address(const char * name)
-    {
-        return m_library->GetFunctionAddress(name);
-    }
 
     VulkanLoader()
-        : Entry_functions(&m_entry_functions)
-        , m_library(nullptr)
+        : m_library(nullptr)
     {
     }
 
@@ -151,119 +114,7 @@ public:
         }
 
         return Utilities::Success;
-    }
-
-    Platform::int32 Load_entry_functions()
-    {
-        return Vulkan::Loader::Load_entry_functions(m_entry_functions);
-    }
-
-    Platform::int32 Enumerate_implementation_extensions(std::vector<VkExtensionProperties> & out_extensions)
-    {
-        VkResult result;
-        uint32_t n_extesions = 0;
-
-        /* Get number */
-        result = m_entry_functions.EnumerateInstanceExtensionProperties(
-            nullptr,
-            &n_extesions,
-            nullptr);
-        if (VK_SUCCESS != result)
-        {
-            ERRLOG("Failed to get extension number: " << result);
-            return Utilities::Failure;
-        }
-
-        out_extensions.resize(n_extesions);
-
-        result = m_entry_functions.EnumerateInstanceExtensionProperties(
-            nullptr,
-            &n_extesions,
-            out_extensions.data());
-        if (VK_SUCCESS != result)
-        {
-            ERRLOG("Failed to get extension: " << result);
-            return Utilities::Failure;
-        }
-
-        return Utilities::Success;
-    }
-
-    Platform::int32 Enumerate_layer_extensions(
-        const char * layer_name,
-        std::vector<VkExtensionProperties> & out_extensions)
-    {
-        VkResult result;
-        uint32_t n_extesions = 0;
-
-        /* Get number */
-        result = m_entry_functions.EnumerateInstanceExtensionProperties(
-            layer_name,
-            &n_extesions,
-            nullptr);
-        if (VK_SUCCESS != result)
-        {
-            ERRLOG("Failed to get layer: " << layer_name << " extension number: " << result);
-            return Utilities::Failure;
-        }
-
-        out_extensions.resize(n_extesions);
-
-        result = m_entry_functions.EnumerateInstanceExtensionProperties(
-            layer_name,
-            &n_extesions,
-            out_extensions.data());
-        if (VK_SUCCESS != result)
-        {
-            ERRLOG("Failed to get layer: " << layer_name << " extension: " << result);
-            return Utilities::Failure;
-        }
-
-        return Utilities::Success;
-    }
-
-    Platform::int32 Select_layers(
-        const std::vector<std::string>       & requested_layers_names,
-        const std::vector<VkLayerProperties> & layers,
-              std::vector<std::string>       & out_layers_names)
-    {
-        bool found_all = true;
-
-        out_layers_names.reserve(requested_layers_names.size());
-
-        for (auto layer : layers)
-        {
-            bool found = false;
-
-            for (auto name : requested_layers_names)
-            {
-                const int compare_result = name.compare(layer.layerName);
-
-                if (0 == compare_result)
-                {
-                    found = true;
-                    out_layers_names.push_back(name);
-                    break;
-                }
-            }
-
-            /* Not found will set found_all to false */
-            found_all = found_all && found;
-        }
-
-        if (true == found_all)
-        {
-            return Utilities::Success;
-        }
-        else
-        {
-            return Utilities::Failure;
-        }
-    }
-
-
-
-
+    } 
 
     void Release()
     {
@@ -274,23 +125,14 @@ public:
         }
     }
 
-    const Vulkan::Entry_functions * Entry_functions;
-
-
+    virtual Platform::proc_t Get_proc_address(const char * name)
+    {
+        return m_library->GetFunctionAddress(name);
+    }
 
 private:
     O8::DL::DL * m_library;
-    Vulkan::Entry_functions m_entry_functions;
-
 };
-
-
-VkInstance Create_instance(
-    const char * library_path
-)
-{
-    
-}
 
 
 int main()
@@ -298,110 +140,46 @@ int main()
     Event_handler handler;
 
     /* Load dlls */
-    O8::Thread::LoadDL("Thread_Windows.dll");
-    O8::WS::LoadDL("WS_Windows.dll");
-//    O8::GI::LoadDL("GI_Windows_OGL.dll");
-    VulkanLoader vulkan;
-    vulkan.Init("vulkan-1.dll");
+    VulkanLoader vulkan_loader;
+    vulkan_loader.Init("vulkan-1.dll");
+    std::auto_ptr<Vulkan::Version_1_0_0::Implementation> vulkan_implementation(new Vulkan::Version_1_0_0::Implementation);
+    vulkan_implementation->Init(vulkan_loader);
+
+    std::vector<VkLayerProperties> layers;
+    vulkan_implementation->Enumerate_layers(layers);
+
+    std::vector<VkExtensionProperties> implementation_extensions;
+    vulkan_implementation->Enumerate_implementation_extensions(implementation_extensions);
+    
+    std::vector<std::string> extensions_to_enable;
+    std::vector<std::string> extensions_to_request;
+    std::vector<std::string> layers_to_enable;
+    std::vector<std::string> layers_to_request;
+
+    extensions_to_request.push_back(Vulkan::Version_1_0_0::Instance::VK_EXT_debug_report_name);
+    layers_to_request.push_back(Vulkan::Version_1_0_0::Instance::VK_LAYER_LUNARG_standard_validation_name);
+
+    vulkan_implementation->Select_extensions(extensions_to_request, implementation_extensions, extensions_to_enable);
+    vulkan_implementation->Select_layers    (layers_to_request,     layers,                    layers_to_enable);
+
+    std::vector<std::string> empty;
+    auto vulkan_instance = vulkan_implementation->Create_instance(
+        "Demo_vulkan",
+        VK_MAKE_VERSION(1, 0, 0),
+        "Red oxygen",
+        VK_MAKE_VERSION(1, 0, 0),
+        VK_MAKE_VERSION(1, 0, 0),
+        layers_to_enable,
+        extensions_to_enable);
+
 
     /* Prepare window */
-    auto ws_manager = O8::WS::Create_manager();
+    auto thread_factory = O8::Thread::Create_factory();
+    auto ws_manager     = O8::WS::Create_manager(thread_factory);
     handler.Init(ws_manager);
 
     auto ws_window = ws_manager->Create_window();
     ws_window->Init(&handler, 16, 16, 256, 256, "O8_demo_vulkan");
-    
-    VkResult result;
-
-    /* Instance creation */
-    Vulkan::Entry_functions entry_functions;
-    Platform::int32 err = vulkan.Load_entry_functions(entry_functions);
-    VkApplicationInfo application_info = {
-        VK_STRUCTURE_TYPE_APPLICATION_INFO /* sType */,
-        nullptr                            /* next */,
-        "Demo vulkan"                      /* AppName */,
-        VK_MAKE_VERSION( 1, 0, 0 )         /* App version */,
-        "Red oxygen"                       /* Engine name */,
-        VK_MAKE_VERSION( 0, 1, 0 )         /* Engine version*/,
-        VK_MAKE_VERSION( 1, 0, 0 )         /* Requested version */
-    };
-
-    uint32_t n_layer_properties = 0;
-    result = entry_functions.EnumerateInstanceLayerProperties(&n_layer_properties, nullptr);
-    if (VK_SUCCESS != result)
-    {
-        ERRLOG("Failed to get layer properties number: " << result);
-        return result;
-    }
-    LOG("There are layer properties: " << n_layer_properties);
-    std::vector<VkLayerProperties> layer_properties(n_layer_properties);
-    result = entry_functions.EnumerateInstanceLayerProperties(&n_layer_properties, layer_properties.data());
-    if (VK_SUCCESS != result)
-    {
-        ERRLOG("Failed to get layer properties: " << result);
-        return result;
-    }
-
-    for (auto layer_property : layer_properties)
-    {
-        LOG("Layer: "                     << layer_property.layerName
-         << "\n\tspecVersion: "           << layer_property.specVersion
-         << "\n\timplementationVersion: " << layer_property.implementationVersion
-         << "\n\tdescription: "           << layer_property.description);
-
-        uint32_t n_extesions = 0;
-        result = entry_functions.EnumerateInstanceExtensionProperties(
-            layer_property.layerName,
-            &n_extesions,
-            nullptr);
-        if (VK_SUCCESS != result)
-        {
-            ERRLOG("Failed to get layer extension number: " << result);
-            return result;
-        }
-        LOG("Layer extensions: " << n_extesions)
-        std::vector<VkExtensionProperties> extensions(n_extesions);
-        result = entry_functions.EnumerateInstanceExtensionProperties(
-            layer_property.layerName,
-            &n_extesions,
-            extensions.data());
-        if (VK_SUCCESS != result)
-        {
-            ERRLOG("Failed to get layer extension: " << result);
-            return result;
-        }
-
-        for (auto extension : extensions)
-        {
-            LOG("\tExtension: "     << extension.extensionName
-             << "\n\t\tspecVersion" << extension.specVersion)
-        }
-    }
-
-    VkInstanceCreateInfo instance_create_info = {
-        VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO /* VkStructureType             sType; */,
-        nullptr                                /* const void*                 pNext; */,
-        0                                      /* VkInstanceCreateFlags       flags; */,
-        &application_info                      /* const VkApplicationInfo*    pApplicationInfo; */,
-        0                                      /* uint32_t                    enabledLayerCount; */,
-        nullptr                                /* const char* const*          ppEnabledLayerNames; */,
-        0                                      /* uint32_t                    enabledExtensionCount; */,
-        nullptr                                /* const char* const*          ppEnabledExtensionNames; */
-    };
-
-    VkInstance vulkan_instance;
-    result = entry_functions.CreateInstance(
-        &instance_create_info,
-        nullptr /* VkAllocationCallbacks* pAllocator */,
-        &vulkan_instance);
-    if (VK_SUCCESS != result)
-    {
-        ERRLOG("Failed to create vulkan instance: " << result);
-        return result;
-    }
-
-    Vulkan::Instance_functions instance_functions;
-    vulkan.Load_instance_functions(vulkan_instance, entry_functions, instance_functions);
 
 #if 0
     uint32_t n_phy_dev = 0;
@@ -638,16 +416,9 @@ int main()
     vkDestroyDevice(vulkan_device, nullptr);
 #endif
 
-    instance_functions.DestroyInstance(vulkan_instance, nullptr);
-
-
     /* Release window */
     delete ws_window;
     delete ws_manager;
-
-    /* Unload dlls */
-    O8::WS::UnloadDL();
-    O8::Thread::UnloadDL();
 
     /* Done */
     return 0;
