@@ -16,7 +16,7 @@ ADD_LIBRARY (WS STATIC ${WS_FILES})
 
 # Setup WS
 ADD_DEPENDENCIES(WS
-				 Common
+				 basic
 				 containers
 				 helpers
 				 task)

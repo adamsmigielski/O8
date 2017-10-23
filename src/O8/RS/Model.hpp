@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam Œmigielski
+* Copyright (c) 2015 Adam ï¿½migielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,7 +25,7 @@
 **/
 
 /**
-* @author Adam Œmigielski
+* @author Adam ï¿½migielski
 * @file Model.hpp
 **/
 
@@ -42,7 +42,6 @@
 #include "Material.hpp"
 #include "Type.hpp"
 
-#include <memory>
 
 
 namespace O8
@@ -209,7 +208,7 @@ namespace O8
 
             class Definition
                 : public Containers::IntrusiveList::Node < Definition >
-                , Containers::ReferenceCounted::Resource < Definition >
+                , public Containers::ReferenceCounted::Resource < Definition >
             {
             public:
                 /* Ctr & Dtr */

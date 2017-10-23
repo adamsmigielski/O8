@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam Œmigielski
+* Copyright (c) 2015 Adam ï¿½migielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,7 +25,7 @@
 **/
 
 /**
-* @author Adam Œmigielski
+* @author Adam ï¿½migielski
 * @file main.cpp
 **/
 
@@ -56,7 +56,7 @@
 
 #include <vulkan\vulkan.h>
 
-#include <O8\DL\DL.hpp>
+#include <O8\DL\Library.hpp>
 #include <Vulkan\Loader.hpp>
 #include <Vulkan\Implementation.hpp>
 #include <Vulkan\Instance.hpp>
@@ -114,7 +114,7 @@ public:
         }
 
         return Utilities::Success;
-    } 
+    }
 
     void Release()
     {
@@ -131,7 +131,7 @@ public:
     }
 
 private:
-    O8::DL::DL * m_library;
+    O8::DL::Library * m_library;
 };
 
 
@@ -150,7 +150,7 @@ int main()
 
     std::vector<VkExtensionProperties> implementation_extensions;
     vulkan_implementation->Enumerate_implementation_extensions(implementation_extensions);
-    
+
     std::vector<std::string> extensions_to_enable;
     std::vector<std::string> extensions_to_request;
     std::vector<std::string> layers_to_enable;
@@ -397,7 +397,7 @@ int main()
     vkGetDeviceQueue(vulkan_device, queue_idx, 0, &queue);
 #endif
 
-    /* Prepare graphics interface */  
+    /* Prepare graphics interface */
     //O8::GI::GI * gi = O8::GI::Create_GI();
     //gi->Init();
     //auto ri = gi->Create_rendering_interface(gi->First());

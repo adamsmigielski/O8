@@ -1,8 +1,8 @@
 PROJECT ( DL_Windows )
 
 ADD_LIBRARY ( DL_Windows STATIC
-		      DL_Windows.cpp
-			  DL_Windows.hpp
+		      Library.cpp
+			  Library.hpp
 			  PCH.cpp
 			  PCH.hpp )
 

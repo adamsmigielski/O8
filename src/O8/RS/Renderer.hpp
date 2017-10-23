@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2014 Adam Œmigielski
+* Copyright (c) 2014 Adam ï¿½migielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,7 +25,7 @@
 **/
 
 /**
-* @author Adam Œmigielski
+* @author Adam ï¿½migielski
 * @file Renderer.hpp
 **/
 
@@ -72,7 +72,7 @@ namespace O8
 
         struct Light
         {
-            
+
         };
 
         namespace Renderer_data
@@ -90,7 +90,7 @@ namespace O8
                 Change();
                 Change(
                     Type change_type,
-                    Entity::Type entity_type, 
+                    Entity::Type entity_type,
                     Entity * entity);
 
                 Type m_change_type;
@@ -116,8 +116,6 @@ namespace O8
             {
             public:
                 Light_shadows_change();
-                Light_shadows_change(
-                    );
 
 
             };

@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam Œmigielski
+* Copyright (c) 2015 Adam ï¿½migielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,7 +25,7 @@
 **/
 
 /**
-* @author Adam Œmigielski
+* @author Adam ï¿½migielski
 * @file main.cpp
 **/
 
@@ -63,18 +63,17 @@ int main()
     Event_handler handler;
 
     /* Load dlls */
-    O8::Thread::LoadDL("Thread_Windows.dll");
-    O8::WS::LoadDL("WS_Windows.dll");
     O8::GI::LoadDL("GI_Windows_OGL.dll");
 
     /* Prepare window */
-    auto ws_manager = O8::WS::Create_manager();
+    auto thread_factory = O8::Thread::Create_factory();
+    auto ws_manager     = O8::WS::Create_manager(thread_factory);
     handler.Init(ws_manager);
 
     auto ws_window = ws_manager->Create_window();
     ws_window->Init(&handler, 16, 16, 256, 256, "O8_demo_basics");
 
-    /* Prepare graphics interface */  
+    /* Prepare graphics interface */
     O8::GI::GI * gi = O8::GI::Create_GI();
     gi->Init();
     auto ri = gi->Create_rendering_interface(gi->First());
@@ -93,10 +92,6 @@ int main()
     /* Release window */
     delete ws_window;
     delete ws_manager;
-
-    /* Unload dlls */
-    O8::WS::UnloadDL();
-    O8::Thread::UnloadDL();
 
     /* Done */
     return 0;

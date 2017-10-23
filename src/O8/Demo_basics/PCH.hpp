@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam Œmigielski
+* Copyright (c) 2015 Adam ï¿½migielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,7 +25,7 @@
 **/
 
 /**
-* @author Adam Œmigielski
+* @author Adam ï¿½migielski
 * @file PCH.hpp
 **/
 
@@ -45,9 +45,9 @@
 #include <O8\GI\Presentation.hpp>
 #include <O8\GI\RI.hpp>
 
-#include <O8\Thread\Loader.hpp>
-#include <O8\WS\Loader.hpp>
+#include <O8\Thread\Factory.hpp>
 #include <O8\WS\ErrorCodes.hpp>
+#include <O8\WS\Manager.hpp>
 #include <O8\WS\Window.hpp>
 #include <O8\WS\Window_event_handler.hpp>
 

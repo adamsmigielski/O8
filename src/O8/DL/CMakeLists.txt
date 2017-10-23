@@ -1,8 +1,8 @@
 PROJECT ( DL )
 
 ADD_LIBRARY ( DL STATIC
-		      DL.cpp
-			  DL.hpp
+		      Library.cpp
+			  Library.hpp
 			  PCH.cpp
 			  PCH.hpp )
 

@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam Œmigielski
+* Copyright (c) 2015 Adam ï¿½migielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,7 +25,7 @@
 **/
 
 /**
-* @author Adam Œmigielski
+* @author Adam ï¿½migielski
 * @file Loader.cpp
 **/
 
@@ -34,14 +34,14 @@
 #include "Loader.hpp"
 
 #include <Utilities\basic\ErrorCodes.hpp>
-#include <O8\DL\DL.hpp>
+#include <O8\DL\Library.hpp>
 
 namespace O8
 {
     namespace GI
     {
         /* Library in use */
-        static DL::DL * g_gi_library = nullptr;
+        static DL::Library * g_gi_library = nullptr;
 
 
         /* DL entry points */

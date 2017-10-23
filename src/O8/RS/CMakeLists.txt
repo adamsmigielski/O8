@@ -19,21 +19,9 @@ ADD_LIBRARY(RS STATIC
 			Type.hpp)
 
 ADD_DEPENDENCIES(RS
-			     Common
+			     basic
 				 containers
 				 helpers
 				 memory
 				 task
                  GI)
-				 
-ADD_EXECUTABLE(RS_DEMO
-			   main.cpp)
-			   
-TARGET_LINK_LIBRARIES(RS_DEMO
-					  WS_Loader
-					  GI_Loader
-					  Thread_Loader)
-			   
-ADD_DEPENDENCIES(RS_DEMO
-				 ${GI_IMPL}
-				 ${WS_IMPL})

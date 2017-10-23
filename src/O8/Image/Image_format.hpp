@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam Œmigielski
+* Copyright (c) 2015 Adam ï¿½migielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,7 +25,7 @@
 **/
 
 /**
-* @author Adam Œmigielski
+* @author Adam ï¿½migielski
 * @file Image_format.hpp
 **/
 
@@ -48,12 +48,12 @@ namespace O8
             Image_format(const Image_format & image_format);
             Image_format(
                 const Color_format & color_format,
-                uint32 line_preface,
-                uint32 line_conclusion);
+                Platform::uint32 line_preface,
+                Platform::uint32 line_conclusion);
 
             Color_format m_Color_format;
-            uint32 m_Line_conclusion;
-            uint32 m_Line_preface;
+            Platform::uint32 m_Line_conclusion;
+            Platform::uint32 m_Line_preface;
         };
     }
 }

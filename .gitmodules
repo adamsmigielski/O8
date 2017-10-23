@@ -12,4 +12,4 @@
 	url = https://github.com/adamsmigielski/OpenGL.git
 [submodule "src/Vulkan"]
 	path = src/Vulkan
-	url = ssh://git@github.com/adamsmigielski/Vulkan.git
+	url = https://github.com/adamsmigielski/Vulkan.git

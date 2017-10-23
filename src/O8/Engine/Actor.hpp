@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam Œmigielski
+* Copyright (c) 2015 Adam ï¿½migielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,7 +25,7 @@
 **/
 
 /**
-* @author Adam Œmigielski
+* @author Adam ï¿½migielski
 * @file Actor.hpp
 **/
 
@@ -46,7 +46,7 @@ namespace O8
             Actor();
             virtual ~Actor();
 
-            uint64 m_Index;
+            Platform::uint64 m_Index;
         };
 
         class Actor_data
@@ -81,11 +81,11 @@ namespace O8
                 return *result;
             }
 
-            Utility::Binary_data m_Positions;
-            Utility::Binary_data m_Orientations;
-            RS::Model::Reference * m_Graphics_models;
+            Memory::Binary_data m_Positions;
+            Memory::Binary_data m_Orientations;
+            RS::Model::Definition::Reference * m_Graphics_models;
 
-            uint64 m_Number_of_actors;
+            Platform::uint64 m_Number_of_actors;
         };
     }
 }
