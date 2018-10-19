@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam Œmigielski
+* Copyright (c) 2015 Adam ï¿½migielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,7 +25,7 @@
 **/
 
 /**
-* @author Adam Œmigielski
+* @author Adam ï¿½migielski
 * @file GI.hpp
 **/
 
@@ -56,7 +56,7 @@ namespace O8
             GI();
         };
 
-        typedef GI * (UTILITIES_API *PFN_CREATE_GI)();
+        typedef O8::GI::GI * (UTILITIES_API *PFN_CREATE_GI)();
     }
 }
 

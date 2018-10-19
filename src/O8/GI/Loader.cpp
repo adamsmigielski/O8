@@ -34,14 +34,14 @@
 #include "Loader.hpp"
 
 #include <Utilities\basic\ErrorCodes.hpp>
-#include <O8\DL\Library.hpp>
+#include <Utilities\DL\Library.hpp>
 
 namespace O8
 {
     namespace GI
     {
         /* Library in use */
-        static DL::Library * g_gi_library = nullptr;
+        static Dynamic_library::Library * g_gi_library = nullptr;
 
 
         /* DL entry points */
@@ -52,7 +52,7 @@ namespace O8
         int LoadDL(const char * library_path)
         {
             /* Load library */
-            auto dl = DL::Load(library_path);
+            auto dl = Dynamic_library::Load(library_path);
 
             if (nullptr == dl)
             {

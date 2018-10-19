@@ -56,7 +56,6 @@
 
 #include <vulkan\vulkan.h>
 
-#include <O8\DL\Library.hpp>
 #include <Vulkan\Loader.hpp>
 #include <Vulkan\Implementation.hpp>
 #include <Vulkan\Instance.hpp>
@@ -89,61 +88,15 @@ private:
 };
 
 
-class VulkanLoader : public Vulkan::Loader
-{
-public:
-
-    VulkanLoader()
-        : m_library(nullptr)
-    {
-    }
-
-    virtual ~VulkanLoader()
-    {
-        Release();
-    }
-
-    Platform::int32 Init(const char * library_path)
-    {
-        m_library = O8::DL::Load(library_path);
-        ASSERT(m_library);
-        if (nullptr == m_library)
-        {
-            ERRLOG("Failed to load: " << library_path);
-            return Utilities::Failed_to_load_library;
-        }
-
-        return Utilities::Success;
-    }
-
-    void Release()
-    {
-        if (nullptr != m_library)
-        {
-            delete m_library;
-            m_library = nullptr;
-        }
-    }
-
-    virtual Platform::proc_t Get_proc_address(const char * name)
-    {
-        return m_library->GetFunctionAddress(name);
-    }
-
-private:
-    O8::DL::Library * m_library;
-};
-
-
 int main()
 {
     Event_handler handler;
 
     /* Load dlls */
-    VulkanLoader vulkan_loader;
-    vulkan_loader.Init("vulkan-1.dll");
+    std::auto_ptr<Vulkan::Loader> vulkan_loader(Vulkan::Create_loader());
+    vulkan_loader->Init("vulkan-1.dll");
     std::auto_ptr<Vulkan::Version_1_0_0::Implementation> vulkan_implementation(new Vulkan::Version_1_0_0::Implementation);
-    vulkan_implementation->Init(vulkan_loader);
+    vulkan_implementation->Init(*vulkan_loader.get());
 
     std::vector<VkLayerProperties> layers;
     vulkan_implementation->Enumerate_layers(layers);

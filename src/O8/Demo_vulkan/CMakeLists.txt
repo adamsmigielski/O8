@@ -1,3 +1,5 @@
+GET_PROPERTY(VULKAN_IMPL GLOBAL PROPERTY PROP_VULKAN_IMPL)
+
 PROJECT(Demo_vulkan)
 
 INCLUDE_DIRECTORIES(C:\\VulkanSDK\\1.0.61.1\\Include)
@@ -9,12 +11,12 @@ ADD_EXECUTABLE(Demo_vulkan
 			   PCH.hpp)
 
 TARGET_LINK_LIBRARIES(Demo_vulkan
-					  DL
 					  GI
 					  GI_Loader
 					  Thread
 					  ${THREAD_IMPL}
 					  WS
 					  ${WS_IMPL}
-					  Vulkan)
+					  Vulkan
+					  ${VULKAN_IMPL})
 

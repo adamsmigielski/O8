@@ -1,6 +1,6 @@
 /** License
 *
-* Copyright (c) 2015 Adam Œmigielski
+* Copyright (c) 2015 Adam ï¿½migielski
 *
 *
 *  Permission is hereby granted, free of charge, to any person obtaining a
@@ -25,7 +25,7 @@
 **/
 
 /**
-* @author Adam Œmigielski
+* @author Adam ï¿½migielski
 * @file Model.cpp
 **/
 
@@ -33,7 +33,7 @@
 
 #include "Model.hpp"
 
-#include <Utilities\memory\Access.hpp>
+#include <Utilities\memory\MemoryAccess.hpp>
 
 namespace O8
 {
@@ -41,11 +41,11 @@ namespace O8
     {
         namespace Vertex
         {
-            int32 Definition::Prepare(
+            Platform::int32 Definition::Prepare(
                 Descriptor & attribute_desc,
                 Buffer::Descriptor & buffer_desc,
-                Utility::Binary_data & data,
-                uint32 n_vertices)
+                Memory::Binary_data & data,
+                Platform::uint32 n_vertices)
             {
                 m_Attribute = attribute_desc.m_Attribute;
                 m_Buffer = buffer_desc;
@@ -78,9 +78,9 @@ namespace O8
                 }
             }
 
-            int32 Definition::Prepare(
+            Platform::int32 Definition::Prepare(
                 Vertex::Descriptor * attributes_desc,
-                Utility::Binary_data & data,
+                Memory::Binary_data & data,
                 Mesh::Descriptor & mesh_desc,
                 Setup & setup)
             {
@@ -90,7 +90,7 @@ namespace O8
                 m_Indices_data.Copy_range(
                     data,
                     mesh_desc.m_Indices_offset,
-                    m_n_Indices * sizeof(uint32));
+                    m_n_Indices * sizeof(Platform::uint32));
 
                 /* Set attributes */
                 for (size_t i = 0; i < Vertex::n_Attributes; ++i)
@@ -119,7 +119,7 @@ namespace O8
         namespace Model
         {
             const size_t Definition::s_off_model_descriptor = 0;
-            const uint32 Definition::s_root_parent_id = -1;
+            const Platform::uint32 Definition::s_root_parent_id = -1;
 
             void Definition::Drop_data()
             {
@@ -140,9 +140,9 @@ namespace O8
                 m_data.Release();
             }
 
-            int32 Definition::Load_descriptors(Utility::Binary_data && data)
+            Platform::int32 Definition::Load_descriptors(Memory::Binary_data && data)
             {
-                int32 ret = 0;
+                Platform::int32 ret = 0;
 
                 Release();
 
@@ -150,7 +150,7 @@ namespace O8
 
                 /* Get descriptor */
                 Descriptor desc;
-                ret = MemoryAccess::Read(m_data, s_off_model_descriptor, desc);
+                ret = Memory::Access::Read(m_data, s_off_model_descriptor, desc);
                 if (Utilities::Success != ret)
                 {
                     DEBUGLOG("Failed to load Model::Descriptor");
@@ -181,14 +181,14 @@ namespace O8
                 return Utilities::Success;
             }
 
-            int32 Definition::Prepare_definition(Mesh::Setup & setup)
+            Platform::int32 Definition::Prepare_definition(Mesh::Setup & setup)
             {
                 if (0 == m_mesh_descriptors.size())
                 {
-                    return Invalid_object;
+                    return Utilities::Invalid_object;
                 }
 
-                int32 ret = parse_bone_descriptors();
+                Platform::int32 ret = parse_bone_descriptors();
                 if (Utilities::Success != ret)
                 {
                     return ret;
@@ -203,7 +203,7 @@ namespace O8
                 return Utilities::Success;
             }
 
-            int32 Definition::Prepare_descriptors()
+            Platform::int32 Definition::Prepare_descriptors()
             {
                 Descriptor desc;
 
@@ -223,16 +223,16 @@ namespace O8
                     return ret;
                 }
 
-                auto data = new uint8[desc.m_Offset_animations];
+                auto data = new Platform::uint8[desc.m_Offset_animations];
                 if (nullptr == data)
                 {
                     Drop_descriptors();
 
-                    return Failed_to_allocate_memory;
+                    return Utilities::Failed_to_allocate_memory;
                 }
-                
+
                 m_data.Reset(data, desc.m_Offset_animations);
-                ret = MemoryAccess::Write(
+                ret = Memory::Access::Write(
                     m_data,
                     s_off_model_descriptor,
                     desc);
@@ -245,15 +245,15 @@ namespace O8
                 return ret;
             }
 
-            int32 Definition::Store_descriptors()
+            Platform::int32 Definition::Store_descriptors()
             {
                 if (0 == m_data.Size())
                 {
-                    return Invalid_object;
+                    return Utilities::Invalid_object;
                 }
 
                 Descriptor desc;
-                auto ret = MemoryAccess::Read(
+                auto ret = Memory::Access::Read(
                     m_data,
                     s_off_model_descriptor,
                     desc);
@@ -263,7 +263,7 @@ namespace O8
                     return ret;
                 }
 
-                ret = MemoryAccess::Write(
+                ret = Memory::Access::Write(
                     m_data,
                     desc.m_Offset_bones,
                     m_bone_descriptors.data(),
@@ -273,7 +273,7 @@ namespace O8
                     return ret;
                 }
 
-                ret = MemoryAccess::Write(
+                ret = Memory::Access::Write(
                     m_data,
                     desc.m_Offset_meshes,
                     m_mesh_descriptors.data(),
@@ -283,7 +283,7 @@ namespace O8
                     return ret;
                 }
 
-                ret = MemoryAccess::Write(
+                ret = Memory::Access::Write(
                     m_data,
                     desc.m_Offset_attributes,
                     m_attributes_descriptors.data(),
@@ -293,13 +293,13 @@ namespace O8
                     return ret;
                 }
 
-                for (uint32 i = 0; i < m_Meshes.size(); ++i)
+                for (std::vector<Mesh::Definition>::size_type i = 0; i < m_Meshes.size(); ++i)
                 {
                     auto attr_desc = &m_attributes_descriptors[i * 4];
                     auto mesh = &m_Meshes[i];
                     auto mesh_desc = &m_mesh_descriptors[i];
 
-                    ret = MemoryAccess::Write(
+                    ret = Memory::Access::Write(
                         m_data,
                         mesh_desc->m_Indices_offset,
                         mesh->m_Indices_data.Data(),
@@ -309,9 +309,9 @@ namespace O8
                         return ret;
                     }
 
-                    for (uint32 j = 0; j < Vertex::n_Attributes; ++j)
+                    for (Platform::uint32 j = 0; j < Vertex::n_Attributes; ++j)
                     {
-                        ret = MemoryAccess::Write(
+                        ret = Memory::Access::Write(
                             m_data,
                             attr_desc[i].m_Offset,
                             mesh->m_Attributes[j].m_Data.Data(),
@@ -326,29 +326,29 @@ namespace O8
                 return Utilities::Success;
             }
 
-            int32 Definition::Get_buffer_requirements(Requirements & info)
+            Platform::int32 Definition::Get_buffer_requirements(Requirements & info)
             {
                 if (0 == m_mesh_descriptors.size())
                 {
-                    return Invalid_object;
+                    return Utilities::Invalid_object;
                 }
 
                 info.m_Posture = m_bone_descriptors.size() * Type::Get_size(Type::mat3x4);
 
                 info.m_Index_buffer = 0;
-                
-                for (uint32 i = 0; i < Vertex::n_Attributes; ++i)
+
+                for (Platform::uint32 i = 0; i < Vertex::n_Attributes; ++i)
                 {
                     info.m_Attributes[i] = 0;
                 }
 
-                for (size_t i = 0; i < m_mesh_descriptors.size(); ++i)
+                for (std::vector<Mesh::Descriptor>::size_type i = 0; i < m_mesh_descriptors.size(); ++i)
                 {
                     Mesh::Descriptor & mesh = m_mesh_descriptors[i];
 
-                    info.m_Index_buffer += mesh.m_n_Indices * sizeof(uint32);
+                    info.m_Index_buffer += mesh.m_n_Indices * sizeof(Platform::uint32);
 
-                    for (uint32 j = 0; j < Vertex::n_Attributes; ++j)
+                    for (Platform::uint32 j = 0; j < Vertex::n_Attributes; ++j)
                     {
                         Vertex::Descriptor & attr = m_attributes_descriptors[i * 4 + j];
 
@@ -360,22 +360,22 @@ namespace O8
                 return Utilities::Success;
             }
 
-            int32 Definition::load_attributes_descriptors(
-                uint32 n_meshes,
-                uint64 offset)
+            Platform::int32 Definition::load_attributes_descriptors(
+                Platform::uint32 n_meshes,
+                Platform::uint64 offset)
             {
-                const int32 n_attributes = n_meshes * Vertex::n_Attributes;
+                const Platform::int32 n_attributes = n_meshes * Vertex::n_Attributes;
 
                 /* Allocate storage */
                 m_attributes_descriptors.resize(n_attributes);
 
                 if (0 == m_attributes_descriptors.size())
                 {
-                    return Failed_to_allocate_memory;
+                    return Utilities::Failed_to_allocate_memory;
                 }
 
                 /* Read descriptors */
-                int32 ret = MemoryAccess::Read(
+                Platform::int32 ret = Memory::Access::Read(
                     m_data,
                     offset,
                     n_attributes * sizeof(Vertex::Descriptor),
@@ -389,20 +389,20 @@ namespace O8
                 return ret;
             }
 
-            int32 Definition::load_bone_descriptors(
-                uint32 n_bones,
-                uint64 offset)
+            Platform::int32 Definition::load_bone_descriptors(
+                Platform::uint32 n_bones,
+                Platform::uint64 offset)
             {
                 /* Allocate storage */
                 m_bone_descriptors.resize(n_bones);
 
                 if (0 == m_bone_descriptors.size())
                 {
-                    return Failed_to_allocate_memory;
+                    return Utilities::Failed_to_allocate_memory;
                 }
 
                 /* Read descriptors */
-                int32 ret = MemoryAccess::Read(
+                Platform::int32 ret = Memory::Access::Read(
                     m_data,
                     offset,
                     n_bones * sizeof(Bone::Descriptor),
@@ -416,20 +416,20 @@ namespace O8
                 return ret;
             }
 
-            int32 Definition::load_mesh_descriptors(
-                uint32 n_meshes,
-                uint64 offset)
+            Platform::int32 Definition::load_mesh_descriptors(
+                Platform::uint32 n_meshes,
+                Platform::uint64 offset)
             {
                 /* Allocate storage */
                 m_mesh_descriptors.resize(n_meshes);
 
                 if (0 == m_mesh_descriptors.capacity())
                 {
-                    return Failed_to_allocate_memory;
+                    return Utilities::Failed_to_allocate_memory;
                 }
 
                 /* Read descriptors */
-                int32 ret = MemoryAccess::Read(
+                Platform::int32 ret = Memory::Access::Read(
                     m_data,
                     offset,
                     n_meshes * sizeof(Mesh::Descriptor),
@@ -442,7 +442,7 @@ namespace O8
                 return ret;
             }
 
-            int32 Definition::parse_bone_descriptors()
+            Platform::int32 Definition::parse_bone_descriptors()
             {
                 const size_t n_bones = m_bone_descriptors.size();
 
@@ -451,7 +451,7 @@ namespace O8
 
                 if (0 == m_Bones.capacity())
                 {
-                    return Failed_to_allocate_memory;
+                    return Utilities::Failed_to_allocate_memory;
                 }
 
                 /* Parse descriptors */
@@ -470,7 +470,7 @@ namespace O8
                 return Utilities::Success;
             }
 
-            int32 Definition::parse_mesh_descriptors(Mesh::Setup & setup)
+            Platform::int32 Definition::parse_mesh_descriptors(Mesh::Setup & setup)
             {
                 const size_t n_meshes = m_mesh_descriptors.size();
 
@@ -479,7 +479,7 @@ namespace O8
 
                 if (0 == m_Meshes.capacity())
                 {
-                    return Failed_to_allocate_memory;
+                    return Utilities::Failed_to_allocate_memory;
                 }
 
                 /* Parse descriptors */
@@ -503,15 +503,15 @@ namespace O8
                 return Utilities::Success;
             }
 
-            int32 Definition::prepare_bone_descriptors(Descriptor & desc)
+            Platform::int32 Definition::prepare_bone_descriptors(Descriptor & desc)
             {
                 size_t n_bones = m_Bones.size();
                 if (0 == n_bones)
                 {
-                    return Invalid_object;
+                    return Utilities::Invalid_object;
                 }
 
-                desc.m_n_Bones = (uint32) n_bones;
+                desc.m_n_Bones = (Platform::uint32) n_bones;
                 desc.m_Offset_bones = sizeof(Descriptor);
                 desc.m_Offset_meshes =
                     desc.m_Offset_bones + sizeof(Bone::Descriptor) * n_bones;
@@ -519,7 +519,7 @@ namespace O8
                 m_bone_descriptors.resize(n_bones);
                 if (n_bones != m_bone_descriptors.size())
                 {
-                    return Failed_to_allocate_memory;
+                    return Utilities::Failed_to_allocate_memory;
                 }
 
                 for (size_t i = 0; i < n_bones; ++i)
@@ -530,29 +530,29 @@ namespace O8
                 return Utilities::Success;
             }
 
-            int32 Definition::prepare_mesh_descriptors(Descriptor & desc)
+            Platform::int32 Definition::prepare_mesh_descriptors(Descriptor & desc)
             {
                 size_t n_meshes = m_Meshes.size();
                 if (0 == n_meshes)
                 {
-                    return Invalid_object;
+                    return Utilities::Invalid_object;
                 }
 
-                desc.m_n_Meshes = (uint32)n_meshes;
-                const uint64 end_of_descriptors =
+                desc.m_n_Meshes = (Platform::uint32)n_meshes;
+                const Platform::uint64 end_of_descriptors =
                     desc.m_Offset_meshes + sizeof(Mesh::Descriptor) * n_meshes;
-                uint64 next_offset = end_of_descriptors;
+                Platform::uint64 next_offset = end_of_descriptors;
 
                 m_mesh_descriptors.resize(n_meshes);
                 if (n_meshes != m_mesh_descriptors.size())
                 {
-                    return Failed_to_allocate_memory;
+                    return Utilities::Failed_to_allocate_memory;
                 }
 
                 m_attributes_descriptors.resize(n_meshes * Vertex::n_Attributes);
                 if (n_meshes * Vertex::n_Attributes != m_attributes_descriptors.size())
                 {
-                    return Failed_to_allocate_memory;
+                    return Utilities::Failed_to_allocate_memory;
                 }
 
                 /* Prpeare index offsets */
@@ -564,7 +564,7 @@ namespace O8
                     /* Indices */
                     mesh_desc->m_Indices_offset = next_offset;
 
-                    next_offset += mesh->m_n_Indices * sizeof(uint32);
+                    next_offset += mesh->m_n_Indices * sizeof(Platform::uint32);
                 }
 
                 desc.m_Offset_attributes = next_offset;
@@ -575,7 +575,7 @@ namespace O8
                     auto mesh = &m_Meshes[i];
                     auto mesh_desc = &m_mesh_descriptors[i];
 
-                    for (uint32 i = 0; i < Vertex::n_Attributes; ++i)
+                    for (Platform::uint32 i = 0; i < Vertex::n_Attributes; ++i)
                     {
                         attributes_desc[i].m_Attribute = mesh->m_Attributes[i].m_Attribute;
                         attributes_desc[i].m_Offset = next_offset;

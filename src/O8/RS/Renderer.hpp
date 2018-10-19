@@ -75,7 +75,7 @@ namespace O8
 
         };
 
-        namespace Renderer_data
+        namespace Renderer_data_ns
         {
             class Change : public Containers::IntrusiveList::Node< Change >
             {
@@ -130,9 +130,6 @@ namespace O8
             virtual Platform::int32 Remove_renderable(Entity & entity) = 0;
 
             virtual Platform::int32 Add_(Entity & entity) = 0;
-            virtual Platform::int32 Remove(Entity & entity) = 0;
-
-            virtual Platform::int32 Add(Entity & entity) = 0;
             virtual Platform::int32 Remove(Entity & entity) = 0;
 
         protected:

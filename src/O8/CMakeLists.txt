@@ -23,18 +23,24 @@ SET( BUILD_ENGINE ON CACHE BOOL "Build engine")
 IF(WIN32)
 	# Lib names
 	SET(GI_GL_IMPL "GI_Windows_OGL")
+	SET(GI_VK_IMPL "GI_Windows_Vulkan")
 
 	# Impl directories
 	SET(GI_GL_IMPL_DIR "GI_Windows_OGL")
+	SET(GI_VK_IMPL_DIR "GI_Windows_Vulkan")
 
 	# DLL paths
 	SET(GI_GL_IMPL_PATH "GI_Windows_OGL.dll")
+	SET(GI_VK_IMPL_PATH "GI_Windows_Vulkan.dll")
 ENDIF(WIN32)
 
 IF    (BUILD_GI)
 	IF    (BUILD_OPENGL)
 		ADD_DEFINITIONS(-DGI_IMPL="${GI_GL_IMPL_PATH}")
 	ENDIF (BUILD_OPENGL)
+	IF    (BUILD_VULKAN)
+		ADD_DEFINITIONS(-DGI_IMPL="${GI_VK_IMPL_PATH}")
+	ENDIF (BUILD_VULKAN)
 ENDIF (BUILD_GI)
 
 
@@ -42,9 +48,6 @@ ENDIF (BUILD_GI)
 
 #Basic
 ADD_SUBDIRECTORY(Image)
-
-# DLL
-ADD_SUBDIRECTORY(DL)
 
 # Threads
 ADD_SUBDIRECTORY(Thread)
